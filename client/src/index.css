@@ -221,4 +221,26 @@
   .pulse-dot {
     @apply w-2 h-2 rounded-full bg-[#4ADE80] flex-none animate-pulse;
   }
+
+  /* Dense body copy (privacy policy, terms) — the base h1–h3 styles are
+     sized for marketing headlines, too large for a repeated document
+     heading, so this scopes down text sized specifically for that. */
+  .legal-content h2 {
+    @apply text-[1.2rem] font-bold mt-s5 mb-s2;
+  }
+  .legal-content h2:first-child {
+    @apply mt-0;
+  }
+  .legal-content p {
+    @apply text-[0.98rem] text-muted leading-[1.75] mb-s3;
+  }
+  .legal-content ul {
+    @apply list-disc pl-5 mb-s3;
+  }
+  .legal-content li {
+    @apply text-[0.98rem] text-muted leading-[1.7] mb-1.5;
+  }
+  .legal-content strong {
+    @apply text-ink;
+  }
 }

@@ -33,8 +33,8 @@ export default function Pricing() {
   return (
     <>
       <Seo
-        title="Dental Prices in Lusaka | NHIMA Accepted | Livora Dental Clinic"
-        description="Transparent dental prices in Kwacha at Livora Dental Clinic, Lusaka. Check-ups from K350, fillings from K750, crowns from K3,500. NHIMA accepted."
+        title="Dental Prices in Livingstone | NHIMA Accepted | Livora Dental Clinic"
+        description="Transparent dental prices in Kwacha at Livora Dental Clinic, Livingstone. Check-ups from K350, fillings from K750, crowns from K3,500. NHIMA accepted."
         path="/pricing"
       />
 

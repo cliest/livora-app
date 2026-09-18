@@ -116,8 +116,8 @@ export default function Services() {
   return (
     <>
       <Seo
-        title="Dental Services in Lusaka | Check-ups, Implants, Braces | Livora"
-        description="Complete dental care in Lusaka: check-ups and cleaning, fillings, root canals, crowns, implants, braces, clear aligners, whitening and children's dentistry. NHIMA accepted, open 24/7."
+        title="Dental Services in Livingstone | Check-ups, Implants, Braces | Livora"
+        description="Complete dental care in Livingstone: check-ups and cleaning, fillings, root canals, crowns, implants, braces, clear aligners, whitening and children's dentistry. NHIMA accepted, open 24/7."
         path="/services"
       />
 

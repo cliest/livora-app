@@ -54,7 +54,7 @@ export default function Footer() {
               className="h-11 w-auto mb-s3"
             />
             <p className="text-[15px] leading-[1.7]">
-              Professional dental care in Lusaka, Zambia, open every hour of every day. General, cosmetic,
+              Professional dental care in Livingstone, Zambia, open every hour of every day. General, cosmetic,
               orthodontic and emergency dentistry under one roof.
             </p>
             <div className="flex gap-[10px] mt-s3">
@@ -162,6 +162,7 @@ export default function Footer() {
             <Link to="/services" className="text-[#9FBFC9] hover:text-cyan">Services</Link>
             <Link to="/pricing" className="text-[#9FBFC9] hover:text-cyan">Pricing</Link>
             <Link to="/emergency" className="text-[#9FBFC9] hover:text-cyan">Emergency</Link>
+            <Link to="/privacy" className="text-[#9FBFC9] hover:text-cyan">Privacy Policy</Link>
             <Link to="/contact" className="text-[#9FBFC9] hover:text-cyan">Contact</Link>
           </nav>
         </div>

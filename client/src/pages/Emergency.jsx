@@ -58,12 +58,12 @@ export default function Emergency() {
   return (
     <>
       <Seo
-        title="24/7 Emergency Dentist in Lusaka | Toothache & Dental Pain | Livora"
-        description="Emergency dentist near you in Lusaka, open 24 hours. Severe toothache, knocked-out teeth, abscess, swelling and broken fillings treated the same day."
+        title="24/7 Emergency Dentist in Livingstone | Toothache & Dental Pain | Livora"
+        description="Emergency dentist near you in Livingstone, open 24 hours. Severe toothache, knocked-out teeth, abscess, swelling and broken fillings treated the same day."
         path="/emergency"
       />
 
-      <PageHero image="/img/dental-checkup-patient.jpg" crumb="24/7 Emergency" title="Emergency dentist,<br>open right now" lead="If you are searching for an emergency dentist near you in Lusaka at two in the morning, stop reading and call. There is a dentist on duty at Livora every hour of every day.">
+      <PageHero image="/img/dental-checkup-patient.jpg" crumb="24/7 Emergency" title="Emergency dentist,<br>open right now" lead="If you are searching for an emergency dentist near you in Livingstone at two in the morning, stop reading and call. There is a dentist on duty at Livora every hour of every day.">
         <div className="flex flex-wrap gap-s2 mt-s4">
           <a href={settings.telHref} className="btn btn--coral btn--lg">
             <PhoneIcon />

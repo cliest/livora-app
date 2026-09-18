@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import PageHero from '../components/ui/PageHero.jsx';
@@ -44,8 +44,8 @@ export default function Contact() {
   return (
     <>
       <Seo
-        title="Contact Livora Dental Clinic | Lusaka | +260 76 073 7805"
-        description="Contact Livora Dental Clinic in Lusaka, Zambia. Open 24 hours a day, every day. Call +260 76 073 7805, WhatsApp us or email info@livoradentalclinic.com."
+        title="Contact Livora Dental Clinic | Livingstone | +260 76 073 7805"
+        description="Contact Livora Dental Clinic in Livingstone, Zambia. Open 24 hours a day, every day. Call +260 76 073 7805, WhatsApp us or email info@livoradentalclinic.com."
         path="/contact"
       />
 
@@ -99,8 +99,8 @@ export default function Contact() {
                 <TextAreaField label="Your message" name="message" register={register} error={errors.message} required />
 
                 <ConsentCheckbox name="consentGiven" register={register} error={errors.consentGiven}>
-                  I agree that Livora Dental Clinic may use these details to reply to my message.{' '}
-                  <span className="text-coral-600">*</span>
+                  I agree that Livora Dental Clinic may use these details to reply to my message, per the{' '}
+                  <Link to="/privacy" className="underline">privacy policy</Link>. <span className="text-coral-600">*</span>
                 </ConsentCheckbox>
 
                 {serverError && (

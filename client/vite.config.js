@@ -20,4 +20,22 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    // `vite preview` serves the production build — scripts/prerender.mjs
+    // drives a headless browser against this to bake real page content
+    // into static HTML. Needs the same proxy as the dev server so pages
+    // fetching team/testimonials/prices/settings get real data at build
+    // time, not a proxy error.
+    port: 4174,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:4000',
+        changeOrigin: true,
+      },
+      '/uploads': {
+        target: 'http://localhost:4000',
+        changeOrigin: true,
+      },
+    },
+  },
 });

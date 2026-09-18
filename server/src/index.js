@@ -13,6 +13,7 @@ import { settingsRouter } from './routes/settings.js';
 import { teamRouter, teamAdminRouter } from './routes/team.js';
 import { testimonialsRouter, testimonialsAdminRouter } from './routes/testimonials.js';
 import { pricesRouter, pricesAdminRouter } from './routes/prices.js';
+import { accreditationsRouter, accreditationsAdminRouter } from './routes/accreditations.js';
 import { uploadsRouter } from './routes/uploads.js';
 
 const app = express();
@@ -72,6 +73,8 @@ app.use('/api/testimonials', testimonialsRouter);
 app.use('/api/admin/testimonials', testimonialsAdminRouter);
 app.use('/api/prices', pricesRouter);
 app.use('/api/admin/prices', pricesAdminRouter);
+app.use('/api/accreditations', accreditationsRouter);
+app.use('/api/admin/accreditations', accreditationsAdminRouter);
 app.use('/api/admin/uploads', uploadsRouter);
 
 // 404 for unknown API routes

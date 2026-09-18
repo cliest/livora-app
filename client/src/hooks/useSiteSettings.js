@@ -13,7 +13,7 @@ const DEFAULT_SETTINGS = {
   phoneDial: '+260760737805',
   email: 'info@livoradentalclinic.com',
   addressLine1: 'Plot 00, Street Name',
-  addressLine2: 'Lusaka, Zambia',
+  addressLine2: 'Livingstone, Zambia',
   facebookUrl: null,
   instagramUrl: null,
   tiktokUrl: null,

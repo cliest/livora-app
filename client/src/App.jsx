@@ -8,6 +8,7 @@ import Pricing from './pages/Pricing.jsx';
 import Book from './pages/Book.jsx';
 import Contact from './pages/Contact.jsx';
 import ThankYou from './pages/ThankYou.jsx';
+import Privacy from './pages/Privacy.jsx';
 import NotFound from './pages/NotFound.jsx';
 import RequireAdmin from './components/admin/RequireAdmin.jsx';
 import AdminLogin from './pages/admin/Login.jsx';
@@ -18,6 +19,7 @@ import AdminSettings from './pages/admin/Settings.jsx';
 import AdminTeam from './pages/admin/Team.jsx';
 import AdminTestimonials from './pages/admin/Testimonials.jsx';
 import AdminPrices from './pages/admin/Prices.jsx';
+import AdminAccreditations from './pages/admin/Accreditations.jsx';
 
 export default function App() {
   return (
@@ -31,6 +33,7 @@ export default function App() {
         <Route path="/admin/team" element={<AdminTeam />} />
         <Route path="/admin/testimonials" element={<AdminTestimonials />} />
         <Route path="/admin/prices" element={<AdminPrices />} />
+        <Route path="/admin/accreditations" element={<AdminAccreditations />} />
       </Route>
 
       <Route element={<Layout />}>
@@ -42,6 +45,7 @@ export default function App() {
         <Route path="/book" element={<Book />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

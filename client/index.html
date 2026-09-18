@@ -13,12 +13,13 @@
       rel="stylesheet"
     />
 
-    <!-- Default title/description; each route overrides these via react-helmet-async -->
-    <title>Livora Dental Clinic | Dentist in Lusaka, Open 24/7</title>
-    <meta
-      name="description"
-      content="Livora is a professional dental clinic in Lusaka, Zambia, open 24 hours a day. Check-ups, fillings, implants, braces and emergency toothache care. NHIMA accepted."
-    />
+    <!-- No static <title>/<meta description> here on purpose: every route
+         renders its own via <Seo> (components/Seo.jsx), which uses React
+         19's native head-tag hoisting. A static fallback here wouldn't be
+         replaced by that — React only manages tags it renders — so it would
+         sit alongside the real one as a stale duplicate, which is exactly
+         what non-JS crawlers (the ones scripts/prerender.mjs exists for)
+         would see first. -->
   </head>
   <body>
     <div id="root"></div>

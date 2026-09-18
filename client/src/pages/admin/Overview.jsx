@@ -35,6 +35,7 @@ export default function AdminOverview() {
           <Link to="/admin/team" className="btn btn--outline btn--sm">Team members</Link>
           <Link to="/admin/testimonials" className="btn btn--outline btn--sm">Testimonials</Link>
           <Link to="/admin/prices" className="btn btn--outline btn--sm">Prices</Link>
+          <Link to="/admin/accreditations" className="btn btn--outline btn--sm">Accreditations</Link>
         </div>
       </div>
     </div>

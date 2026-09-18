@@ -32,12 +32,16 @@ const GALLERY = [
 
 export default function About() {
   const { data: team = [] } = useQuery({ queryKey: ['team'], queryFn: async () => (await api.getTeam()).items });
+  const { data: accreditations = [] } = useQuery({
+    queryKey: ['accreditations'],
+    queryFn: async () => (await api.getAccreditations()).items,
+  });
 
   return (
     <>
       <Seo
-        title="About Livora Dental Clinic | Trusted Dental Care in Lusaka, Zambia"
-        description="Meet the team behind Livora Dental Clinic in Lusaka. Registered dentists, modern technology, transparent pricing and a clinic that is genuinely open 24/7."
+        title="About Livora Dental Clinic | Trusted Dental Care in Livingstone, Zambia"
+        description="Meet the team behind Livora Dental Clinic in Livingstone. Registered dentists, modern technology, transparent pricing and a clinic that is genuinely open 24/7."
         path="/about"
       />
 
@@ -52,13 +56,13 @@ export default function About() {
       <Section>
         <div className="flex flex-wrap items-center gap-s5">
           <div className="flex-1 min-w-[320px]">
-            <img src="/img/livora-treatment-room.jpg" alt="The main treatment room at Livora Dental Clinic in Lusaka" className="rounded-[28px] w-full" />
+            <img src="/img/livora-treatment-room.jpg" alt="The main treatment room at Livora Dental Clinic in Livingstone" className="rounded-[28px] w-full" />
           </div>
           <div className="flex-1 min-w-[320px]">
             <span className="eyebrow">Our story</span>
             <h2>We opened the doors that stay shut everywhere else</h2>
             <p className="lead text-muted">
-              Ask anyone in Lusaka about their last dental emergency and you will hear the same story — the pain
+              Ask anyone in Livingstone about their last dental emergency and you will hear the same story — the pain
               started on a Friday night, and the waiting started with it.
             </p>
             <p>
@@ -140,21 +144,29 @@ export default function About() {
         </div>
       </Section>
 
-      {/* Accreditation placeholder */}
+      {/* Accreditation */}
       <Section bg="sand" id="accreditation">
         <SectionHead
           eyebrow="Registration & accreditation"
           title="Registered, inspected, accountable"
           lead="Our clinicians and our premises are registered with the relevant Zambian authorities. Certificates are displayed at reception and available on request."
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-s3">
-          {['Health Professions Council of Zambia', 'NHIMA Accredited Provider', 'Dental Association of Zambia', 'Your next certification'].map((t) => (
-            <div key={t} className="flex flex-col items-center justify-center min-h-[132px] p-s3 border-2 border-dashed border-[#C6D9DF] rounded-xl bg-sand text-center">
-              <strong className="text-[0.92rem] font-bold text-ink">{t}</strong>
-              <span className="text-[0.78rem] text-muted mt-1">Badge — to be added</span>
-            </div>
-          ))}
-        </div>
+        {accreditations.length > 0 ? (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-s3">
+            {accreditations.map((a) => (
+              <div key={a.id} className="flex flex-col items-center justify-center gap-2 min-h-[132px] p-s3 border border-line rounded-xl bg-white text-center">
+                {a.badgeUrl ? (
+                  <img src={a.badgeUrl} alt={a.title} className="h-12 w-auto object-contain" />
+                ) : (
+                  <span className="w-12 h-12 rounded-full bg-sand-deep" />
+                )}
+                <strong className="text-[0.92rem] font-bold text-ink">{a.title}</strong>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-muted">Accreditation details are being added — check back soon.</p>
+        )}
       </Section>
 
       {/* Gallery */}

@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { to: '/admin/team', label: 'Team' },
   { to: '/admin/testimonials', label: 'Testimonials' },
   { to: '/admin/prices', label: 'Prices' },
+  { to: '/admin/accreditations', label: 'Accreditations' },
 ];
 
 const navLinkClass = ({ isActive }) =>

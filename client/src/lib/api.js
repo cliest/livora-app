@@ -68,6 +68,13 @@ export const api = {
     request(`/api/admin/prices/items/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
   deletePriceItem: (id) => request(`/api/admin/prices/items/${id}`, { method: 'DELETE' }),
 
+  getAccreditations: () => request('/api/accreditations'),
+  adminListAccreditations: () => request('/api/admin/accreditations'),
+  createAccreditation: (payload) => request('/api/admin/accreditations', { method: 'POST', body: JSON.stringify(payload) }),
+  updateAccreditation: (id, payload) =>
+    request(`/api/admin/accreditations/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
+  deleteAccreditation: (id) => request(`/api/admin/accreditations/${id}`, { method: 'DELETE' }),
+
   // Multipart upload — bypasses request() since that always sets a JSON
   // Content-Type; the browser needs to set its own multipart boundary here.
   uploadImage: async (file) => {

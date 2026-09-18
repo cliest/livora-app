@@ -1,4 +1,4 @@
-const SITE = 'https://www.livoradentalclinic.com';
+const SITE = 'https://livoradentalclinic.com';
 const DEFAULT_IMAGE = `${SITE}/img/hero-confident-smile.jpg`;
 
 /**

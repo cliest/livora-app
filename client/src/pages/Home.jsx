@@ -131,8 +131,8 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="Dentist in Lusaka | 24/7 Emergency Dental Care | Livora Dental Clinic"
-        description="Livora is a professional dental clinic in Lusaka, Zambia, open 24 hours a day. Check-ups, cleaning, fillings, implants, braces and emergency toothache care. NHIMA accepted."
+        title="Dentist in Livingstone | 24/7 Emergency Dental Care | Livora Dental Clinic"
+        description="Livora is a professional dental clinic in Livingstone, Zambia, open 24 hours a day. Check-ups, cleaning, fillings, implants, braces and emergency toothache care. NHIMA accepted."
         path="/"
       />
 
@@ -158,7 +158,7 @@ export default function Home() {
               Open 24 hours &mdash; walk in any time
             </span>
             <h1 className="text-white mb-s3">
-              The dentist Lusaka
+              The dentist Livingstone
               <br />
               can call at <span className="text-cyan">3am.</span>
             </h1>

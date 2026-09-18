@@ -67,8 +67,8 @@ export default function Book() {
   return (
     <>
       <Seo
-        title="Book a Dental Appointment in Lusaka | Livora Dental Clinic"
-        description="Book your dental appointment at Livora Dental Clinic in Lusaka. Open 24/7, NHIMA accepted."
+        title="Book a Dental Appointment in Livingstone | Livora Dental Clinic"
+        description="Book your dental appointment at Livora Dental Clinic in Livingstone. Open 24/7, NHIMA accepted."
         path="/book"
       />
 
@@ -140,7 +140,8 @@ export default function Book() {
 
                 <ConsentCheckbox name="consentGiven" register={register} error={errors.consentGiven}>
                   I agree that Livora Dental Clinic may contact me by phone, SMS or WhatsApp about this appointment
-                  request. <span className="text-coral-600">*</span>
+                  request, per the <Link to="/privacy" className="underline">privacy policy</Link>.{' '}
+                  <span className="text-coral-600">*</span>
                 </ConsentCheckbox>
 
                 {serverError && (

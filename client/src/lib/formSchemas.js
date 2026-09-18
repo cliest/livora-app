@@ -108,3 +108,9 @@ export const priceItemSchema = z.object({
   isPopular: z.boolean().optional(),
   isEmergency: z.boolean().optional(),
 });
+
+export const accreditationSchema = z.object({
+  title: z.string().trim().min(1, 'Please enter a title, e.g. "NHIMA Accredited Provider"'),
+  badgeUrl: z.string().trim().optional().or(z.literal('')),
+  published: z.boolean().optional(),
+});
