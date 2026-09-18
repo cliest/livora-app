@@ -1,4 +1,19 @@
+import { Link } from 'react-router-dom';
 import PhoneIcon from '../layout/PhoneIcon.jsx';
+
+// Internal paths ("/emergency") route client-side; tel:/mailto:/external
+// links stay as plain anchors.
+function CtaLink({ href, className, children }) {
+  return href.startsWith('/') ? (
+    <Link to={href} className={className}>
+      {children}
+    </Link>
+  ) : (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  );
+}
 
 export default function EmergencyBand({ eyebrow, title, body, primaryLabel = 'Call +260 76 073 7805', primaryHref = 'tel:+260760737805', secondaryLabel, secondaryHref, wrap = true }) {
   const inner = (
@@ -16,14 +31,14 @@ export default function EmergencyBand({ eyebrow, title, body, primaryLabel = 'Ca
         </div>
         <div className="flex-1 min-w-[260px]">
           <div className="flex flex-wrap gap-s2">
-            <a href={primaryHref} className="btn btn--white btn--lg">
+            <CtaLink href={primaryHref} className="btn btn--white btn--lg">
               <PhoneIcon />
               {primaryLabel}
-            </a>
+            </CtaLink>
             {secondaryLabel && (
-              <a href={secondaryHref} className="btn btn--ghost-light btn--lg">
+              <CtaLink href={secondaryHref} className="btn btn--ghost-light btn--lg">
                 {secondaryLabel}
-              </a>
+              </CtaLink>
             )}
           </div>
         </div>

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 // Sticky Call/Book bar shown only on phones — present in the original
 // design intent but never actually built in the WordPress/Elementor attempt.
 export default function MobileCallbar() {
@@ -6,9 +8,9 @@ export default function MobileCallbar() {
       <a href="tel:+260760737805" className="btn btn--coral flex-1 !py-[15px] !px-[10px] text-[0.86rem]">
         Call 24/7
       </a>
-      <a href="/book" className="btn btn--primary flex-1 !py-[15px] !px-[10px] text-[0.86rem]">
+      <Link to="/book" className="btn btn--primary flex-1 !py-[15px] !px-[10px] text-[0.86rem]">
         Book Now
-      </a>
+      </Link>
     </div>
   );
 }

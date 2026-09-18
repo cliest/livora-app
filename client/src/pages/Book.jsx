@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
@@ -81,12 +81,12 @@ export default function Book() {
           style={{ background: 'linear-gradient(90deg, rgba(10,42,51,.92) 12%, rgba(10,42,51,.62) 100%)' }}
         />
         <div className="container relative z-[2]">
-          <div className="max-w-[760px] py-[92px_96px] pt-[92px] pb-[96px] max-[1024px]:pt-[68px] max-[1024px]:pb-[72px]">
+          <div className="max-w-[760px] pt-[92px] pb-[96px] max-[1024px]:pt-[68px] max-[1024px]:pb-[72px]">
             <ul className="flex flex-wrap items-center gap-2 text-[0.82rem] text-[#8FB2BD] mb-s2 list-none p-0">
               <li>
-                <a href="/" className="text-[#BCD6DE] hover:text-cyan">
+                <Link to="/" className="text-[#BCD6DE] hover:text-cyan">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="before:content-['/'] before:mr-2 before:text-[#5E7A82]">Book an Appointment</li>
             </ul>

@@ -121,6 +121,29 @@ export const IconStar = (p) => (
   </svg>
 );
 
+export const IconIdCard = (p) => (
+  <svg {...base} {...p}>
+    <rect x="2" y="5" width="20" height="14" rx="2" />
+    <circle cx="8.5" cy="12" r="1.8" />
+    <path d="M13.5 10h5M13.5 14h5" />
+  </svg>
+);
+
+export const IconMail = (p) => (
+  <svg {...base} {...p}>
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="m2 7 10 6 10-6" />
+  </svg>
+);
+
+// Filled glyph (matches the WhatsApp mark used in the footer socials) rather
+// than the outlined stroke style — WhatsApp's icon reads as a solid shape.
+export const IconWhatsapp = (p) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>
+    <path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-3.2-1.5 11.6 11.6 0 0 1-3.4-4.2c-.3-.6-.6-1.4-.6-2.1 0-.8.4-1.4.7-1.7.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.8 2c.1.2 0 .4 0 .5l-.4.5c-.1.2-.3.3-.1.6a8.7 8.7 0 0 0 3.8 3.3c.3.1.5.1.6-.1l.8-1c.2-.2.4-.1.6 0l2 .9c.2.1.4.2.4.3.1.2.1.6-.1 1.2Z" />
+  </svg>
+);
+
 export const IconCheckCircle = (p) => (
   <svg {...base} {...p}>
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />

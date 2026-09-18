@@ -1,12 +1,12 @@
+import { Link } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import SectionHead from '../components/ui/SectionHead.jsx';
 import ImageCard from '../components/ui/ImageCard.jsx';
-import IconBox from '../components/ui/IconBox.jsx';
 import Accordion from '../components/ui/Accordion.jsx';
 import StarRating from '../components/ui/StarRating.jsx';
 import PhoneIcon from '../components/layout/PhoneIcon.jsx';
-import { IconClock, IconShield, IconXray, IconBolt, IconCamera, IconPriceTag } from '../components/ui/icons.jsx';
+import { IconClock, IconShield, IconXray, IconBolt, IconPriceTag } from '../components/ui/icons.jsx';
 
 const PROOF = [
   ['24/7', 'Always open'],
@@ -171,7 +171,7 @@ export default function Home() {
           }}
         />
         <div className="container relative z-[2]">
-          <div className="max-w-[660px] py-[148px_156px] pt-[148px] pb-[156px] max-[1024px]:pt-[104px] max-[1024px]:pb-[112px] max-[767px]:pt-[76px] max-[767px]:pb-[84px]">
+          <div className="max-w-[660px] pt-[148px] pb-[156px] max-[1024px]:pt-[104px] max-[1024px]:pb-[112px] max-[767px]:pt-[76px] max-[767px]:pb-[84px]">
             <span className="inline-flex items-center gap-[10px] bg-white/10 border border-white/20 pl-[14px] pr-[18px] py-[9px] rounded-full text-[0.8rem] font-bold uppercase tracking-[0.06em] text-white mb-s3">
               <span className="pulse-dot" />
               Open 24 hours &mdash; walk in any time
@@ -186,9 +186,9 @@ export default function Home() {
               a toothache. Full general, cosmetic and emergency dental care, every day of the year.
             </p>
             <div className="flex flex-wrap gap-s2 mt-s4">
-              <a href="/book" className="btn btn--primary btn--lg">
+              <Link to="/book" className="btn btn--primary btn--lg">
                 Book an Appointment
-              </a>
+              </Link>
               <a href="tel:+260760737805" className="btn btn--ghost-light btn--lg">
                 <PhoneIcon />
                 Call Now
@@ -261,9 +261,9 @@ export default function Home() {
           ))}
         </div>
         <div className="text-center mt-s5">
-          <a href="/services" className="btn btn--ink btn--lg">
+          <Link to="/services" className="btn btn--ink btn--lg">
             See all 15+ treatments &amp; prices
-          </a>
+          </Link>
         </div>
       </Section>
 
@@ -294,9 +294,9 @@ export default function Home() {
                   <PhoneIcon />
                   Call +260 76 073 7805
                 </a>
-                <a href="/emergency" className="btn btn--ghost-light btn--lg">
+                <Link to="/emergency" className="btn btn--ghost-light btn--lg">
                   What counts as an emergency?
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -338,12 +338,12 @@ export default function Home() {
               <li>Special care for nervous patients and first-time visitors</li>
             </ul>
             <div className="flex flex-wrap gap-s2 mt-s4">
-              <a href="/about" className="btn btn--primary">
+              <Link to="/about" className="btn btn--primary">
                 More about us
-              </a>
-              <a href="/about#team" className="btn btn--outline">
+              </Link>
+              <Link to="/about#team" className="btn btn--outline">
                 Meet the team
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -417,12 +417,12 @@ export default function Home() {
               treatments can be split into instalments.
             </p>
             <div className="flex flex-wrap gap-s2 mt-s4">
-              <a href="/pricing" className="btn btn--primary">
+              <Link to="/pricing" className="btn btn--primary">
                 See the full price list
-              </a>
-              <a href="/book" className="btn btn--outline">
+              </Link>
+              <Link to="/book" className="btn btn--outline">
                 Book a consultation
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex-1 min-w-[320px]">
@@ -462,9 +462,9 @@ export default function Home() {
               </a>{' '}
               — someone is always there.
             </p>
-            <a href="/contact" className="btn btn--primary mt-s4">
+            <Link to="/contact" className="btn btn--primary mt-s4">
               Ask us a question
-            </a>
+            </Link>
           </div>
           <div className="flex-[1.6] min-w-[320px]">
             <Accordion items={FAQS} />
@@ -489,9 +489,9 @@ export default function Home() {
           </div>
           <div className="flex-1 min-w-[260px]">
             <div className="flex flex-wrap gap-s2">
-              <a href="/book" className="btn btn--primary btn--lg">
+              <Link to="/book" className="btn btn--primary btn--lg">
                 Book Appointment
-              </a>
+              </Link>
               <a
                 href="https://wa.me/260760737805"
                 target="_blank"

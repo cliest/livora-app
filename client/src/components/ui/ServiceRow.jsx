@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function ServiceRow({ id, eyebrow, title, lead, items, image, alt, reverse = false, sand = false }) {
   const media = (
     <div className="flex-1 min-w-[320px]">
@@ -15,12 +17,12 @@ export default function ServiceRow({ id, eyebrow, title, lead, items, image, alt
         ))}
       </ul>
       <div className="flex flex-wrap gap-s2 mt-s4">
-        <a href="/book" className="btn btn--primary">
+        <Link to="/book" className="btn btn--primary">
           Book this treatment
-        </a>
-        <a href="/pricing" className="btn btn--outline">
+        </Link>
+        <Link to="/pricing" className="btn btn--outline">
           See prices
-        </a>
+        </Link>
       </div>
     </div>
   );

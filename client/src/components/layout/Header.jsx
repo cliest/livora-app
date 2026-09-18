@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import TopBar from './TopBar.jsx';
 import PhoneIcon from './PhoneIcon.jsx';
 
@@ -41,9 +41,9 @@ export default function Header() {
       <TopBar />
 
       <div className="container flex items-center justify-between gap-s3 min-h-[84px]">
-        <a href="/" className="flex-none" aria-label="Livora Dental Clinic home">
+        <Link to="/" className="flex-none" aria-label="Livora Dental Clinic home">
           <img src="/logo/livora-logo.svg" alt="Livora Dental Clinic logo" className="h-[46px] w-auto" width={128} height={46} />
-        </a>
+        </Link>
 
         <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
           {NAV_ITEMS.map((item) => (
@@ -61,9 +61,9 @@ export default function Header() {
             <strong className="text-base font-extrabold text-ink leading-5">+260 76 073 7805</strong>
           </a>
 
-          <a href="/book" className="btn btn--primary btn--sm">
+          <Link to="/book" className="btn btn--primary btn--sm">
             Book Appointment
-          </a>
+          </Link>
 
           <button
             type="button"
@@ -111,9 +111,9 @@ export default function Header() {
               ))}
             </nav>
             <div className="flex flex-col gap-s2 mt-s3">
-              <a href="/book" className="btn btn--primary btn--block" onClick={() => setOpen(false)}>
+              <Link to="/book" className="btn btn--primary btn--block" onClick={() => setOpen(false)}>
                 Book Appointment
-              </a>
+              </Link>
               <a href="tel:+260760737805" className="btn btn--outline btn--block">
                 <PhoneIcon />
                 Call +260 76 073 7805

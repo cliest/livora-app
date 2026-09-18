@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 // Compact interior-page hero — matches .page-hero in the source CSS exactly:
 // dark background image, two-stop gradient overlay, breadcrumb, h1, lead.
 export default function PageHero({ image, crumb, title, lead, children }) {
@@ -12,9 +14,9 @@ export default function PageHero({ image, crumb, title, lead, children }) {
         <div className="max-w-[760px] pt-[92px] pb-[96px] max-[1024px]:pt-[68px] max-[1024px]:pb-[72px] max-[767px]:pt-[52px] max-[767px]:pb-[56px]">
           <ul className="flex flex-wrap items-center gap-2 text-[0.82rem] text-[#8FB2BD] mb-s2 list-none p-0">
             <li>
-              <a href="/" className="text-[#BCD6DE] hover:text-cyan">
+              <Link to="/" className="text-[#BCD6DE] hover:text-cyan">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="before:content-['/'] before:mr-2 before:text-[#5E7A82]">{crumb}</li>
           </ul>

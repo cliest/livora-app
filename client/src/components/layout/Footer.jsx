@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import PhoneIcon from './PhoneIcon.jsx';
 
 const TREATMENTS = [
@@ -81,9 +82,9 @@ export default function Footer() {
             <ul className="space-y-[11px]">
               {TREATMENTS.map((t) => (
                 <li key={t.label}>
-                  <a href={t.to} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
+                  <Link to={t.to} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
                     {t.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -95,9 +96,9 @@ export default function Footer() {
             <ul className="space-y-[11px]">
               {CLINIC_LINKS.map((t) => (
                 <li key={t.label}>
-                  <a href={t.to} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
+                  <Link to={t.to} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
                     {t.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -150,10 +151,10 @@ export default function Footer() {
         <div className="flex flex-wrap items-center justify-between gap-s2 mt-s6 pt-s3 border-t border-white/10 text-[0.86rem]">
           <p>&copy; {new Date().getFullYear()} Livora Dental Clinic. All rights reserved.</p>
           <nav className="flex flex-wrap gap-s3" aria-label="Footer navigation">
-            <a href="/services" className="text-[#9FBFC9] hover:text-cyan">Services</a>
-            <a href="/pricing" className="text-[#9FBFC9] hover:text-cyan">Pricing</a>
-            <a href="/emergency" className="text-[#9FBFC9] hover:text-cyan">Emergency</a>
-            <a href="/contact" className="text-[#9FBFC9] hover:text-cyan">Contact</a>
+            <Link to="/services" className="text-[#9FBFC9] hover:text-cyan">Services</Link>
+            <Link to="/pricing" className="text-[#9FBFC9] hover:text-cyan">Pricing</Link>
+            <Link to="/emergency" className="text-[#9FBFC9] hover:text-cyan">Emergency</Link>
+            <Link to="/contact" className="text-[#9FBFC9] hover:text-cyan">Contact</Link>
           </nav>
         </div>
       </div>

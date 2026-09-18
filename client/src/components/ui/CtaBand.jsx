@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function CtaBand() {
   return (
     <section className="bg-ink py-s8 max-[1024px]:py-s6">
@@ -17,9 +19,9 @@ export default function CtaBand() {
           </div>
           <div className="flex-1 min-w-[260px]">
             <div className="flex flex-wrap gap-s2">
-              <a href="/book" className="btn btn--primary btn--lg">
+              <Link to="/book" className="btn btn--primary btn--lg">
                 Book Appointment
-              </a>
+              </Link>
               <a href="tel:+260760737805" className="btn btn--ghost-light btn--lg">
                 Call +260 76 073 7805
               </a>

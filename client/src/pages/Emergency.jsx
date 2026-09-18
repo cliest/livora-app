@@ -1,9 +1,9 @@
+import { Link } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import SectionHead from '../components/ui/SectionHead.jsx';
 import PageHero from '../components/ui/PageHero.jsx';
 import ImageCard from '../components/ui/ImageCard.jsx';
-import EmergencyBand from '../components/ui/EmergencyBand.jsx';
 import Step from '../components/ui/Step.jsx';
 import PriceBlock from '../components/ui/PriceBlock.jsx';
 import Accordion from '../components/ui/Accordion.jsx';
@@ -143,12 +143,12 @@ export default function Emergency() {
               and we take cash, card and mobile money.
             </p>
             <div className="flex flex-wrap gap-s2 mt-s4">
-              <a href="/pricing" className="btn btn--primary">
+              <Link to="/pricing" className="btn btn--primary">
                 Full price list
-              </a>
-              <a href="/book" className="btn btn--outline">
+              </Link>
+              <Link to="/book" className="btn btn--outline">
                 Book an appointment
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex-1 min-w-[320px]">

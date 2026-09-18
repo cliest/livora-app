@@ -8,7 +8,7 @@ import PageHero from '../components/ui/PageHero.jsx';
 import { TextField, SelectField, TextAreaField, ConsentCheckbox } from '../components/ui/FormField.jsx';
 import { contactFormSchema, SUBJECT_OPTIONS } from '../lib/formSchemas.js';
 import { api, ApiError } from '../lib/api.js';
-import { IconPhone, IconClock, IconMapPin } from '../components/ui/icons.jsx';
+import { IconPhone, IconClock, IconMapPin, IconMail, IconWhatsapp } from '../components/ui/icons.jsx';
 
 export default function Contact() {
   const navigate = useNavigate();
@@ -59,12 +59,12 @@ export default function Contact() {
         <div className="grid md:grid-cols-3 gap-s3">
           {[
             [IconPhone, 'Call us', 'Answered 24 hours a day, every day. This is the fastest way to reach us.', '+260 76 073 7805', 'tel:+260760737805'],
-            [null, 'WhatsApp', 'Send a photo of the problem and a quick description. Useful for non-urgent questions.', 'wa.me/260760737805', 'https://wa.me/260760737805'],
-            [null, 'Email', 'For enquiries, records requests, invoices and anything that is not urgent.', 'info@livoradentalclinic.com', 'mailto:info@livoradentalclinic.com'],
+            [IconWhatsapp, 'WhatsApp', 'Send a photo of the problem and a quick description. Useful for non-urgent questions.', 'wa.me/260760737805', 'https://wa.me/260760737805'],
+            [IconMail, 'Email', 'For enquiries, records requests, invoices and anything that is not urgent.', 'info@livoradentalclinic.com', 'mailto:info@livoradentalclinic.com'],
           ].map(([Icon, title, body, value, href]) => (
             <div key={title} className="bg-white border border-line rounded-[18px] p-s4 hover:shadow-card hover:-translate-y-1 transition-all">
               <span className="inline-flex items-center justify-center w-[58px] h-[58px] rounded-2xl bg-cyan text-white mb-s3">
-                {Icon ? <Icon className="w-[27px] h-[27px]" /> : <IconPhone className="w-[27px] h-[27px]" />}
+                <Icon className="w-[27px] h-[27px]" />
               </span>
               <h3>{title}</h3>
               <p className="text-muted mb-s2">{body}</p>
@@ -117,7 +117,7 @@ export default function Contact() {
           </div>
 
           <div className="flex-1 min-w-[280px]">
-            <div className="card">
+            <div className="bg-white border border-line rounded-[18px] p-s4">
               <span className="inline-flex items-center justify-center w-[58px] h-[58px] rounded-2xl bg-sand-deep text-cyan-700 mb-s3">
                 <IconClock className="w-[27px] h-[27px]" />
               </span>
@@ -135,7 +135,7 @@ export default function Contact() {
               </table>
             </div>
 
-            <div className="card mt-s4">
+            <div className="bg-white border border-line rounded-[18px] p-s4 mt-s4">
               <span className="inline-flex items-center justify-center w-[58px] h-[58px] rounded-2xl bg-coral/[.16] text-coral-600 mb-s3">
                 <IconMapPin className="w-[27px] h-[27px]" />
               </span>

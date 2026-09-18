@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
-import { IconCheckCircle, IconPhone, IconClock } from '../components/ui/icons.jsx';
+import { IconCheckCircle, IconPhone, IconClock, IconIdCard } from '../components/ui/icons.jsx';
 
 export default function ThankYou() {
   return (
@@ -26,12 +27,12 @@ export default function ThankYou() {
             usually within the hour; overnight it may be a little longer, unless you flagged an emergency.
           </p>
           <div className="flex flex-wrap gap-s2 justify-center mt-s5">
-            <a href="/" className="btn btn--primary btn--lg">
+            <Link to="/" className="btn btn--primary btn--lg">
               Back to the homepage
-            </a>
-            <a href="/services" className="btn btn--outline btn--lg">
+            </Link>
+            <Link to="/services" className="btn btn--outline btn--lg">
               Browse our services
-            </a>
+            </Link>
           </div>
         </div>
       </Section>
@@ -44,12 +45,12 @@ export default function ThankYou() {
         <div className="grid md:grid-cols-3 gap-s3">
           {[
             [IconPhone, 'In pain now?', 'Do not wait for the callback. Call us on +260 76 073 7805 and come straight in, we are open.'],
-            [null, 'Bring with you', 'Your NRC, your NHIMA card if you have one, and a list of any medication you take.'],
+            [IconIdCard, 'Bring with you', 'Your NRC, your NHIMA card if you have one, and a list of any medication you take.'],
             [IconClock, 'Need to change it?', 'Call or WhatsApp us any time and we will move your appointment, no charge, no fuss.'],
           ].map(([Icon, title, body]) => (
-            <div key={title} className="bg-sand rounded-[18px] p-s4">
-              <span className="inline-flex items-center justify-center w-[58px] h-[58px] rounded-2xl bg-white text-cyan-700 mb-s3">
-                {Icon ? <Icon className="w-[27px] h-[27px]" /> : <IconClock className="w-[27px] h-[27px]" />}
+            <div key={title} className="bg-white border border-line rounded-[18px] p-s4">
+              <span className="inline-flex items-center justify-center w-[58px] h-[58px] rounded-2xl bg-sand-deep text-cyan-700 mb-s3">
+                <Icon className="w-[27px] h-[27px]" />
               </span>
               <h3>{title}</h3>
               <p className="text-muted">{body}</p>

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 
 export default function Accordion({ items }) {
   const [openIndex, setOpenIndex] = useState(0);
@@ -20,6 +20,11 @@ export default function Accordion({ items }) {
 
 function AccordionItem({ question, answer, isOpen, onToggle }) {
   const panelRef = useRef(null);
+  const [height, setHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    setHeight(isOpen ? panelRef.current?.scrollHeight ?? 0 : 0);
+  }, [isOpen, answer]);
 
   return (
     <div className="border-b border-line">
@@ -51,7 +56,7 @@ function AccordionItem({ question, answer, isOpen, onToggle }) {
       </h3>
       <div
         ref={panelRef}
-        style={{ maxHeight: isOpen ? panelRef.current?.scrollHeight ?? 500 : 0 }}
+        style={{ maxHeight: height }}
         className="overflow-hidden transition-[max-height] duration-300 ease-in-out"
       >
         <div className="pb-s3 max-w-[780px] text-muted leading-[1.7]" dangerouslySetInnerHTML={{ __html: answer }} />

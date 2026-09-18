@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 /**
  * The image-led card used across "What we do", "Our technology", "What we
  * promise", and the emergency symptom grid — .card--media in the source CSS.
@@ -21,10 +23,10 @@ export default function ImageCard({ image, alt, title, body, items, linkText, li
           </ul>
         )}
         {linkHref && (
-          <a href={linkHref} className="inline-flex items-center gap-2 text-[14.72px] font-bold text-cyan-700 hover:text-coral-600 mt-auto pt-s3 group">
+          <Link to={linkHref} className="inline-flex items-center gap-2 text-[14.72px] font-bold text-cyan-700 hover:text-coral-600 mt-auto pt-s3 group">
             {linkText}
             <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
-          </a>
+          </Link>
         )}
       </div>
     </article>

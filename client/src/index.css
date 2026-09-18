@@ -183,7 +183,11 @@
     @apply list-none p-0 mt-s3;
   }
   .checklist li {
-    @apply relative pl-[34px] mb-[13px] text-[0.99rem] text-ink;
+    /* No text-ink here on purpose: this list is reused inside dark
+       (bg-ink) sections, and hardcoding a dark colour there made the
+       text invisible against the matching dark background. Inherit the
+       ambient colour Section already sets instead. */
+    @apply relative pl-[34px] mb-[13px] text-[0.99rem];
   }
   .checklist li::before {
     content: '';
@@ -202,6 +206,15 @@
   }
   .eyebrow--light {
     @apply text-cyan;
+  }
+
+  /* Decorative coral underline for an emphasised phrase inside a heading,
+     e.g. the "Why Livora" title on the homepage. */
+  .underline-brush {
+    text-decoration: underline;
+    text-decoration-color: theme('colors.coral.DEFAULT');
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.12em;
   }
 
   /* Pulsing "open now" dot, and hero Ken Burns drift */

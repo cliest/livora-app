@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 
@@ -13,9 +14,9 @@ export default function NotFound() {
             specific.
           </p>
           <div className="flex flex-wrap gap-s2 justify-center mt-s4">
-            <a href="/" className="btn btn--primary">
+            <Link to="/" className="btn btn--primary">
               Back to homepage
-            </a>
+            </Link>
             <a href="tel:+260760737805" className="btn btn--outline">
               Call +260 76 073 7805
             </a>
