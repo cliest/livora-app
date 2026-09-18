@@ -13,7 +13,9 @@ const memberSchema = z.object({
   role: z.string().trim().min(1, 'Please enter a role'),
   bio: z.string().trim().min(1, 'Please enter a short bio'),
   credentials: z.string().trim().min(1, 'Please enter credentials'),
-  photoUrl: z.string().trim().url().optional().or(z.literal('')),
+  // Relative (/uploads/xxx.jpg from the admin upload endpoint, or /img/xxx.jpg
+  // for the seeded photos) as well as absolute URLs are valid here.
+  photoUrl: z.string().trim().min(1).optional().or(z.literal('')),
   sortOrder: z.coerce.number().int().optional(),
   published: z.coerce.boolean().optional(),
 });

@@ -48,6 +48,11 @@ Default login is `admin@livoradentalclinic.com` / `ChangeMe123!` unless you
 set `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` env vars first. **Change this
 before going live.**
 
+Sign in at `/admin` with that login to reach the dashboard. The same seed
+run also backfills site settings, the team, testimonials and the price list
+from today's real content — but only if those tables are still empty, so
+re-running the seed later never overwrites edits made from the dashboard.
+
 ### 5. Run both dev servers
 
 ```bash
@@ -66,24 +71,31 @@ only ever talks to `localhost:5173`.
 - **Booking form** (`/book`) → `POST /api/bookings` → saved to Postgres,
   clinic notified by email (once SMTP is configured in `server/.env`).
 - **Contact form** (`/contact`) → `POST /api/contact` → same pattern.
-- **Admin API** (`/api/admin/*`) — login, session cookie, booking/message
-  listing and status updates. No dashboard UI has been built yet; the API
-  is ready for one.
+- **Admin dashboard** (`/admin`, behind the existing login) —
+  - **Bookings** / **Messages**: filter by status, update status inline.
+  - **Site settings**: phone, email, address and socials — one editable
+    record the whole public site reads from (header, footer, contact page,
+    every call-to-action), instead of being hardcoded per page.
+  - **Team**, **Testimonials**, **Prices**: full CRUD, including photo
+    upload for team members (stored under `server/uploads`, served at
+    `/uploads/*`). The About page, homepage testimonials and the Pricing
+    page all read live from these instead of hardcoded arrays. Price items
+    carry `isPopular` / `isEmergency` flags that also drive the homepage's
+    "Popular treatments" teaser and the Emergency page's price block, so
+    there's one price list, not three.
 
 ## Still to do
 
 - SMTP credentials in `server/.env` (booking/contact notifications currently
   log to console instead of sending — nothing is lost, they still save to
   Postgres, but the clinic isn't emailed until this is set).
-- Admin dashboard UI (the API exists; a screen to use it does not yet).
-- Real team members, testimonials, prices and street address — everything
-  currently in the client is either ported from the original placeholder
-  content or clearly marked as such in the source.
 - Production hosting decision for both the Express API and the Postgres
-  database (currently both are local-machine only).
+  database (currently both are local-machine only) — this also affects
+  where `server/uploads` lives, since it's local disk storage today.
 - Prerendering / SSR pass for full SEO parity with the previous server-
-  rendered build — meta tags are wired per-route via `react-helmet-async`,
-  but the HTML Google's crawler sees on first paint is still delivered by a
+  rendered build — meta tags are wired per-route via `Seo.jsx` (React 19's
+  native `<title>`/`<meta>` hoisting, no react-helmet dependency), but the
+  HTML Google's crawler sees on first paint is still delivered by a
   client-rendered SPA today.
 
 ## Design system
