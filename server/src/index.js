@@ -3,13 +3,21 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { bookingsRouter } from './routes/bookings.js';
 import { contactRouter } from './routes/contact.js';
 import { adminRouter } from './routes/admin.js';
+import { settingsRouter } from './routes/settings.js';
+import { teamRouter, teamAdminRouter } from './routes/team.js';
+import { testimonialsRouter, testimonialsAdminRouter } from './routes/testimonials.js';
+import { pricesRouter, pricesAdminRouter } from './routes/prices.js';
+import { uploadsRouter } from './routes/uploads.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.set('trust proxy', 1);
 
@@ -21,6 +29,7 @@ app.use(
 );
 app.use(express.json({ limit: '100kb' }));
 app.use(cookieParser());
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Basic security headers (no helmet dependency needed for this scope)
 app.use((req, res, next) => {
@@ -56,6 +65,14 @@ app.use('/api/admin/login', loginLimiter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/contact', contactRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/settings', settingsRouter);
+app.use('/api/team', teamRouter);
+app.use('/api/admin/team', teamAdminRouter);
+app.use('/api/testimonials', testimonialsRouter);
+app.use('/api/admin/testimonials', testimonialsAdminRouter);
+app.use('/api/prices', pricesRouter);
+app.use('/api/admin/prices', pricesAdminRouter);
+app.use('/api/admin/uploads', uploadsRouter);
 
 // 404 for unknown API routes
 app.use('/api', (req, res) => res.status(404).json({ ok: false, error: 'Not found' }));

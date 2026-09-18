@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import TopBar from './TopBar.jsx';
 import PhoneIcon from './PhoneIcon.jsx';
+import { useSiteSettings } from '../../hooks/useSiteSettings.js';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home' },
@@ -19,6 +20,7 @@ const navLinkClass = ({ isActive }) =>
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const settings = useSiteSettings();
 
   // Close the mobile panel whenever the viewport grows past the breakpoint
   // where the desktop nav takes over, same as the original main.js behaviour.
@@ -54,11 +56,11 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-s2 flex-none">
-          <a href="tel:+260760737805" className="hidden lg:flex flex-col items-end text-right w-[150px]">
+          <a href={settings.telHref} className="hidden lg:flex flex-col items-end text-right w-[150px]">
             <span className="text-[11.2px] font-semibold uppercase tracking-[1.12px] text-muted leading-[14px]">
               Call us anytime
             </span>
-            <strong className="text-base font-extrabold text-ink leading-5">+260 76 073 7805</strong>
+            <strong className="text-base font-extrabold text-ink leading-5">{settings.phoneDisplay}</strong>
           </a>
 
           <Link to="/book" className="btn btn--primary btn--sm">
@@ -114,9 +116,9 @@ export default function Header() {
               <Link to="/book" className="btn btn--primary btn--block" onClick={() => setOpen(false)}>
                 Book Appointment
               </Link>
-              <a href="tel:+260760737805" className="btn btn--outline btn--block">
+              <a href={settings.telHref} className="btn btn--outline btn--block">
                 <PhoneIcon />
-                Call +260 76 073 7805
+                Call {settings.phoneDisplay}
               </a>
             </div>
           </div>

@@ -9,6 +9,7 @@ import { TextField, SelectField, TextAreaField, PillGroup, ConsentCheckbox } fro
 import { bookingFormSchema, SERVICE_OPTIONS } from '../lib/formSchemas.js';
 import { api, ApiError } from '../lib/api.js';
 import { IconClock } from '../components/ui/icons.jsx';
+import { useSiteSettings } from '../hooks/useSiteSettings.js';
 
 const TIME_OPTIONS = [
   ['morning', 'Morning (07:00–12:00)'],
@@ -30,6 +31,7 @@ const PATIENT_OPTIONS = [
 
 export default function Book() {
   const navigate = useNavigate();
+  const settings = useSiteSettings();
   const [serverError, setServerError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -94,8 +96,8 @@ export default function Book() {
             <p className="text-[#BCD6DE] text-[1.2rem]">
               Fill this in and we will call you back to confirm, usually within the hour, and immediately if it is
               urgent. If you would rather just talk to someone, call{' '}
-              <a href="tel:+260760737805" className="text-white underline">
-                +260 76 073 7805
+              <a href={settings.telHref} className="text-white underline">
+                {settings.phoneDisplay}
               </a>{' '}
               at any hour.
             </p>
@@ -153,8 +155,8 @@ export default function Book() {
                   </button>
                   <p className="text-[0.85rem] text-muted mt-s2">
                     In severe pain? Do not wait for a callback — call{' '}
-                    <a href="tel:+260760737805" className="underline">
-                      +260 76 073 7805
+                    <a href={settings.telHref} className="underline">
+                      {settings.phoneDisplay}
                     </a>{' '}
                     and come straight in.
                   </p>
@@ -172,10 +174,10 @@ export default function Book() {
               <h3 className="text-white">Would rather just call?</h3>
               <p className="text-[#9FBFC9]">Someone answers this number at every hour of the day and night. No menus, no call-back queue.</p>
               <div className="flex flex-col gap-s2 mt-s3">
-                <a href="tel:+260760737805" className="btn btn--primary btn--block">
-                  +260 76 073 7805
+                <a href={settings.telHref} className="btn btn--primary btn--block">
+                  {settings.phoneDisplay}
                 </a>
-                <a href="https://wa.me/260760737805" target="_blank" rel="noopener noreferrer" className="btn btn--ghost-light btn--block">
+                <a href={settings.waHref} target="_blank" rel="noopener noreferrer" className="btn btn--ghost-light btn--block">
                   Message on WhatsApp
                 </a>
               </div>

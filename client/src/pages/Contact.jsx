@@ -9,9 +9,11 @@ import { TextField, SelectField, TextAreaField, ConsentCheckbox } from '../compo
 import { contactFormSchema, SUBJECT_OPTIONS } from '../lib/formSchemas.js';
 import { api, ApiError } from '../lib/api.js';
 import { IconPhone, IconClock, IconMapPin, IconMail, IconWhatsapp } from '../components/ui/icons.jsx';
+import { useSiteSettings } from '../hooks/useSiteSettings.js';
 
 export default function Contact() {
   const navigate = useNavigate();
+  const settings = useSiteSettings();
   const [serverError, setServerError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -58,9 +60,9 @@ export default function Contact() {
       <Section>
         <div className="grid md:grid-cols-3 gap-s3">
           {[
-            [IconPhone, 'Call us', 'Answered 24 hours a day, every day. This is the fastest way to reach us.', '+260 76 073 7805', 'tel:+260760737805'],
-            [IconWhatsapp, 'WhatsApp', 'Send a photo of the problem and a quick description. Useful for non-urgent questions.', 'wa.me/260760737805', 'https://wa.me/260760737805'],
-            [IconMail, 'Email', 'For enquiries, records requests, invoices and anything that is not urgent.', 'info@livoradentalclinic.com', 'mailto:info@livoradentalclinic.com'],
+            [IconPhone, 'Call us', 'Answered 24 hours a day, every day. This is the fastest way to reach us.', settings.phoneDisplay, settings.telHref],
+            [IconWhatsapp, 'WhatsApp', 'Send a photo of the problem and a quick description. Useful for non-urgent questions.', `wa.me/${settings.phoneDial.replace(/[^\d]/g, '')}`, settings.waHref],
+            [IconMail, 'Email', 'For enquiries, records requests, invoices and anything that is not urgent.', settings.email, `mailto:${settings.email}`],
           ].map(([Icon, title, body, value, href]) => (
             <div key={title} className="bg-white border border-line rounded-[18px] p-s4 hover:shadow-card hover:-translate-y-1 transition-all">
               <span className="inline-flex items-center justify-center w-[58px] h-[58px] rounded-2xl bg-cyan text-white mb-s3">
@@ -140,11 +142,10 @@ export default function Contact() {
                 <IconMapPin className="w-[27px] h-[27px]" />
               </span>
               <h3>Find us</h3>
-              {/* PLACEHOLDER: replace with the confirmed street address */}
               <p className="font-bold">
-                Plot 00, Street Name
+                {settings.addressLine1}
                 <br />
-                Lusaka, Zambia
+                {settings.addressLine2}
               </p>
               <p className="text-muted mt-s3">
                 Parking is available on site. If you are coming in with a dental emergency, come straight to

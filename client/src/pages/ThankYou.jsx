@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import { IconCheckCircle, IconPhone, IconClock, IconIdCard } from '../components/ui/icons.jsx';
+import { useSiteSettings } from '../hooks/useSiteSettings.js';
 
 export default function ThankYou() {
+  const settings = useSiteSettings();
+
   return (
     <>
       <Seo
@@ -44,7 +47,7 @@ export default function ThankYou() {
         </div>
         <div className="grid md:grid-cols-3 gap-s3">
           {[
-            [IconPhone, 'In pain now?', 'Do not wait for the callback. Call us on +260 76 073 7805 and come straight in, we are open.'],
+            [IconPhone, 'In pain now?', `Do not wait for the callback. Call us on ${settings.phoneDisplay} and come straight in, we are open.`],
             [IconIdCard, 'Bring with you', 'Your NRC, your NHIMA card if you have one, and a list of any medication you take.'],
             [IconClock, 'Need to change it?', 'Call or WhatsApp us any time and we will move your appointment, no charge, no fuss.'],
           ].map(([Icon, title, body]) => (

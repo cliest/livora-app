@@ -1,49 +1,17 @@
+import { useQuery } from '@tanstack/react-query';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import SectionHead from '../components/ui/SectionHead.jsx';
 import PageHero from '../components/ui/PageHero.jsx';
 import ImageCard from '../components/ui/ImageCard.jsx';
 import CtaBand from '../components/ui/CtaBand.jsx';
+import { api } from '../lib/api.js';
 
 const PROMISES = [
   ['/img/livora-reception-area.jpg', 'We will be open', 'Every hour of every day, including public holidays. If you are in pain, you do not wait for Monday.'],
   ['/img/dentist-writing-quote.jpg', 'We will quote first', 'A written price before treatment starts. If anything changes, we pause and talk to you before continuing.'],
   ['/img/digital-dental-xray.jpg', 'We will show you', 'Digital X-rays and an intraoral camera mean you see what we see, on a screen, before you decide anything.'],
   ['/img/child-checkup-parent.jpg', 'We will not rush you', 'Appointments have room built in for questions. Nervous patients get longer slots and a stop signal they control.'],
-];
-
-// PLACEHOLDER — invented team, written to show the layout. Fictional
-// credentials on a real dental clinic is a genuine regulatory problem, so
-// this MUST be replaced with the real team before this site is published.
-const TEAM = [
-  {
-    image: '/img/team-member-1.jpg',
-    name: 'Dr. Chanda Mwila',
-    role: 'Principal Dentist',
-    bio: 'Founded Livora after a decade in hospital dentistry. Special interest in restorative work and in treating patients who have avoided dentists for years.',
-    creds: 'BDS · MSc Restorative Dentistry · English, Bemba, Nyanja',
-  },
-  {
-    image: '/img/team-member-2.jpg',
-    name: 'Dr. Natasha Banda',
-    role: 'Orthodontist',
-    bio: 'Handles all braces and clear aligner cases at Livora, for teenagers and adults alike. Known for mapping out the full treatment timeline on day one.',
-    creds: 'BDS · MSc Orthodontics · English, Nyanja',
-  },
-  {
-    image: '/img/team-member-3.jpg',
-    name: 'Dr. Mulenga Phiri',
-    role: 'Oral Surgeon & Implantologist',
-    bio: 'Leads implant placement, wisdom tooth removal and surgical extractions. The dentist most of our complex emergency cases are handed to.',
-    creds: 'BDS · Dip. Oral Surgery · English, Bemba',
-  },
-  {
-    image: '/img/team-member-4.jpg',
-    name: 'Sister Grace Tembo',
-    role: 'Dental Hygienist',
-    bio: 'Runs our hygiene and gum health programme, and looks after most of our younger patients. The reason children leave here without crying.',
-    creds: 'Dip. Dental Therapy · English, Nyanja, Tonga',
-  },
 ];
 
 const TECH_IMAGES = [
@@ -63,6 +31,8 @@ const GALLERY = [
 ];
 
 export default function About() {
+  const { data: team = [] } = useQuery({ queryKey: ['team'], queryFn: async () => (await api.getTeam()).items });
+
   return (
     <>
       <Seo
@@ -115,27 +85,25 @@ export default function About() {
         </div>
       </Section>
 
-      {/* Team — PLACEHOLDER, flagged clearly */}
+      {/* Team */}
       <Section id="team">
         <SectionHead
           eyebrow="Our team"
           title="The people who will<br>be looking after you"
           lead="Registered, experienced and genuinely good with anxious patients, because most of the people who walk through our door are exactly that."
         />
-        <div className="mb-s4 mx-auto max-w-[780px] text-center text-[0.85rem] text-coral-600 bg-coral/10 border border-coral/30 rounded-xl px-4 py-3">
-          <strong>Placeholder content:</strong> the names, photos and credentials below are illustrative only and
-          must be replaced with the real clinical team before this site is published.
-        </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-s3">
-          {TEAM.map((t) => (
-            <article key={t.name}>
+          {team.map((t) => (
+            <article key={t.id}>
               <div className="rounded-[18px] overflow-hidden aspect-[4/5] bg-sand mb-s3">
-                <img src={t.image} alt={`Portrait of ${t.name}`} className="w-full h-full object-cover" loading="lazy" />
+                {t.photoUrl && (
+                  <img src={t.photoUrl} alt={`Portrait of ${t.name}`} className="w-full h-full object-cover" loading="lazy" />
+                )}
               </div>
               <p className="text-[0.8rem] font-bold uppercase tracking-[0.1em] text-cyan-700 mb-1.5">{t.role}</p>
               <h3 className="text-[1.22rem] mb-2">{t.name}</h3>
               <p className="text-[0.93rem] text-muted">{t.bio}</p>
-              <p className="text-[0.82rem] font-semibold text-ink pt-2.5 mt-2.5 border-t border-line">{t.creds}</p>
+              <p className="text-[0.82rem] font-semibold text-ink pt-2.5 mt-2.5 border-t border-line">{t.credentials}</p>
             </article>
           ))}
         </div>

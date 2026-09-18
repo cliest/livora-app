@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
+import { useSiteSettings } from '../hooks/useSiteSettings.js';
 
 export default function NotFound() {
+  const settings = useSiteSettings();
+
   return (
     <>
       <Seo title="Page Not Found | Livora Dental Clinic" description="This page could not be found." path="/404" noindex />
@@ -17,8 +20,8 @@ export default function NotFound() {
             <Link to="/" className="btn btn--primary">
               Back to homepage
             </Link>
-            <a href="tel:+260760737805" className="btn btn--outline">
-              Call +260 76 073 7805
+            <a href={settings.telHref} className="btn btn--outline">
+              Call {settings.phoneDisplay}
             </a>
           </div>
         </div>

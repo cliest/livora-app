@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import PhoneIcon from '../layout/PhoneIcon.jsx';
+import { useSiteSettings } from '../../hooks/useSiteSettings.js';
 
 // Internal paths ("/emergency") route client-side; tel:/mailto:/external
 // links stay as plain anchors.
@@ -15,7 +16,11 @@ function CtaLink({ href, className, children }) {
   );
 }
 
-export default function EmergencyBand({ eyebrow, title, body, primaryLabel = 'Call +260 76 073 7805', primaryHref = 'tel:+260760737805', secondaryLabel, secondaryHref, wrap = true }) {
+export default function EmergencyBand({ eyebrow, title, body, primaryLabel, primaryHref, secondaryLabel, secondaryHref, wrap = true }) {
+  const settings = useSiteSettings();
+  const resolvedPrimaryLabel = primaryLabel || `Call ${settings.phoneDisplay}`;
+  const resolvedPrimaryHref = primaryHref || settings.telHref;
+
   const inner = (
     <div
       className="rounded-[28px] p-s6 max-[767px]:p-s4"
@@ -31,9 +36,9 @@ export default function EmergencyBand({ eyebrow, title, body, primaryLabel = 'Ca
         </div>
         <div className="flex-1 min-w-[260px]">
           <div className="flex flex-wrap gap-s2">
-            <CtaLink href={primaryHref} className="btn btn--white btn--lg">
+            <CtaLink href={resolvedPrimaryHref} className="btn btn--white btn--lg">
               <PhoneIcon />
-              {primaryLabel}
+              {resolvedPrimaryLabel}
             </CtaLink>
             {secondaryLabel && (
               <CtaLink href={secondaryHref} className="btn btn--ghost-light btn--lg">

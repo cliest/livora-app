@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import SectionHead from '../components/ui/SectionHead.jsx';
@@ -7,6 +8,8 @@ import Accordion from '../components/ui/Accordion.jsx';
 import StarRating from '../components/ui/StarRating.jsx';
 import PhoneIcon from '../components/layout/PhoneIcon.jsx';
 import { IconClock, IconShield, IconXray, IconBolt, IconPriceTag } from '../components/ui/icons.jsx';
+import { useSiteSettings } from '../hooks/useSiteSettings.js';
+import { api } from '../lib/api.js';
 
 const PROOF = [
   ['24/7', 'Always open'],
@@ -90,39 +93,6 @@ const TECH_CARDS = [
   },
 ];
 
-// PLACEHOLDER — written to show the layout, not real patient reviews.
-// Replace with genuine quotes (with permission) or wire up live Google reviews.
-const TESTIMONIALS = [
-  {
-    quote:
-      'I woke up at 2am with a molar that felt like it was on fire. I called expecting an answering machine and a human picked up. I was in the chair by 3:15 and home again before sunrise.',
-    name: 'Mwape C.',
-    role: 'Emergency root canal',
-  },
-  {
-    quote:
-      'I had avoided dentists for eleven years out of pure fear. They let me sit in the chair for ten minutes without touching anything, just talking. That mattered more than I can explain.',
-    name: 'Grace N.',
-    role: 'Check-up & deep clean',
-  },
-  {
-    quote:
-      'They quoted me for the crown before starting and the final bill was exactly that number. After my last experience elsewhere, being told the price up front was the whole reason I came back.',
-    name: 'Joseph M.',
-    role: 'Crown & filling',
-  },
-];
-
-// PLACEHOLDER prices — indicative only, confirm against the real fee schedule.
-const PRICES = [
-  ['Consultation & full examination', 'from K350'],
-  ['Scaling & polishing', 'from K650'],
-  ['Composite filling', 'from K750'],
-  ['Root canal treatment', 'from K2,200'],
-  ['Porcelain crown', 'from K3,500'],
-  ['Teeth whitening', 'from K2,500'],
-];
-
 const FAQS = [
   {
     q: 'Are you really open 24 hours?',
@@ -147,6 +117,17 @@ const FAQS = [
 ];
 
 export default function Home() {
+  const settings = useSiteSettings();
+  const { data: testimonials = [] } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => (await api.getTestimonials()).items,
+  });
+  const { data: priceCategories = [] } = useQuery({
+    queryKey: ['prices'],
+    queryFn: async () => (await api.getPrices()).categories,
+  });
+  const popularPrices = priceCategories.flatMap((c) => c.items.filter((i) => i.isPopular));
+
   return (
     <>
       <Seo
@@ -189,7 +170,7 @@ export default function Home() {
               <Link to="/book" className="btn btn--primary btn--lg">
                 Book an Appointment
               </Link>
-              <a href="tel:+260760737805" className="btn btn--ghost-light btn--lg">
+              <a href={settings.telHref} className="btn btn--ghost-light btn--lg">
                 <PhoneIcon />
                 Call Now
               </a>
@@ -290,9 +271,9 @@ export default function Home() {
             </div>
             <div className="flex-1 min-w-[260px]">
               <div className="flex flex-wrap gap-s2">
-                <a href="tel:+260760737805" className="btn btn--white btn--lg">
+                <a href={settings.telHref} className="btn btn--white btn--lg">
                   <PhoneIcon />
-                  Call +260 76 073 7805
+                  Call {settings.phoneDisplay}
                 </a>
                 <Link to="/emergency" className="btn btn--ghost-light btn--lg">
                   What counts as an emergency?
@@ -371,9 +352,9 @@ export default function Home() {
           title="What people say after<br>their first visit"
         />
         <div className="grid md:grid-cols-3 gap-s3">
-          {TESTIMONIALS.map((t) => (
+          {testimonials.map((t) => (
             <article
-              key={t.name}
+              key={t.id}
               className="relative flex flex-col bg-white border border-line rounded-[18px] p-s4"
             >
               <span className="absolute top-3 right-[26px] text-[5rem] leading-none font-extrabold text-cyan/[.12] select-none">
@@ -431,12 +412,12 @@ export default function Home() {
                 <IconPriceTag className="w-[22px] h-[22px] text-cyan flex-none" />
                 Popular treatments
               </h3>
-              {PRICES.map(([name, price]) => (
-                <div key={name} className="flex items-baseline gap-3 py-[13px] border-b border-dashed border-line last:border-0">
-                  <span className="text-[0.97rem] font-semibold text-ink">{name}</span>
+              {popularPrices.map((item) => (
+                <div key={item.id} className="flex items-baseline gap-3 py-[13px] border-b border-dashed border-line last:border-0">
+                  <span className="text-[0.97rem] font-semibold text-ink">{item.name}</span>
                   <span className="flex-1 border-b border-dotted border-[#C9D8DD] -translate-y-1" />
                   <span className="text-[0.97rem] font-extrabold text-cyan-700 whitespace-nowrap flex-none">
-                    {price}
+                    {item.price}
                   </span>
                 </div>
               ))}
@@ -457,8 +438,8 @@ export default function Home() {
             <h2>Before you book</h2>
             <p className="lead mt-s3 text-muted">
               Anything else on your mind? Call us on{' '}
-              <a href="tel:+260760737805" className="underline">
-                +260 76 073 7805
+              <a href={settings.telHref} className="underline">
+                {settings.phoneDisplay}
               </a>{' '}
               — someone is always there.
             </p>
@@ -493,7 +474,7 @@ export default function Home() {
                 Book Appointment
               </Link>
               <a
-                href="https://wa.me/260760737805"
+                href={settings.waHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn--ghost-light btn--lg"

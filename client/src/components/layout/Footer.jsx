@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import PhoneIcon from './PhoneIcon.jsx';
+import { useSiteSettings } from '../../hooks/useSiteSettings.js';
 
 const TREATMENTS = [
   { label: 'Check-ups & Cleaning', to: '/services#general' },
@@ -21,16 +22,24 @@ const CLINIC_LINKS = [
   { label: 'Contact Us', to: '/contact' },
 ];
 
-// Social links are placeholders until real profile URLs are supplied — kept
-// inert (no href) rather than a dead "#" link, same approach as the static build.
-const SOCIALS = [
-  { label: 'WhatsApp', href: 'https://wa.me/260760737805', icon: 'M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-3.2-1.5 11.6 11.6 0 0 1-3.4-4.2c-.3-.6-.6-1.4-.6-2.1 0-.8.4-1.4.7-1.7.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.8 2c.1.2 0 .4 0 .5l-.4.5c-.1.2-.3.3-.1.6a8.7 8.7 0 0 0 3.8 3.3c.3.1.5.1.6-.1l.8-1c.2-.2.4-.1.6 0l2 .9c.2.1.4.2.4.3.1.2.1.6-.1 1.2Z' },
-  { label: 'Facebook', href: null, icon: 'M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z' },
-  { label: 'Instagram', href: null, icon: null },
-  { label: 'TikTok', href: null, icon: 'M16.5 2h-3v13.2a2.8 2.8 0 1 1-2.3-2.8V9.3a6 6 0 1 0 5.3 6V8.6a7 7 0 0 0 4 1.3V6.6a4 4 0 0 1-4-4Z' },
-];
+// Social links come from admin-managed site settings. Where a URL hasn't
+// been set, the icon stays inert (no href) rather than a dead "#" link.
+const SOCIAL_ICONS = {
+  whatsapp: 'M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-3.2-1.5 11.6 11.6 0 0 1-3.4-4.2c-.3-.6-.6-1.4-.6-2.1 0-.8.4-1.4.7-1.7.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.8 2c.1.2 0 .4 0 .5l-.4.5c-.1.2-.3.3-.1.6a8.7 8.7 0 0 0 3.8 3.3c.3.1.5.1.6-.1l.8-1c.2-.2.4-.1.6 0l2 .9c.2.1.4.2.4.3.1.2.1.6-.1 1.2Z',
+  facebook: 'M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z',
+  instagram: null,
+  tiktok: 'M16.5 2h-3v13.2a2.8 2.8 0 1 1-2.3-2.8V9.3a6 6 0 1 0 5.3 6V8.6a7 7 0 0 0 4 1.3V6.6a4 4 0 0 1-4-4Z',
+};
 
 export default function Footer() {
+  const settings = useSiteSettings();
+  const socials = [
+    { label: 'WhatsApp', href: settings.waHref, icon: SOCIAL_ICONS.whatsapp },
+    { label: 'Facebook', href: settings.facebookUrl, icon: SOCIAL_ICONS.facebook },
+    { label: 'Instagram', href: settings.instagramUrl, icon: SOCIAL_ICONS.instagram },
+    { label: 'TikTok', href: settings.tiktokUrl, icon: SOCIAL_ICONS.tiktok },
+  ];
+
   return (
     <footer className="bg-ink text-[#9FBFC9] pt-s7 pb-s4">
       <div className="container">
@@ -49,7 +58,7 @@ export default function Footer() {
               orthodontic and emergency dentistry under one roof.
             </p>
             <div className="flex gap-[10px] mt-s3">
-              {SOCIALS.map((s) =>
+              {socials.map((s) =>
                 s.href ? (
                   <a
                     key={s.label}
@@ -109,8 +118,8 @@ export default function Footer() {
             <h4 className="text-[13px] font-bold uppercase tracking-[1.8px] text-white mb-s3">Get in touch</h4>
             <div className="flex gap-3 mb-[15px]">
               <PhoneIcon className="w-[17px] h-[17px] text-cyan mt-1 flex-none" />
-              <a href="tel:+260760737805" className="text-[15px] text-[#9FBFC9] hover:text-cyan">
-                +260 76 073 7805
+              <a href={settings.telHref} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
+                {settings.phoneDisplay}
               </a>
             </div>
             <div className="flex gap-3 mb-[15px]">
@@ -118,8 +127,8 @@ export default function Footer() {
                 <rect x="2" y="4" width="20" height="16" rx="2" />
                 <path d="m2 7 10 6 10-6" />
               </svg>
-              <a href="mailto:info@livoradentalclinic.com" className="text-[15px] text-[#9FBFC9] hover:text-cyan">
-                info@livoradentalclinic.com
+              <a href={`mailto:${settings.email}`} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
+                {settings.email}
               </a>
             </div>
             <div className="flex gap-3 mb-[15px]">
@@ -127,11 +136,10 @@ export default function Footer() {
                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              {/* PLACEHOLDER: confirmed street address goes here */}
               <span className="text-[15px]">
-                Plot 00, Street Name
+                {settings.addressLine1}
                 <br />
-                Lusaka, Zambia
+                {settings.addressLine2}
               </span>
             </div>
             <div className="flex gap-3">

@@ -129,3 +129,84 @@ model AdminUser {
 
   @@map("admin_users")
 }
+
+// Singleton row (fixed id) holding the site-wide contact details every
+// public page currently hardcodes — edited from the admin dashboard.
+model SiteSettings {
+  id           String   @id @default("settings")
+  phoneDisplay String   @default("+260 76 073 7805")
+  phoneDial    String   @default("+260760737805") // digits used in tel:/wa.me links
+  email        String   @default("info@livoradentalclinic.com")
+  addressLine1 String   @default("Plot 00, Street Name")
+  addressLine2 String   @default("Lusaka, Zambia")
+  facebookUrl  String?
+  instagramUrl String?
+  tiktokUrl    String?
+  updatedAt    DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  bio         String
+  credentials String
+  photoUrl    String?
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, sortOrder])
+  @@map("team_members")
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  quote     String
+  name      String
+  role      String
+  sortOrder Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published, sortOrder])
+  @@map("testimonials")
+}
+
+enum PriceCategoryIcon {
+  SHIELD
+  TOOTH
+  SPARKLE
+  BRACES
+  CROWN
+  BOLT
+}
+
+model PriceCategory {
+  id        String            @id @default(cuid())
+  title     String
+  icon      PriceCategoryIcon
+  note      String?
+  sortOrder Int               @default(0)
+  items     PriceItem[]
+
+  @@map("price_categories")
+}
+
+model PriceItem {
+  id          String        @id @default(cuid())
+  categoryId  String
+  category    PriceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name        String
+  price       String
+  isPopular   Boolean       @default(false)
+  isEmergency Boolean       @default(false)
+  sortOrder   Int           @default(0)
+
+  @@index([categoryId])
+  @@map("price_items")
+}

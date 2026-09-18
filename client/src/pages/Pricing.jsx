@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import SectionHead from '../components/ui/SectionHead.jsx';
@@ -5,82 +6,8 @@ import PageHero from '../components/ui/PageHero.jsx';
 import PriceBlock from '../components/ui/PriceBlock.jsx';
 import Accordion from '../components/ui/Accordion.jsx';
 import CtaBand from '../components/ui/CtaBand.jsx';
-import { IconShield, IconTooth, IconSparkle, IconBraces, IconCrown, IconBolt } from '../components/ui/icons.jsx';
-
-const BLOCKS = [
-  {
-    icon: IconShield,
-    title: 'General & preventive',
-    rows: [
-      ['Consultation &amp; full examination', 'from K350'],
-      ['Digital X-ray (per image)', 'from K180'],
-      ['Scaling &amp; polishing', 'from K650'],
-      ['Deep cleaning (per quadrant)', 'from K850'],
-      ['Fluoride application', 'from K250'],
-      ['Fissure sealant (per tooth)', 'from K300'],
-    ],
-  },
-  {
-    icon: IconTooth,
-    title: 'Restorative',
-    rows: [
-      ['Composite filling (small)', 'from K750'],
-      ['Composite filling (large)', 'from K1,100'],
-      ['Root canal — front tooth', 'from K2,200'],
-      ['Root canal — molar', 'from K3,400'],
-      ['Porcelain crown', 'from K3,500'],
-      ['Bridge (per unit)', 'from K3,200'],
-      ['Simple extraction', 'from K500'],
-      ['Surgical / wisdom tooth extraction', 'from K1,400'],
-    ],
-  },
-  {
-    icon: IconSparkle,
-    title: 'Cosmetic',
-    rows: [
-      ['In-clinic teeth whitening', 'from K2,500'],
-      ['Take-home whitening kit', 'from K1,600'],
-      ['Porcelain veneer (per tooth)', 'from K3,200'],
-      ['Composite bonding (per tooth)', 'from K900'],
-      ['Smile makeover consultation', 'from K500'],
-    ],
-  },
-  {
-    icon: IconBraces,
-    title: 'Orthodontics',
-    rows: [
-      ['Orthodontic consultation &amp; assessment', 'from K600'],
-      ['Metal braces (full treatment)', 'from K18,000'],
-      ['Ceramic braces (full treatment)', 'from K24,000'],
-      ['Clear aligners (full treatment)', 'from K25,000'],
-      ['Retainers (per arch)', 'from K1,800'],
-    ],
-    note: 'Orthodontic treatment is always quoted as a complete package after assessment, and can be paid monthly across the treatment period.',
-  },
-  {
-    icon: IconCrown,
-    title: 'Implants & dentures',
-    rows: [
-      ['Implant consultation &amp; planning', 'from K700'],
-      ['Single implant with crown', 'from K14,500'],
-      ['Bone graft', 'from K4,500'],
-      ['Partial denture', 'from K3,800'],
-      ['Full denture (per arch)', 'from K6,500'],
-    ],
-  },
-  {
-    icon: IconBolt,
-    title: 'Children & emergency',
-    rows: [
-      ['Child check-up (under 12)', 'from K250'],
-      ['Child filling', 'from K550'],
-      ['Child extraction', 'from K400'],
-      ['Emergency exam (daytime)', 'from K400'],
-      ['Emergency exam (after hours)', 'from K600'],
-      ['Pain relief &amp; temporary dressing', 'from K450'],
-    ],
-  },
-];
+import { api } from '../lib/api.js';
+import { PRICE_ICON_MAP } from '../lib/priceIcons.js';
 
 const FAQS = [
   { q: 'Why are all the prices “from”?', a: 'Because teeth are not identical. A small filling on a front tooth and a deep one on a back molar take different amounts of time and material. The starting price tells you the realistic floor; your written quote after examination tells you the actual number, and that number does not move.' },
@@ -98,6 +25,11 @@ const PAYMENTS = [
 ];
 
 export default function Pricing() {
+  const { data: categories = [] } = useQuery({
+    queryKey: ['prices'],
+    queryFn: async () => (await api.getPrices()).categories,
+  });
+
   return (
     <>
       <Seo
@@ -111,8 +43,14 @@ export default function Pricing() {
       <Section>
         <SectionHead eyebrow="Treatment prices" title="What treatment costs<br>at Livora" />
         <div className="grid md:grid-cols-2 gap-s3">
-          {BLOCKS.map((b) => (
-            <PriceBlock key={b.title} {...b} />
+          {categories.map((c) => (
+            <PriceBlock
+              key={c.id}
+              icon={PRICE_ICON_MAP[c.icon]}
+              title={c.title}
+              note={c.note}
+              rows={c.items.map((item) => [item.name, item.price])}
+            />
           ))}
         </div>
         <p className="text-center text-[0.85rem] text-muted mt-s5 max-w-[780px] mx-auto">

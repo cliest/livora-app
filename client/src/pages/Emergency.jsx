@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import SectionHead from '../components/ui/SectionHead.jsx';
@@ -10,6 +11,8 @@ import Accordion from '../components/ui/Accordion.jsx';
 import CtaBand from '../components/ui/CtaBand.jsx';
 import PhoneIcon from '../components/layout/PhoneIcon.jsx';
 import { IconBolt } from '../components/ui/icons.jsx';
+import { useSiteSettings } from '../hooks/useSiteSettings.js';
+import { api } from '../lib/api.js';
 
 const SYMPTOMS = [
   ['/img/toothache-jaw-pain.jpg', 'Severe toothache', 'Pain that keeps you awake, throbs constantly, or does not respond to normal painkillers. This almost always means infection.'],
@@ -45,6 +48,13 @@ const FAQS = [
 ];
 
 export default function Emergency() {
+  const settings = useSiteSettings();
+  const { data: priceCategories = [] } = useQuery({
+    queryKey: ['prices'],
+    queryFn: async () => (await api.getPrices()).categories,
+  });
+  const emergencyItems = priceCategories.flatMap((c) => c.items.filter((i) => i.isEmergency));
+
   return (
     <>
       <Seo
@@ -55,11 +65,11 @@ export default function Emergency() {
 
       <PageHero image="/img/dental-checkup-patient.jpg" crumb="24/7 Emergency" title="Emergency dentist,<br>open right now" lead="If you are searching for an emergency dentist near you in Lusaka at two in the morning, stop reading and call. There is a dentist on duty at Livora every hour of every day.">
         <div className="flex flex-wrap gap-s2 mt-s4">
-          <a href="tel:+260760737805" className="btn btn--coral btn--lg">
+          <a href={settings.telHref} className="btn btn--coral btn--lg">
             <PhoneIcon />
-            Call +260 76 073 7805
+            Call {settings.phoneDisplay}
           </a>
-          <a href="https://wa.me/260760737805" target="_blank" rel="noopener noreferrer" className="btn btn--ghost-light btn--lg">
+          <a href={settings.waHref} target="_blank" rel="noopener noreferrer" className="btn btn--ghost-light btn--lg">
             WhatsApp us
           </a>
         </div>
@@ -74,8 +84,8 @@ export default function Emergency() {
               <p className="text-white/[.93] m-0">Untreated dental infection spreads. What is a filling tonight can be an extraction by the weekend.</p>
             </div>
             <div className="flex-none w-full sm:w-auto">
-              <a href="tel:+260760737805" className="btn btn--white btn--lg btn--block">
-                Call +260 76 073 7805 now
+              <a href={settings.telHref} className="btn btn--white btn--lg btn--block">
+                Call {settings.phoneDisplay} now
               </a>
             </div>
           </div>
@@ -113,9 +123,9 @@ export default function Emergency() {
                 None of the above treats the cause. Dental pain that lasts more than a day is a problem that will
                 not resolve on its own, and it is far cheaper and simpler to treat early.
               </p>
-              <a href="tel:+260760737805" className="btn btn--coral mt-s3">
+              <a href={settings.telHref} className="btn btn--coral mt-s3">
                 <PhoneIcon />
-                Call +260 76 073 7805
+                Call {settings.phoneDisplay}
               </a>
             </div>
           </div>
@@ -155,15 +165,7 @@ export default function Emergency() {
             <PriceBlock
               icon={IconBolt}
               title="Emergency treatment"
-              rows={[
-                ['Emergency examination (daytime)', 'from K400'],
-                ['Emergency examination (after hours)', 'from K600'],
-                ['Pain relief &amp; temporary dressing', 'from K450'],
-                ['Abscess drainage', 'from K800'],
-                ['Emergency extraction', 'from K700'],
-                ['Root canal (first stage, pain relief)', 'from K1,200'],
-                ['Re-cementing a lost crown', 'from K500'],
-              ]}
+              rows={emergencyItems.map((item) => [item.name, item.price])}
               note="Prices in Zambian Kwacha and indicative only. Your exact quote is confirmed after examination, before any treatment starts."
             />
           </div>

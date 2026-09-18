@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useSiteSettings } from '../../hooks/useSiteSettings.js';
 
 export default function CtaBand() {
+  const settings = useSiteSettings();
+
   return (
     <section className="bg-ink py-s8 max-[1024px]:py-s6">
       <div className="container">
@@ -22,8 +25,8 @@ export default function CtaBand() {
               <Link to="/book" className="btn btn--primary btn--lg">
                 Book Appointment
               </Link>
-              <a href="tel:+260760737805" className="btn btn--ghost-light btn--lg">
-                Call +260 76 073 7805
+              <a href={settings.telHref} className="btn btn--ghost-light btn--lg">
+                Call {settings.phoneDisplay}
               </a>
             </div>
           </div>
