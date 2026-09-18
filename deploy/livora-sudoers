@@ -1,0 +1,10 @@
+# Lets the `livora` deploy user restart just the API service and reload
+# Nginx without a password — needed so deploy/redeploy.sh can run
+# non-interactively over SSH (from GitHub Actions or a manual run). Scoped
+# to exactly these commands, not blanket sudo access.
+#
+# Install: sudo cp deploy/livora-sudoers /etc/sudoers.d/livora-deploy
+#          sudo chmod 440 /etc/sudoers.d/livora-deploy
+#          sudo visudo -c   # validates syntax before it takes effect
+
+livora ALL=(root) NOPASSWD: /usr/bin/systemctl restart livora-api, /usr/bin/systemctl reload nginx, /usr/bin/systemctl status livora-api

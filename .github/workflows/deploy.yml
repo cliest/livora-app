@@ -1,0 +1,31 @@
+name: Deploy to VPS
+
+# Pushing to master ships to production automatically by SSHing into the
+# VPS and running the same deploy/redeploy.sh used for a manual deploy —
+# no duplicated deploy logic between the two paths.
+#
+# One-time setup this needs (see deploy/SETUP.md step 12):
+#   - A deploy keypair generated on the VPS, public half in the `livora`
+#     user's ~/.ssh/authorized_keys.
+#   - Repo secrets VPS_HOST and VPS_SSH_KEY (the private half of that key).
+#   - deploy/livora-sudoers installed on the VPS, so redeploy.sh's
+#     `sudo systemctl restart/reload` can run non-interactively.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch: {} # allows a manual "Run workflow" trigger too
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and redeploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: livora
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+            cd /var/www/livora-app
+            ./deploy/redeploy.sh
