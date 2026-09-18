@@ -9,10 +9,30 @@ import Book from './pages/Book.jsx';
 import Contact from './pages/Contact.jsx';
 import ThankYou from './pages/ThankYou.jsx';
 import NotFound from './pages/NotFound.jsx';
+import RequireAdmin from './components/admin/RequireAdmin.jsx';
+import AdminLogin from './pages/admin/Login.jsx';
+import AdminOverview from './pages/admin/Overview.jsx';
+import AdminBookings from './pages/admin/Bookings.jsx';
+import AdminMessages from './pages/admin/Messages.jsx';
+import AdminSettings from './pages/admin/Settings.jsx';
+import AdminTeam from './pages/admin/Team.jsx';
+import AdminTestimonials from './pages/admin/Testimonials.jsx';
+import AdminPrices from './pages/admin/Prices.jsx';
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route element={<RequireAdmin />}>
+        <Route path="/admin" element={<AdminOverview />} />
+        <Route path="/admin/bookings" element={<AdminBookings />} />
+        <Route path="/admin/messages" element={<AdminMessages />} />
+        <Route path="/admin/settings" element={<AdminSettings />} />
+        <Route path="/admin/team" element={<AdminTeam />} />
+        <Route path="/admin/testimonials" element={<AdminTestimonials />} />
+        <Route path="/admin/prices" element={<AdminPrices />} />
+      </Route>
+
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />

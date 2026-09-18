@@ -50,3 +50,61 @@ export const SUBJECT_OPTIONS = [
   ['feedback', 'Feedback or a complaint'],
   ['other', 'Something else'],
 ];
+
+// ---- Admin dashboard forms -------------------------------------------
+
+export const adminLoginSchema = z.object({
+  email: z.string().trim().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Please enter your password'),
+});
+
+const urlOrEmpty = z.string().trim().url('Please enter a valid URL').optional().or(z.literal(''));
+
+export const siteSettingsSchema = z.object({
+  phoneDisplay: z.string().trim().min(1, 'Please enter a phone number to display'),
+  phoneDial: z.string().trim().regex(phoneRegex, 'Please enter a valid phone number'),
+  email: z.string().trim().email('Please enter a valid email address'),
+  addressLine1: z.string().trim().min(1, 'Please enter the first address line'),
+  addressLine2: z.string().trim().min(1, 'Please enter the second address line'),
+  facebookUrl: urlOrEmpty,
+  instagramUrl: urlOrEmpty,
+  tiktokUrl: urlOrEmpty,
+});
+
+export const teamMemberSchema = z.object({
+  name: z.string().trim().min(1, 'Please enter a name'),
+  role: z.string().trim().min(1, 'Please enter a role'),
+  bio: z.string().trim().min(1, 'Please enter a short bio'),
+  credentials: z.string().trim().min(1, 'Please enter credentials'),
+  photoUrl: z.string().trim().optional().or(z.literal('')),
+  published: z.boolean().optional(),
+});
+
+export const testimonialSchema = z.object({
+  quote: z.string().trim().min(1, 'Please enter the quote'),
+  name: z.string().trim().min(1, 'Please enter a name'),
+  role: z.string().trim().min(1, 'Please enter a role, e.g. "Emergency root canal"'),
+  published: z.boolean().optional(),
+});
+
+export const PRICE_ICON_OPTIONS = [
+  ['SHIELD', 'Shield (general & preventive)'],
+  ['TOOTH', 'Tooth (restorative)'],
+  ['SPARKLE', 'Sparkle (cosmetic)'],
+  ['BRACES', 'Braces (orthodontics)'],
+  ['CROWN', 'Crown (implants & dentures)'],
+  ['BOLT', 'Bolt (children & emergency)'],
+];
+
+export const priceCategorySchema = z.object({
+  title: z.string().trim().min(1, 'Please enter a title'),
+  icon: z.enum(['SHIELD', 'TOOTH', 'SPARKLE', 'BRACES', 'CROWN', 'BOLT']),
+  note: z.string().trim().optional().or(z.literal('')),
+});
+
+export const priceItemSchema = z.object({
+  name: z.string().trim().min(1, 'Please enter a treatment name'),
+  price: z.string().trim().min(1, 'Please enter a price, e.g. "from K350"'),
+  isPopular: z.boolean().optional(),
+  isEmergency: z.boolean().optional(),
+});
