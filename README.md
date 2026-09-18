@@ -76,27 +76,64 @@ only ever talks to `localhost:5173`.
   - **Site settings**: phone, email, address and socials — one editable
     record the whole public site reads from (header, footer, contact page,
     every call-to-action), instead of being hardcoded per page.
-  - **Team**, **Testimonials**, **Prices**: full CRUD, including photo
-    upload for team members (stored under `server/uploads`, served at
+  - **Team**, **Testimonials**, **Prices**, **Accreditations**: full CRUD,
+    including photo/badge upload (stored under `server/uploads`, served at
     `/uploads/*`). The About page, homepage testimonials and the Pricing
     page all read live from these instead of hardcoded arrays. Price items
     carry `isPopular` / `isEmergency` flags that also drive the homepage's
     "Popular treatments" teaser and the Emergency page's price block, so
     there's one price list, not three.
+- **Privacy policy** (`/privacy`) — linked from the footer and both forms'
+  consent checkboxes. Accurately describes what the site actually collects
+  and does today; flagged in the page itself as needing a legal review
+  before publishing, since it hasn't had one.
+
+## Deploying
+
+`npm run build` (in `client/`) alone is not what should go to production —
+use `npm run build:static` instead. It runs `vite build`, then
+`scripts/prerender.mjs`, which drives a headless browser over every public
+route and bakes the real rendered HTML (correct `<title>`, `og:*` tags, and
+actual page content) into `dist/<route>/index.html`. Without this step, the
+initial HTML any non-JS-executing client receives — WhatsApp, Facebook,
+Twitter/X and Telegram link-preview bots chief among them, since WhatsApp is
+this clinic's primary channel — is the near-empty SPA shell, not the page.
+
+Real visitors are unaffected either way: React still mounts and re-fetches
+live data over the prerendered HTML, so admin edits always show up
+immediately for anyone actually browsing the site (see `useSiteSettings`'s
+`placeholderData` — not `initialData` — for why that matters). Only the
+very first paint, before JS runs, reflects whatever was true at the last
+`build:static`, so **a redeploy is needed to refresh what crawlers and link
+previews see**, even though the live site itself never goes stale.
+
+One-time setup on the server: `npx playwright install chromium` (downloads
+Playwright's bundled browser), or set `PRERENDER_CHROMIUM_PATH` to an
+existing Chrome/Chromium binary already on the machine to skip that.
+
+Nginx needs to serve the prerendered files, not just fall back to the root
+shell for every path — the standard SPA `try_files` pattern already does
+this correctly, since each route's prerendered output is a real
+`<route>/index.html`, which `$uri/` resolves to automatically:
+
+```nginx
+location / {
+  root /path/to/client/dist;
+  try_files $uri $uri/ /index.html;
+}
+```
 
 ## Still to do
 
 - SMTP credentials in `server/.env` (booking/contact notifications currently
   log to console instead of sending — nothing is lost, they still save to
   Postgres, but the clinic isn't emailed until this is set).
-- Production hosting decision for both the Express API and the Postgres
-  database (currently both are local-machine only) — this also affects
-  where `server/uploads` lives, since it's local disk storage today.
-- Prerendering / SSR pass for full SEO parity with the previous server-
-  rendered build — meta tags are wired per-route via `Seo.jsx` (React 19's
-  native `<title>`/`<meta>` hoisting, no react-helmet dependency), but the
-  HTML Google's crawler sees on first paint is still delivered by a
-  client-rendered SPA today.
+- Production deployment itself — domain (`livoradentalclinic.com`) and VPS
+  (Hostinger) are decided, but nothing is provisioned yet: Postgres on the
+  VPS or a managed service, Nginx + a process manager (systemd/PM2) for the
+  Express API, `NODE_ENV=production` (flips the admin auth cookie to
+  `Secure`), `CLIENT_ORIGIN` and `VITE_API_URL` set to the real domain, and
+  a Postgres backup strategy.
 
 ## Design system
 
