@@ -83,7 +83,7 @@ const BLOCKS = [
 ];
 
 const FAQS = [
-  { q: 'Why are all the prices &ldquo;from&rdquo;?', a: 'Because teeth are not identical. A small filling on a front tooth and a deep one on a back molar take different amounts of time and material. The starting price tells you the realistic floor; your written quote after examination tells you the actual number, and that number does not move.' },
+  { q: 'Why are all the prices “from”?', a: 'Because teeth are not identical. A small filling on a front tooth and a deep one on a back molar take different amounts of time and material. The starting price tells you the realistic floor; your written quote after examination tells you the actual number, and that number does not move.' },
   { q: 'Will you tell me the price before you start?', a: 'Always. Nobody at Livora begins a treatment you have not been quoted for and agreed to. If we discover something mid-treatment that changes the plan, we stop, explain it, and let you decide before continuing.' },
   { q: 'Can I pay in instalments?', a: 'For larger treatments — orthodontics, implants, full-mouth restorative work — yes. We will agree a schedule with you before treatment begins. Ask at reception or mention it when you book.' },
   { q: 'Do you charge more at night?', a: 'Only the emergency examination fee is higher outside normal hours, to cover on-call staffing. The treatment itself costs the same at 3am as it does at 3pm.' },

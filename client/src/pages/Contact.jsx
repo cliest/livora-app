@@ -136,7 +136,7 @@ export default function Contact() {
             </div>
 
             <div className="bg-white border border-line rounded-[18px] p-s4 mt-s4">
-              <span className="inline-flex items-center justify-center w-[58px] h-[58px] rounded-2xl bg-coral/[.16] text-coral-600 mb-s3">
+              <span className="inline-flex items-center justify-center w-[58px] h-[58px] rounded-2xl bg-sand-deep text-cyan-700 mb-s3">
                 <IconMapPin className="w-[27px] h-[27px]" />
               </span>
               <h3>Find us</h3>
