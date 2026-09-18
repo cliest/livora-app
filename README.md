@@ -92,11 +92,13 @@ only ever talks to `localhost:5173`.
 
 Full first-time server setup (Postgres, Nginx, systemd, SSL, cron backups)
 is in **[`deploy/SETUP.md`](deploy/SETUP.md)** — written for the actual
-target (Hostinger VPS, `livoradentalclinic.com`). For shipping an update
-after that initial setup, either push to `master` (auto-deploys via
-`.github/workflows/deploy.yml`, once the one-time SSH key setup in
-`SETUP.md` step 12 is done) or run `deploy/redeploy.sh` by hand — both do
-the same thing.
+target (Hostinger VPS, `livoradentalclinic.com`), and this has been run for
+real — the site is live. For shipping an update, run `deploy/redeploy.sh`
+by hand over SSH. There's also a GitHub Actions workflow
+(`.github/workflows/deploy.yml`) that runs the same script automatically,
+but it's manual-trigger-only for now — auto-deploy-on-push got stuck
+indefinitely "Queued" on this repo for an unidentified reason, not worth
+chasing further since manual `redeploy.sh` does the same job.
 
 The one thing worth knowing even before opening that doc: always build with
 `npm run build:static` (in `client/`), never plain `npm run build`. The

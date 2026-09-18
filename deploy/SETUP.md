@@ -170,12 +170,20 @@ crontab -e
   show exactly one `<title>` tag with real content (confirms the
   prerendered build is being served, not just the SPA shell).
 
-## 12. Automated deploys via GitHub Actions (optional but recommended)
+## 12. Automated deploys via GitHub Actions (attempted, not currently working)
 
-Once this is set up, pushing to `master` deploys automatically — the
-workflow at `.github/workflows/deploy.yml` SSHes into the VPS and runs
-`deploy/redeploy.sh`, the same script you'd run by hand. No separate deploy
-logic to keep in sync.
+**Status: not in use.** This was tried on this repo — jobs got stuck
+indefinitely "Queued" on GitHub-hosted runners with no obvious cause
+(billing and Actions permissions both checked out fine). Not worth more
+time chasing since manual `redeploy.sh` does the same job. The credentials
+below were removed again after the attempt; this section is left as
+reference if it's worth revisiting later, e.g. by trying self-hosted
+runners instead of `ubuntu-latest`, which sidesteps GitHub's own runner
+queue entirely.
+
+The idea: `.github/workflows/deploy.yml` (currently `workflow_dispatch`-only,
+no `push` trigger) SSHes into the VPS and runs `deploy/redeploy.sh`, the
+same script you'd run by hand. No separate deploy logic to keep in sync.
 
 **On the VPS**, as the `livora` user, generate a dedicated deploy keypair
 (don't reuse your personal SSH key):

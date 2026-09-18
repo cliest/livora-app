@@ -1,8 +1,11 @@
 name: Deploy to VPS
 
-# Pushing to master ships to production automatically by SSHing into the
-# VPS and running the same deploy/redeploy.sh used for a manual deploy —
-# no duplicated deploy logic between the two paths.
+# Manual-only for now: tried auto-deploy-on-push, but runs got stuck
+# indefinitely "Queued" on GitHub-hosted runners for this repo (billing and
+# Actions-permissions both checked out fine, cause not identified) — not
+# worth more time chasing since deploy/redeploy.sh run by hand over SSH does
+# the same thing. Kept here, manual-trigger-only, in case it's worth
+# revisiting later.
 #
 # One-time setup this needs (see deploy/SETUP.md step 12):
 #   - A deploy keypair generated on the VPS, public half in the `livora`
@@ -11,9 +14,7 @@ name: Deploy to VPS
 #   - deploy/livora-sudoers installed on the VPS, so redeploy.sh's
 #     `sudo systemctl restart/reload` can run non-interactively.
 on:
-  push:
-    branches: [master]
-  workflow_dispatch: {} # allows a manual "Run workflow" trigger too
+  workflow_dispatch: {} # manual "Run workflow" trigger only — no push trigger
 
 jobs:
   deploy:
