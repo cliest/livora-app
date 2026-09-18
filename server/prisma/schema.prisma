@@ -1,0 +1,131 @@
+// Livora Dental Clinic — Prisma schema
+// Mirrors the two forms from the original build: the booking request form
+// (book.html) and the general contact form (contact.html).
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PreferredTime {
+  MORNING   // 07:00–12:00
+  AFTERNOON // 12:00–17:00
+  EVENING   // 17:00–22:00
+  OVERNIGHT // 22:00–07:00
+}
+
+enum NhimaStatus {
+  YES
+  NO
+  UNSURE
+}
+
+enum PatientType {
+  NEW
+  RETURNING
+}
+
+enum RequestStatus {
+  PENDING     // just submitted, nobody has actioned it yet
+  CONFIRMED   // clinic called back and locked in a time
+  CANCELLED
+  COMPLETED
+}
+
+enum ServiceType {
+  EMERGENCY
+  CHECKUP
+  FILLING
+  ROOT_CANAL
+  CROWN_BRIDGE
+  EXTRACTION
+  IMPLANT
+  BRACES
+  WHITENING
+  CHILDREN
+  DENTURE
+  OTHER
+}
+
+enum ContactSubject {
+  APPOINTMENT
+  TREATMENT
+  PRICES
+  NHIMA
+  RECORDS
+  FEEDBACK
+  OTHER
+}
+
+model BookingRequest {
+  id             String         @id @default(cuid())
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  fullName       String
+  phone          String
+  email          String?
+
+  patientType    PatientType?
+  service        ServiceType
+  preferredDate  DateTime       @db.Date
+  preferredTime  PreferredTime  @default(MORNING)
+  nhimaMember    NhimaStatus
+
+  message        String?
+
+  consentGiven   Boolean        @default(false)
+
+  status         RequestStatus  @default(PENDING)
+  staffNotes     String?
+
+  // basic anti-spam / audit trail, never shown to the clinic
+  ipAddress      String?
+  userAgent      String?
+
+  @@index([status, preferredDate])
+  @@index([createdAt])
+  @@map("booking_requests")
+}
+
+model ContactMessage {
+  id           String         @id @default(cuid())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  fullName     String
+  email        String
+  phone        String?
+  subject      ContactSubject
+  message      String
+
+  consentGiven Boolean        @default(false)
+
+  status       RequestStatus  @default(PENDING)
+  staffNotes   String?
+
+  ipAddress    String?
+  userAgent    String?
+
+  @@index([status, createdAt])
+  @@map("contact_messages")
+}
+
+// Single row holding the clinic's admin credentials for the bookings
+// dashboard. Kept as its own model rather than hardcoding a login so the
+// password can be rotated without a redeploy.
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  lastLoginAt  DateTime?
+
+  @@map("admin_users")
+}

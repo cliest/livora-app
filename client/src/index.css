@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Base layer — ported 1:1 from the original assets/css/style.css reset.
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    @apply font-sans text-[17px] font-normal leading-[1.7] text-ink bg-white antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply font-sans text-ink;
+    margin: 0 0 16px;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: clamp(2.3rem, 5.2vw, 4.1rem);
+    @apply font-extrabold;
+  }
+  h2 {
+    font-size: clamp(1.9rem, 3.8vw, 3rem);
+    @apply font-extrabold;
+  }
+  h3 {
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    @apply font-bold;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    margin: 0 0 16px;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    @apply text-cyan-700 transition-colors duration-200;
+    text-decoration: none;
+  }
+  a:hover {
+    @apply text-coral-600;
+  }
+
+  :focus-visible {
+    outline: 3px solid theme('colors.cyan.DEFAULT');
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Buttons — exact match to .btn / .btn--lg / .btn--sm in the source CSS */
+  .btn {
+    @apply inline-flex items-center justify-center gap-[10px] font-sans font-bold rounded-full
+           cursor-pointer text-center whitespace-nowrap border-2 border-transparent;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    padding: 18px 32px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease,
+      color 0.18s ease, border-color 0.18s ease;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn svg {
+    @apply w-[18px] h-[18px] flex-none;
+  }
+
+  .btn--primary {
+    @apply bg-cyan text-white shadow-btn-primary;
+  }
+  .btn--primary:hover {
+    @apply bg-cyan-600 text-white shadow-btn-primary-hover;
+  }
+
+  .btn--coral {
+    @apply bg-coral text-white shadow-btn-coral;
+  }
+  .btn--coral:hover {
+    @apply bg-coral-600 text-white shadow-btn-coral-hover;
+  }
+
+  .btn--ink {
+    @apply bg-ink text-white;
+  }
+  .btn--ink:hover {
+    @apply bg-ink-700 text-white;
+  }
+
+  .btn--outline {
+    @apply border-line bg-white text-ink;
+  }
+  .btn--outline:hover {
+    @apply border-cyan text-cyan-700 bg-white;
+  }
+
+  .btn--ghost-light {
+    @apply text-white bg-transparent;
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+  .btn--ghost-light:hover {
+    @apply text-white;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .btn--white {
+    @apply bg-white text-ink;
+  }
+  .btn--white:hover {
+    @apply bg-sand text-ink;
+  }
+
+  .btn--lg {
+    padding: 21px 40px;
+    font-size: 1rem;
+  }
+  .btn--sm {
+    padding: 13px 24px;
+    font-size: 0.86rem;
+  }
+  .btn--block {
+    width: 100%;
+  }
+
+  /* Cards — exact match to .card / .card--media */
+  .card {
+    @apply flex flex-col h-full bg-white border border-line rounded p-s4;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .card:hover {
+    @apply -translate-y-[5px] shadow-card border-transparent;
+  }
+
+  .card-media {
+    @apply relative overflow-hidden bg-sand;
+    aspect-ratio: 16 / 10;
+  }
+  .card-media img {
+    @apply w-full h-full object-cover;
+    transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .card--media:hover .card-media img {
+    transform: scale(1.06);
+  }
+  .card-media::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(180deg, rgba(10, 42, 51, 0) 55%, rgba(10, 42, 51, 0.28) 100%);
+  }
+
+  .card-list {
+    @apply list-none mt-s3 pt-s3 border-t border-line;
+  }
+  .card-list li {
+    @apply relative pl-5 mb-[9px] text-[14.72px] font-semibold text-ink;
+  }
+  .card-list li:last-child {
+    margin-bottom: 0;
+  }
+  .card-list li::before {
+    content: '';
+    @apply absolute left-0 top-[9px] w-[7px] h-[7px] rounded-full bg-cyan;
+  }
+
+  /* Checklist (feature rows) — exact match to .checklist */
+  .checklist {
+    @apply list-none p-0 mt-s3;
+  }
+  .checklist li {
+    @apply relative pl-[34px] mb-[13px] text-[0.99rem] text-ink;
+  }
+  .checklist li::before {
+    content: '';
+    @apply absolute left-0 top-1 w-[21px] h-[21px] rounded-full bg-cyan bg-center bg-no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: 12px;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-[10px] text-[0.78rem] font-bold uppercase text-cyan-700 mb-s2;
+    letter-spacing: 0.16em;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply w-7 h-0.5 bg-coral flex-none;
+  }
+  .eyebrow--light {
+    @apply text-cyan;
+  }
+
+  /* Pulsing "open now" dot, and hero Ken Burns drift */
+  .pulse-dot {
+    @apply w-2 h-2 rounded-full bg-[#4ADE80] flex-none animate-pulse;
+  }
+}
