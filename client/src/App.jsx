@@ -20,6 +20,7 @@ import AdminTeam from './pages/admin/Team.jsx';
 import AdminTestimonials from './pages/admin/Testimonials.jsx';
 import AdminPrices from './pages/admin/Prices.jsx';
 import AdminAccreditations from './pages/admin/Accreditations.jsx';
+import AdminUsers from './pages/admin/Users.jsx';
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/admin/testimonials" element={<AdminTestimonials />} />
         <Route path="/admin/prices" element={<AdminPrices />} />
         <Route path="/admin/accreditations" element={<AdminAccreditations />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
       </Route>
 
       <Route element={<Layout />}>

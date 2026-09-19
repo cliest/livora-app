@@ -28,7 +28,7 @@ export default function AdminOverview() {
         ))}
       </div>
 
-      <div className="bg-white border border-line rounded-[18px] p-s4">
+      <div className="bg-white border border-line rounded-[18px] p-s4 mb-s4">
         <h2 className="text-[1.1rem] mb-s3">Manage site content</h2>
         <div className="flex flex-wrap gap-s2">
           <Link to="/admin/settings" className="btn btn--outline btn--sm">Site settings</Link>
@@ -36,6 +36,13 @@ export default function AdminOverview() {
           <Link to="/admin/testimonials" className="btn btn--outline btn--sm">Testimonials</Link>
           <Link to="/admin/prices" className="btn btn--outline btn--sm">Prices</Link>
           <Link to="/admin/accreditations" className="btn btn--outline btn--sm">Accreditations</Link>
+        </div>
+      </div>
+
+      <div className="bg-white border border-line rounded-[18px] p-s4">
+        <h2 className="text-[1.1rem] mb-s3">Access</h2>
+        <div className="flex flex-wrap gap-s2">
+          <Link to="/admin/users" className="btn btn--outline btn--sm">Admin users</Link>
         </div>
       </div>
     </div>

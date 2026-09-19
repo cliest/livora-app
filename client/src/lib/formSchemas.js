@@ -114,3 +114,14 @@ export const accreditationSchema = z.object({
   badgeUrl: z.string().trim().optional().or(z.literal('')),
   published: z.boolean().optional(),
 });
+
+export const createAdminUserSchema = z.object({
+  name: z.string().trim().min(1, 'Please enter a name'),
+  email: z.string().trim().email('Please enter a valid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+});
+
+export const updateAdminUserSchema = z.object({
+  name: z.string().trim().min(1, 'Please enter a name'),
+  password: z.string().min(8, 'Password must be at least 8 characters').optional().or(z.literal('')),
+});

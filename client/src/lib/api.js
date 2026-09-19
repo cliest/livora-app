@@ -35,6 +35,11 @@ export const api = {
   adminMe: () => request('/api/admin/me'),
   adminSummary: () => request('/api/admin/summary'),
 
+  adminListUsers: () => request('/api/admin/users'),
+  createAdminUser: (payload) => request('/api/admin/users', { method: 'POST', body: JSON.stringify(payload) }),
+  updateAdminUser: (id, payload) => request(`/api/admin/users/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
+  deleteAdminUser: (id) => request(`/api/admin/users/${id}`, { method: 'DELETE' }),
+
   listBookings: (params = {}) => request(`/api/bookings?${new URLSearchParams(params)}`),
   updateBooking: (id, payload) => request(`/api/bookings/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
 
