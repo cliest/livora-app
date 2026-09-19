@@ -4,7 +4,7 @@ export default function TopBar() {
   const settings = useSiteSettings();
 
   return (
-    <div className="bg-ink text-[13px] py-[10px]">
+    <div className="hidden lg:block bg-ink text-[13px] py-[10px]">
       <div className="container flex items-center justify-between gap-s3 flex-wrap">
         <div className="flex items-center gap-s3 flex-wrap">
           <span className="inline-flex items-center gap-[7px] text-[#A9C6CF]">
