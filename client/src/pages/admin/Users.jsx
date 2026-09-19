@@ -102,7 +102,7 @@ export default function AdminUsers() {
               />
 
               {formError && (
-                <div className="bg-[#FFF6F5] border border-coral-600/30 text-coral-600 text-[0.9rem] font-semibold rounded-xl px-4 py-3">
+                <div className="bg-coral-wash border border-coral-600/30 text-coral-600 text-[0.9rem] font-semibold rounded-xl px-4 py-3">
                   {formError}
                 </div>
               )}

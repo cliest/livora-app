@@ -153,7 +153,7 @@ export default function Home() {
         />
         <div className="container relative z-[2]">
           <div className="max-w-[660px] pt-[148px] pb-[156px] max-[1024px]:pt-[104px] max-[1024px]:pb-[112px] max-[767px]:pt-[76px] max-[767px]:pb-[84px]">
-            <span className="inline-flex items-center gap-[10px] bg-white/10 border border-white/20 pl-[14px] pr-[18px] py-[9px] rounded-full text-[0.8rem] font-bold uppercase tracking-[0.06em] text-white mb-s3">
+            <span className="inline-flex items-center gap-[10px] bg-white/10 border border-white/20 pl-[14px] pr-[18px] py-[9px] rounded-none text-[0.8rem] font-bold uppercase tracking-[0.06em] text-white mb-s3">
               <span className="pulse-dot" />
               Open 24 hours &mdash; walk in any time
             </span>
@@ -162,7 +162,7 @@ export default function Home() {
               <br />
               can call at <span className="text-cyan">3am.</span>
             </h1>
-            <p className="text-[#C6DCE3] text-[1.2rem] max-w-[540px]">
+            <p className="text-haze-200 text-[1.2rem] max-w-[540px]">
               Livora is a professional dental clinic built around one idea: nobody should sit through the night with
               a toothache. Full general, cosmetic and emergency dental care, every day of the year.
             </p>
@@ -179,7 +179,7 @@ export default function Home() {
               {PROOF.map(([n, l]) => (
                 <div key={l}>
                   <strong className="block text-[1.55rem] font-extrabold text-white leading-[1.2]">{n}</strong>
-                  <span className="text-[0.84rem] text-[#9FBFC9]">{l}</span>
+                  <span className="text-[0.84rem] text-haze-600">{l}</span>
                 </div>
               ))}
             </div>
@@ -201,7 +201,7 @@ export default function Home() {
                 <Icon className="w-[26px] h-[26px] text-cyan flex-none" />
                 <div>
                   <strong className="block text-white text-[0.98rem] font-bold leading-[1.3]">{t}</strong>
-                  <span className="text-[0.82rem] text-[#8FB2BD]">{s}</span>
+                  <span className="text-[0.82rem] text-haze-700">{s}</span>
                 </div>
               </div>
             ))}
@@ -256,7 +256,7 @@ export default function Home() {
         >
           <div className="flex flex-wrap items-center gap-s4">
             <div className="flex-1 min-w-[280px]">
-              <span className="eyebrow" style={{ color: '#fff' }}>
+              <span className="eyebrow text-white">
                 Dental emergency
               </span>
               <h2 className="text-white mb-s3">
@@ -363,7 +363,7 @@ export default function Home() {
               <StarRating />
               <blockquote className="mb-s3 text-[1rem] leading-[1.75] text-ink">{t.quote}</blockquote>
               <div className="flex items-center gap-[13px] mt-auto">
-                <span className="flex items-center justify-center w-[46px] h-[46px] rounded-full bg-sand-deep text-cyan-700 font-extrabold text-base flex-none">
+                <span className="flex items-center justify-center w-[46px] h-[46px] rounded-none bg-sand-deep text-cyan-700 font-extrabold text-base flex-none">
                   {t.name
                     .split(' ')
                     .map((w) => w[0])
@@ -415,7 +415,7 @@ export default function Home() {
               {popularPrices.map((item) => (
                 <div key={item.id} className="flex items-baseline gap-3 py-[13px] border-b border-dashed border-line last:border-0">
                   <span className="text-[0.97rem] font-semibold text-ink">{item.name}</span>
-                  <span className="flex-1 border-b border-dotted border-[#C9D8DD] -translate-y-1" />
+                  <span className="flex-1 border-b border-dotted border-line-deep -translate-y-1" />
                   <span className="text-[0.97rem] font-extrabold text-cyan-700 whitespace-nowrap flex-none">
                     {item.price}
                   </span>
@@ -463,7 +463,7 @@ export default function Home() {
               <br />
               at Livora today
             </h2>
-            <p className="lead mt-s3 text-[#A9C6CF]">
+            <p className="lead mt-s3 text-haze-500">
               Tell us when suits you and what you need. We will confirm by phone within the hour — or immediately,
               if it is urgent.
             </p>

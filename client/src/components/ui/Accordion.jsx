@@ -37,7 +37,7 @@ function AccordionItem({ question, answer, isOpen, onToggle }) {
         >
           {question}
           <span
-            className={`relative flex-none w-[34px] h-[34px] rounded-full transition-colors duration-200 ${
+            className={`relative flex-none w-[34px] h-[34px] rounded-none transition-colors duration-200 ${
               isOpen ? 'bg-cyan' : 'bg-sand-deep'
             }`}
           >

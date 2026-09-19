@@ -119,7 +119,7 @@ export default function About() {
           <div className="flex-1 min-w-[320px]">
             <span className="eyebrow eyebrow--light">Technology &amp; facilities</span>
             <h2 className="text-white">Equipment that makes treatment quicker and kinder</h2>
-            <p className="lead text-[#A9C6CF]">
+            <p className="lead text-haze-500">
               We would rather spend money on the machines that shorten your appointment than on the waiting-room
               furniture.
             </p>
@@ -158,7 +158,7 @@ export default function About() {
                 {a.badgeUrl ? (
                   <img src={a.badgeUrl} alt={a.title} className="h-12 w-auto object-contain" />
                 ) : (
-                  <span className="w-12 h-12 rounded-full bg-sand-deep" />
+                  <span className="w-12 h-12 rounded-none bg-sand-deep" />
                 )}
                 <strong className="text-[0.92rem] font-bold text-ink">{a.title}</strong>
               </div>

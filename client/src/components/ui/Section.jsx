@@ -1,7 +1,7 @@
 const BG = {
   white: 'bg-white',
   sand: 'bg-sand',
-  ink: 'bg-ink text-[#D6E5EA]',
+  ink: 'bg-ink text-haze-100',
 };
 
 /**

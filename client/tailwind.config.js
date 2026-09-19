@@ -31,11 +31,35 @@ export default {
           700: '#164A59',
         },
         muted: '#5E7A82',
-        line: '#E3EBEE',
+        line: {
+          DEFAULT: '#E3EBEE',
+          deep: '#C9D8DD',
+          deeper: '#B9D2DA',
+        },
         sand: {
           DEFAULT: '#F4F8FA',
           deep: '#E9F2F5',
         },
+        // Muted text tones used on dark (ink) backgrounds — e.g. lead copy,
+        // breadcrumbs and nav links inside the header/footer/hero/admin
+        // shell. Numbered lightest (100) to darkest (700), each value
+        // carried over as-is from the original source CSS.
+        haze: {
+          100: '#D6E5EA',
+          200: '#C6DCE3',
+          300: '#C6D9DF',
+          400: '#BCD6DE',
+          500: '#A9C6CF',
+          600: '#9FBFC9',
+          700: '#8FB2BD',
+        },
+        gold: '#FFB400',
+        mint: '#4ADE80',
+        success: {
+          DEFAULT: '#15803D',
+          bg: '#DCFCE7',
+        },
+        'coral-wash': '#FFF6F5',
       },
       fontFamily: {
         sans: ['Montserrat', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],

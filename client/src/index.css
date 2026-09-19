@@ -63,9 +63,11 @@
 }
 
 @layer components {
-  /* Buttons — exact match to .btn / .btn--lg / .btn--sm in the source CSS */
+  /* Buttons — matches .btn / .btn--lg / .btn--sm in the source CSS, except
+     square corners instead of the source's fully-rounded pill shape (a
+     deliberate departure from that reference for this rebuild). */
   .btn {
-    @apply inline-flex items-center justify-center gap-[10px] font-sans font-bold rounded-full
+    @apply inline-flex items-center justify-center gap-[10px] font-sans font-bold rounded-none
            cursor-pointer text-center whitespace-nowrap border-2 border-transparent;
     font-size: 0.95rem;
     letter-spacing: 0.02em;
@@ -175,7 +177,7 @@
   }
   .card-list li::before {
     content: '';
-    @apply absolute left-0 top-[9px] w-[7px] h-[7px] rounded-full bg-cyan;
+    @apply absolute left-0 top-[9px] w-[7px] h-[7px] rounded-none bg-cyan;
   }
 
   /* Checklist (feature rows) — exact match to .checklist */
@@ -191,7 +193,7 @@
   }
   .checklist li::before {
     content: '';
-    @apply absolute left-0 top-1 w-[21px] h-[21px] rounded-full bg-cyan bg-center bg-no-repeat;
+    @apply absolute left-0 top-1 w-[21px] h-[21px] rounded-none bg-cyan bg-center bg-no-repeat;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
     background-size: 12px;
   }
@@ -219,7 +221,7 @@
 
   /* Pulsing "open now" dot, and hero Ken Burns drift */
   .pulse-dot {
-    @apply w-2 h-2 rounded-full bg-[#4ADE80] flex-none animate-pulse;
+    @apply w-2 h-2 rounded-none bg-mint flex-none animate-pulse;
   }
 
   /* Dense body copy (privacy policy, terms) — the base h1–h3 styles are

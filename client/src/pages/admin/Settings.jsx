@@ -65,7 +65,7 @@ export default function AdminSettings() {
         <TextField label="TikTok URL" name="tiktokUrl" register={register} error={errors.tiktokUrl} placeholder="https://tiktok.com/@…" full />
 
         {saveState === 'error' && (
-          <div className="col-span-2 bg-[#FFF6F5] border border-coral-600/30 text-coral-600 text-[0.9rem] font-semibold rounded-xl px-4 py-3">
+          <div className="col-span-2 bg-coral-wash border border-coral-600/30 text-coral-600 text-[0.9rem] font-semibold rounded-xl px-4 py-3">
             {saveError}
           </div>
         )}
@@ -74,7 +74,7 @@ export default function AdminSettings() {
           <button type="submit" disabled={saveState === 'saving'} className="btn btn--primary disabled:opacity-60">
             {saveState === 'saving' ? 'Saving…' : 'Save changes'}
           </button>
-          {saveState === 'saved' && <span className="text-[0.85rem] font-semibold text-[#15803D]">Saved</span>}
+          {saveState === 'saved' && <span className="text-[0.85rem] font-semibold text-success">Saved</span>}
         </div>
       </form>
     </div>

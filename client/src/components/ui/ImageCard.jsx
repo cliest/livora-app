@@ -12,7 +12,7 @@ export default function ImageCard({ image, alt, title, body, items, linkText, li
       </div>
       <div className="flex flex-col flex-1 p-s4">
         <h3 className={`text-[25.6px] font-bold mb-[10px] ${dark ? 'text-white' : 'text-ink'}`}>{title}</h3>
-        <p className={`text-[15.36px] leading-[1.7] ${dark ? 'text-[#9FBFC9]' : 'text-muted'} ${items ? 'mb-0' : ''}`}>
+        <p className={`text-[15.36px] leading-[1.7] ${dark ? 'text-haze-600' : 'text-muted'} ${items ? 'mb-0' : ''}`}>
           {body}
         </p>
         {items && (

@@ -13,7 +13,7 @@ export default function IconBox({ icon, title, children, variant = 'default', da
         <span className="w-[27px] h-[27px] [&>svg]:w-full [&>svg]:h-full">{icon}</span>
       </span>
       {title && <h3 className={`mb-[10px] ${dark ? 'text-white' : ''}`}>{title}</h3>}
-      {children && <p className={`text-[0.96rem] ${dark ? 'text-[#9FBFC9]' : 'text-muted'}`}>{children}</p>}
+      {children && <p className={`text-[0.96rem] ${dark ? 'text-haze-600' : 'text-muted'}`}>{children}</p>}
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function CtaBand() {
               <br />
               at Livora today
             </h2>
-            <p className="lead mt-s3 text-[#A9C6CF]">
+            <p className="lead mt-s3 text-haze-500">
               Tell us when suits you and what you need. We will confirm by phone within the hour, or immediately, if
               it is urgent.
             </p>

@@ -104,7 +104,7 @@ export default function Contact() {
                 </ConsentCheckbox>
 
                 {serverError && (
-                  <div className="col-span-2 max-[640px]:col-span-1 bg-[#FFF6F5] border border-coral-600/30 text-coral-600 text-[0.9rem] font-semibold rounded-xl px-4 py-3">
+                  <div className="col-span-2 max-[640px]:col-span-1 bg-coral-wash border border-coral-600/30 text-coral-600 text-[0.9rem] font-semibold rounded-xl px-4 py-3">
                     {serverError}
                   </div>
                 )}
@@ -162,7 +162,7 @@ export default function Contact() {
           <span className="eyebrow justify-center">Location</span>
           <h2>How to find the clinic</h2>
         </div>
-        <div className="aspect-video rounded-[28px] bg-sand-deep border-2 border-dashed border-[#B9D2DA] flex flex-col items-center justify-center text-center p-s4">
+        <div className="aspect-video rounded-[28px] bg-sand-deep border-2 border-dashed border-line-deeper flex flex-col items-center justify-center text-center p-s4">
           <IconMapPin className="w-10 h-10 text-cyan mb-s2" />
           <strong className="block text-[1.05rem] mb-1.5">Map embed goes here</strong>
           <span className="text-[0.9rem] text-muted max-w-[420px]">

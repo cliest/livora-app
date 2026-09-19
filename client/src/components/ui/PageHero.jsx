@@ -12,16 +12,16 @@ export default function PageHero({ image, crumb, title, lead, children }) {
       />
       <div className="container relative z-[2]">
         <div className="max-w-[760px] pt-[92px] pb-[96px] max-[1024px]:pt-[68px] max-[1024px]:pb-[72px] max-[767px]:pt-[52px] max-[767px]:pb-[56px]">
-          <ul className="flex flex-wrap items-center gap-2 text-[0.82rem] text-[#8FB2BD] mb-s2 list-none p-0">
+          <ul className="flex flex-wrap items-center gap-2 text-[0.82rem] text-haze-700 mb-s2 list-none p-0">
             <li>
-              <Link to="/" className="text-[#BCD6DE] hover:text-cyan">
+              <Link to="/" className="text-haze-400 hover:text-cyan">
                 Home
               </Link>
             </li>
-            <li className="before:content-['/'] before:mr-2 before:text-[#5E7A82]">{crumb}</li>
+            <li className="before:content-['/'] before:mr-2 before:text-muted">{crumb}</li>
           </ul>
           <h1 className="text-white mb-s3" dangerouslySetInnerHTML={{ __html: title }} />
-          {lead && <p className="text-[#BCD6DE] text-[1.2rem]" dangerouslySetInnerHTML={{ __html: lead }} />}
+          {lead && <p className="text-haze-400 text-[1.2rem]" dangerouslySetInnerHTML={{ __html: lead }} />}
           {children}
         </div>
       </div>

@@ -16,7 +16,7 @@ const NAV_ITEMS = [
 
 const navLinkClass = ({ isActive }) =>
   `block px-4 py-[10px] rounded-xl text-[0.92rem] font-semibold transition-colors ${
-    isActive ? 'bg-cyan text-white' : 'text-[#C6DCE3] hover:bg-white/10 hover:text-white'
+    isActive ? 'bg-cyan text-white' : 'text-haze-200 hover:bg-white/10 hover:text-white'
   }`;
 
 export default function AdminLayout({ admin, children }) {
@@ -44,7 +44,7 @@ export default function AdminLayout({ admin, children }) {
           ))}
         </nav>
         <div className="px-s3 py-s3 border-t border-white/10">
-          <p className="text-[0.82rem] text-[#9FBFC9] truncate">{admin.name || admin.email}</p>
+          <p className="text-[0.82rem] text-haze-600 truncate">{admin.name || admin.email}</p>
           <button
             type="button"
             onClick={handleLogout}

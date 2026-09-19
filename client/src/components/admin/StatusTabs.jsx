@@ -14,7 +14,7 @@ export default function StatusTabs({ value, onChange }) {
           key={status}
           type="button"
           onClick={() => onChange(status)}
-          className={`px-3 py-[7px] rounded-full text-[0.84rem] font-semibold ${
+          className={`px-3 py-[7px] rounded-none text-[0.84rem] font-semibold ${
             value === status ? 'bg-cyan text-white' : 'bg-white border border-line text-ink hover:border-cyan'
           }`}
         >

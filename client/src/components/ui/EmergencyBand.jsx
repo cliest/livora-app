@@ -28,7 +28,7 @@ export default function EmergencyBand({ eyebrow, title, body, primaryLabel, prim
     >
       <div className="flex flex-wrap items-center gap-s4">
         <div className="flex-1 min-w-[280px]">
-          <span className="eyebrow" style={{ color: '#fff' }}>
+          <span className="eyebrow text-white">
             {eyebrow}
           </span>
           <h2 className="text-white mb-s3" dangerouslySetInnerHTML={{ __html: title }} />

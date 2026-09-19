@@ -7,11 +7,11 @@ export default function TopBar() {
     <div className="hidden lg:block bg-ink text-[13px] py-[10px]">
       <div className="container flex items-center justify-between gap-s3 flex-wrap">
         <div className="flex items-center gap-s3 flex-wrap">
-          <span className="inline-flex items-center gap-[7px] text-[#A9C6CF]">
+          <span className="inline-flex items-center gap-[7px] text-haze-500">
             <span className="pulse-dot" />
             Open 24 hours &mdash; every day
           </span>
-          <span className="hidden md:inline-flex items-center gap-[7px] text-[#A9C6CF]">
+          <span className="hidden md:inline-flex items-center gap-[7px] text-haze-500">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px] text-cyan" aria-hidden="true">
               <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
               <circle cx="12" cy="10" r="3" />

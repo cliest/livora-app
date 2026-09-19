@@ -7,7 +7,7 @@ export default function SectionHead({ eyebrow, title, lead, center = true, light
         </span>
       )}
       <h2 className={light ? 'text-white' : ''} dangerouslySetInnerHTML={{ __html: title }} />
-      {lead && <p className={`lead mt-s3 ${light ? 'text-[#A9C6CF]' : 'text-muted'} text-[1.16rem] leading-[1.75]`}>{lead}</p>}
+      {lead && <p className={`lead mt-s3 ${light ? 'text-haze-500' : 'text-muted'} text-[1.16rem] leading-[1.75]`}>{lead}</p>}
     </div>
   );
 }

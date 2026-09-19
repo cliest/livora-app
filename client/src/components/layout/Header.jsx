@@ -13,7 +13,7 @@ const NAV_ITEMS = [
 ];
 
 const navLinkClass = ({ isActive }) =>
-  `block px-[15px] py-[10px] rounded-full text-[14.88px] font-semibold transition-colors duration-200 ${
+  `block px-[15px] py-[10px] rounded-none text-[14.88px] font-semibold transition-colors duration-200 ${
     isActive
       ? "text-cyan-700 bg-sand-deep"
       : "text-ink hover:bg-sand hover:text-cyan-700"

@@ -41,7 +41,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-ink text-[#9FBFC9] pt-s7 pb-s4">
+    <footer className="bg-ink text-haze-600 pt-s7 pb-s4">
       <div className="container">
         <div className="flex flex-wrap gap-s4">
           {/* Brand — 34% */}
@@ -66,7 +66,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Livora on ${s.label}`}
-                    className="flex items-center justify-center w-[42px] h-[42px] rounded-full bg-white/[.08] text-white hover:bg-cyan hover:-translate-y-[3px] transition-all"
+                    className="flex items-center justify-center w-[42px] h-[42px] rounded-none bg-white/[.08] text-white hover:bg-cyan hover:-translate-y-[3px] transition-all"
                   >
                     {s.icon && (
                       <svg viewBox="0 0 24 24" fill="currentColor" className="w-[18px] h-[18px]" aria-hidden="true">
@@ -78,7 +78,7 @@ export default function Footer() {
                   <span
                     key={s.label}
                     title={`${s.label} — link coming soon`}
-                    className="flex items-center justify-center w-[42px] h-[42px] rounded-full bg-white/[.08] text-white opacity-45"
+                    className="flex items-center justify-center w-[42px] h-[42px] rounded-none bg-white/[.08] text-white opacity-45"
                   />
                 )
               )}
@@ -91,7 +91,7 @@ export default function Footer() {
             <ul className="space-y-[11px]">
               {TREATMENTS.map((t) => (
                 <li key={t.label}>
-                  <Link to={t.to} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
+                  <Link to={t.to} className="text-[15px] text-haze-600 hover:text-cyan">
                     {t.label}
                   </Link>
                 </li>
@@ -105,7 +105,7 @@ export default function Footer() {
             <ul className="space-y-[11px]">
               {CLINIC_LINKS.map((t) => (
                 <li key={t.label}>
-                  <Link to={t.to} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
+                  <Link to={t.to} className="text-[15px] text-haze-600 hover:text-cyan">
                     {t.label}
                   </Link>
                 </li>
@@ -118,7 +118,7 @@ export default function Footer() {
             <h4 className="text-[13px] font-bold uppercase tracking-[1.8px] text-white mb-s3">Get in touch</h4>
             <div className="flex gap-3 mb-[15px]">
               <PhoneIcon className="w-[17px] h-[17px] text-cyan mt-1 flex-none" />
-              <a href={settings.telHref} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
+              <a href={settings.telHref} className="text-[15px] text-haze-600 hover:text-cyan">
                 {settings.phoneDisplay}
               </a>
             </div>
@@ -127,7 +127,7 @@ export default function Footer() {
                 <rect x="2" y="4" width="20" height="16" rx="2" />
                 <path d="m2 7 10 6 10-6" />
               </svg>
-              <a href={`mailto:${settings.email}`} className="text-[15px] text-[#9FBFC9] hover:text-cyan">
+              <a href={`mailto:${settings.email}`} className="text-[15px] text-haze-600 hover:text-cyan">
                 {settings.email}
               </a>
             </div>
@@ -159,11 +159,11 @@ export default function Footer() {
         <div className="flex flex-wrap items-center justify-between gap-s2 mt-s6 pt-s3 border-t border-white/10 text-[0.86rem]">
           <p>&copy; {new Date().getFullYear()} Livora Dental Clinic. All rights reserved.</p>
           <nav className="flex flex-wrap gap-s3" aria-label="Footer navigation">
-            <Link to="/services" className="text-[#9FBFC9] hover:text-cyan">Services</Link>
-            <Link to="/pricing" className="text-[#9FBFC9] hover:text-cyan">Pricing</Link>
-            <Link to="/emergency" className="text-[#9FBFC9] hover:text-cyan">Emergency</Link>
-            <Link to="/privacy" className="text-[#9FBFC9] hover:text-cyan">Privacy Policy</Link>
-            <Link to="/contact" className="text-[#9FBFC9] hover:text-cyan">Contact</Link>
+            <Link to="/services" className="text-haze-600 hover:text-cyan">Services</Link>
+            <Link to="/pricing" className="text-haze-600 hover:text-cyan">Pricing</Link>
+            <Link to="/emergency" className="text-haze-600 hover:text-cyan">Emergency</Link>
+            <Link to="/privacy" className="text-haze-600 hover:text-cyan">Privacy Policy</Link>
+            <Link to="/contact" className="text-haze-600 hover:text-cyan">Contact</Link>
           </nav>
         </div>
       </div>

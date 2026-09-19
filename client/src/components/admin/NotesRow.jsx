@@ -50,7 +50,7 @@ export default function NotesRow({ colSpan, patientMessage, patientMessageLabel 
               >
                 {saving ? 'Saving…' : 'Save note'}
               </button>
-              {!dirty && savedAt && <span className="text-[0.8rem] font-semibold text-[#15803D]">Saved</span>}
+              {!dirty && savedAt && <span className="text-[0.8rem] font-semibold text-success">Saved</span>}
             </div>
           </div>
         </div>

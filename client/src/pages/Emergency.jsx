@@ -119,7 +119,7 @@ export default function Emergency() {
             <img src="/img/tooth-decay-examination.jpg" alt="Close-up of a decayed tooth being examined during an emergency dental appointment" className="rounded-[18px] w-full mb-s4" />
             <div className="bg-ink-800 rounded-[18px] p-s4">
               <h3 className="text-white">And then call us</h3>
-              <p className="text-[#9FBFC9]">
+              <p className="text-haze-600">
                 None of the above treats the cause. Dental pain that lasts more than a day is a problem that will
                 not resolve on its own, and it is far cheaper and simpler to treat early.
               </p>

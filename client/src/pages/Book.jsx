@@ -84,16 +84,16 @@ export default function Book() {
         />
         <div className="container relative z-[2]">
           <div className="max-w-[760px] pt-[92px] pb-[96px] max-[1024px]:pt-[68px] max-[1024px]:pb-[72px]">
-            <ul className="flex flex-wrap items-center gap-2 text-[0.82rem] text-[#8FB2BD] mb-s2 list-none p-0">
+            <ul className="flex flex-wrap items-center gap-2 text-[0.82rem] text-haze-700 mb-s2 list-none p-0">
               <li>
-                <Link to="/" className="text-[#BCD6DE] hover:text-cyan">
+                <Link to="/" className="text-haze-400 hover:text-cyan">
                   Home
                 </Link>
               </li>
-              <li className="before:content-['/'] before:mr-2 before:text-[#5E7A82]">Book an Appointment</li>
+              <li className="before:content-['/'] before:mr-2 before:text-muted">Book an Appointment</li>
             </ul>
             <h1 className="text-white mb-s3">Book your appointment</h1>
-            <p className="text-[#BCD6DE] text-[1.2rem]">
+            <p className="text-haze-400 text-[1.2rem]">
               Fill this in and we will call you back to confirm, usually within the hour, and immediately if it is
               urgent. If you would rather just talk to someone, call{' '}
               <a href={settings.telHref} className="text-white underline">
@@ -145,7 +145,7 @@ export default function Book() {
                 </ConsentCheckbox>
 
                 {serverError && (
-                  <div className="col-span-2 max-[640px]:col-span-1 bg-[#FFF6F5] border border-coral-600/30 text-coral-600 text-[0.9rem] font-semibold rounded-xl px-4 py-3">
+                  <div className="col-span-2 max-[640px]:col-span-1 bg-coral-wash border border-coral-600/30 text-coral-600 text-[0.9rem] font-semibold rounded-xl px-4 py-3">
                     {serverError}
                   </div>
                 )}
@@ -173,7 +173,7 @@ export default function Book() {
                 <PhoneIcon className="w-[27px] h-[27px]" />
               </span>
               <h3 className="text-white">Would rather just call?</h3>
-              <p className="text-[#9FBFC9]">Someone answers this number at every hour of the day and night. No menus, no call-back queue.</p>
+              <p className="text-haze-600">Someone answers this number at every hour of the day and night. No menus, no call-back queue.</p>
               <div className="flex flex-col gap-s2 mt-s3">
                 <a href={settings.telHref} className="btn btn--primary btn--block">
                   {settings.phoneDisplay}
@@ -193,7 +193,7 @@ export default function Book() {
                   ['You come in', 'Bring your NRC, and your NHIMA card if you have one. Arrive ten minutes early for a first visit.'],
                 ].map(([t, b], i) => (
                   <div key={t} className="flex gap-3">
-                    <span className="flex-none w-[42px] h-[42px] rounded-full bg-cyan text-white flex items-center justify-center font-extrabold">
+                    <span className="flex-none w-[42px] h-[42px] rounded-none bg-cyan text-white flex items-center justify-center font-extrabold">
                       {i + 1}
                     </span>
                     <div>
