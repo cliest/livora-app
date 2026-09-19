@@ -1,11 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import { IconCheckCircle, IconPhone, IconClock, IconIdCard } from '../components/ui/icons.jsx';
 import { useSiteSettings } from '../hooks/useSiteSettings.js';
+import { buildWhatsAppUrl } from '../lib/whatsapp.js';
 
 export default function ThankYou() {
   const settings = useSiteSettings();
+  const { state } = useLocation();
+  const waMessage = state?.waMessage;
+  const waUrl = buildWhatsAppUrl(settings.waHref, waMessage);
 
   return (
     <>
@@ -29,6 +33,17 @@ export default function ThankYou() {
             A member of the Livora team will call you back to confirm your appointment. During the day that is
             usually within the hour; overnight it may be a little longer, unless you flagged an emergency.
           </p>
+          {waMessage && (
+            <div className="mt-s4">
+              <a href={waUrl} target="_blank" rel="noopener noreferrer" className="btn btn--coral btn--lg">
+                Also send this to us on WhatsApp
+              </a>
+              <p className="text-[0.85rem] text-muted mt-s2">
+                Opens WhatsApp with your details already filled in — just hit send.
+              </p>
+            </div>
+          )}
+
           <div className="flex flex-wrap gap-s2 justify-center mt-s5">
             <Link to="/" className="btn btn--primary btn--lg">
               Back to the homepage

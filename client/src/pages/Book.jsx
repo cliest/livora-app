@@ -10,6 +10,7 @@ import { bookingFormSchema, SERVICE_OPTIONS } from '../lib/formSchemas.js';
 import { api, ApiError } from '../lib/api.js';
 import { IconClock } from '../components/ui/icons.jsx';
 import { useSiteSettings } from '../hooks/useSiteSettings.js';
+import { buildBookingWhatsAppMessage, buildWhatsAppUrl } from '../lib/whatsapp.js';
 
 const TIME_OPTIONS = [
   ['morning', 'Morning (07:00–12:00)'],
@@ -50,10 +51,17 @@ export default function Book() {
   const onSubmit = async (data) => {
     setServerError('');
     setSubmitting(true);
+    // Opened synchronously (before the await) so browsers still treat this
+    // as a user-gesture-triggered tab rather than a blocked popup; we point
+    // it at the pre-filled WhatsApp message once the booking has saved.
+    const waWindow = window.open('', '_blank');
     try {
       await api.submitBooking(data);
-      navigate('/thank-you');
+      const waMessage = buildBookingWhatsAppMessage(data);
+      if (waWindow) waWindow.location.href = buildWhatsAppUrl(settings.waHref, waMessage);
+      navigate('/thank-you', { state: { waMessage } });
     } catch (err) {
+      if (waWindow) waWindow.close();
       if (err instanceof ApiError && err.fieldErrors) {
         Object.entries(err.fieldErrors).forEach(([field, message]) => setError(field, { message }));
       } else {
