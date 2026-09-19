@@ -119,7 +119,7 @@ export default function Header() {
       {open && (
         <div
           id="mobile-menu"
-          className="lg:hidden border-t border-line bg-white pt-s3 pb-s4"
+          className="lg:hidden absolute left-0 right-0 top-full max-h-[calc(100vh-84px)] overflow-y-auto border-t border-line bg-white pt-s3 pb-s4 shadow-lg"
         >
           <div className="container">
             <nav
