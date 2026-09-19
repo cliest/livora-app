@@ -81,7 +81,7 @@ bookingsRouter.post('/', async (req, res) => {
 
 // GET /api/bookings — admin only, listing for the dashboard
 bookingsRouter.get('/', requireAdmin, async (req, res) => {
-  const { status, from, to, page = '1', pageSize = '25' } = req.query;
+  const { status, from, to, q, page = '1', pageSize = '25' } = req.query;
   const take = Math.min(Number(pageSize) || 25, 100);
   const skip = (Math.max(Number(page) || 1, 1) - 1) * take;
 
@@ -93,6 +93,15 @@ bookingsRouter.get('/', requireAdmin, async (req, res) => {
             ...(from ? { gte: new Date(String(from)) } : {}),
             ...(to ? { lte: new Date(String(to)) } : {}),
           },
+        }
+      : {}),
+    ...(q
+      ? {
+          OR: [
+            { fullName: { contains: String(q), mode: 'insensitive' } },
+            { phone: { contains: String(q), mode: 'insensitive' } },
+            { email: { contains: String(q), mode: 'insensitive' } },
+          ],
         }
       : {}),
   };

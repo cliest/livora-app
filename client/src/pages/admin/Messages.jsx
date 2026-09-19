@@ -4,21 +4,25 @@ import Seo from '../../components/Seo.jsx';
 import StatusPill from '../../components/admin/StatusPill.jsx';
 import StatusSelect from '../../components/admin/StatusSelect.jsx';
 import StatusTabs from '../../components/admin/StatusTabs.jsx';
+import SearchInput from '../../components/admin/SearchInput.jsx';
 import Pagination from '../../components/admin/Pagination.jsx';
 import NotesRow from '../../components/admin/NotesRow.jsx';
+import { useDebouncedValue } from '../../hooks/useDebouncedValue.js';
 import { api } from '../../lib/api.js';
 
 const humanize = (v) => (v ? v.charAt(0) + v.slice(1).toLowerCase().replace(/_/g, ' ') : '—');
 
 export default function AdminMessages() {
   const [status, setStatus] = useState('');
+  const [search, setSearch] = useState('');
+  const debouncedSearch = useDebouncedValue(search);
   const [page, setPage] = useState(1);
   const [expandedId, setExpandedId] = useState(null);
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ['admin-messages', status, page],
-    queryFn: () => api.listMessages({ ...(status ? { status } : {}), page }),
+    queryKey: ['admin-messages', status, debouncedSearch, page],
+    queryFn: () => api.listMessages({ ...(status ? { status } : {}), ...(debouncedSearch ? { q: debouncedSearch } : {}), page }),
   });
 
   const updateStatus = useMutation({
@@ -35,6 +39,14 @@ export default function AdminMessages() {
     <div>
       <Seo title="Messages | Livora Admin" description="Manage contact messages." path="/admin/messages" noindex />
       <h1 className="text-[1.6rem] mb-s3">Messages</h1>
+
+      <SearchInput
+        value={search}
+        onChange={(v) => {
+          setSearch(v);
+          setPage(1);
+        }}
+      />
 
       <StatusTabs
         value={status}

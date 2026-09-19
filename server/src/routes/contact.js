@@ -52,10 +52,22 @@ contactRouter.post('/', async (req, res) => {
 
 // GET /api/contact — admin listing
 contactRouter.get('/', requireAdmin, async (req, res) => {
-  const { status, page = '1', pageSize = '25' } = req.query;
+  const { status, q, page = '1', pageSize = '25' } = req.query;
   const take = Math.min(Number(pageSize) || 25, 100);
   const skip = (Math.max(Number(page) || 1, 1) - 1) * take;
-  const where = status ? { status: String(status).toUpperCase() } : {};
+
+  const where = {
+    ...(status ? { status: String(status).toUpperCase() } : {}),
+    ...(q
+      ? {
+          OR: [
+            { fullName: { contains: String(q), mode: 'insensitive' } },
+            { email: { contains: String(q), mode: 'insensitive' } },
+            { phone: { contains: String(q), mode: 'insensitive' } },
+          ],
+        }
+      : {}),
+  };
 
   const [items, total] = await Promise.all([
     prisma.contactMessage.findMany({ where, orderBy: { createdAt: 'desc' }, take, skip }),
