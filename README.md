@@ -44,9 +44,7 @@ cd server
 node prisma/seed.js
 ```
 
-Default login is `admin@livoradentalclinic.com` / `ChangeMe123!` unless you
-set `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` env vars first. **Change this
-before going live.**
+
 
 Sign in at `/admin` with that login to reach the dashboard. The same seed
 run also backfills site settings, the team, testimonials and the price list
