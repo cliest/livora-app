@@ -20,11 +20,14 @@ const DEFAULT_SETTINGS = {
 };
 
 export function useSiteSettings() {
-  const { data } = useQuery({
+  const { data: fetched } = useQuery({
     queryKey: ['settings'],
     queryFn: async () => (await api.getSettings()).settings,
     placeholderData: DEFAULT_SETTINGS,
   });
+  // placeholderData only covers the pending state — if the fetch fails,
+  // data is undefined, and every header/footer/call button would crash.
+  const data = fetched ?? DEFAULT_SETTINGS;
 
   return {
     ...data,

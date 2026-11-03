@@ -80,7 +80,7 @@ export default function ServiceErrorModal() {
         {!isAdmin && (
           <p className="text-[0.9rem] mb-s3">
             Need us urgently? Call{' '}
-            <a href={settings.telHref} className="font-bold underline">
+            <a href={settings.telHref} className="font-bold underline whitespace-nowrap">
               {settings.phoneDisplay}
             </a>
             , we are open 24 hours.
