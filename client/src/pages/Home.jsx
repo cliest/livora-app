@@ -1,122 +1,147 @@
-import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import Seo from '../components/Seo.jsx';
-import Section from '../components/ui/Section.jsx';
-import SectionHead from '../components/ui/SectionHead.jsx';
-import ImageCard from '../components/ui/ImageCard.jsx';
-import Accordion from '../components/ui/Accordion.jsx';
-import StarRating from '../components/ui/StarRating.jsx';
-import PhoneIcon from '../components/layout/PhoneIcon.jsx';
-import { IconClock, IconShield, IconXray, IconBolt, IconPriceTag } from '../components/ui/icons.jsx';
-import { useSiteSettings } from '../hooks/useSiteSettings.js';
-import { LoadingRegion, PriceRowsSkeleton, TestimonialSkeleton } from '../components/ui/Skeleton.jsx';
-import { api } from '../lib/api.js';
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import Seo from "../components/Seo.jsx";
+import Section from "../components/ui/Section.jsx";
+import SectionHead from "../components/ui/SectionHead.jsx";
+import ImageCard from "../components/ui/ImageCard.jsx";
+import Accordion from "../components/ui/Accordion.jsx";
+import StarRating from "../components/ui/StarRating.jsx";
+import PhoneIcon from "../components/layout/PhoneIcon.jsx";
+import {
+  IconClock,
+  IconShield,
+  IconXray,
+  IconBolt,
+  IconPriceTag,
+} from "../components/ui/icons.jsx";
+import { useSiteSettings } from "../hooks/useSiteSettings.js";
+import {
+  LoadingRegion,
+  PriceRowsSkeleton,
+  TestimonialSkeleton,
+} from "../components/ui/Skeleton.jsx";
+import { api } from "../lib/api.js";
 
 const PROOF = [
-  ['24/7', 'Always open'],
-  ['4', 'Ways to pay'],
-  ['15+', 'Treatments offered'],
-  ['Same day', 'Emergency slots'],
+  ["24/7", "Always open"],
+  ["4", "Ways to pay"],
+  ["15+", "Treatments offered"],
+  ["Same day", "Emergency slots"],
 ];
 
 const WHY = [
   {
-    n: '01',
-    title: 'Closed when you need them most',
-    body: 'Toothache does not keep office hours. Livora is staffed <strong>24 hours a day, 7 days a week</strong> — Christmas Day included. You call, someone answers, and you are seen.',
+    n: "01",
+    title: "Closed when you need them most",
+    body: "Toothache does not keep office hours. Livora is staffed <strong>24 hours a day, 7 days a week</strong> — Christmas Day included. You call, someone answers, and you are seen.",
   },
   {
-    n: '02',
-    title: 'Referring you somewhere else',
-    body: 'Cleaning, root canals, implants, braces, surgery, kids\' dentistry — all under one roof. No being sent across town mid-treatment, no starting your story over with a new dentist.',
+    n: "02",
+    title: "Referring you somewhere else",
+    body: "Cleaning, root canals, implants, braces, surgery, kids' dentistry — all under one roof. No being sent across town mid-treatment, no starting your story over with a new dentist.",
   },
   {
-    n: '03',
-    title: 'A bill you did not expect',
-    body: 'You get a written quote before any treatment starts. If the plan changes, we stop and talk to you first. Pay by cash, card or mobile money, and payment plans are available.',
+    n: "03",
+    title: "A bill you did not expect",
+    body: "You get a written quote before any treatment starts. If the plan changes, we stop and talk to you first. Pay by cash, card or mobile money, and payment plans are available.",
   },
 ];
 
 const SERVICE_CARDS = [
   {
-    image: '/img/tooth-decay-examination.jpg',
-    alt: 'A bright, healthy smile being checked with a dental mirror',
-    title: 'Everyday Care',
-    body: 'The routine appointments that stop small problems becoming expensive ones.',
-    items: ['Check-ups &amp; examinations', 'Scaling &amp; polishing', 'Fillings', "Children's dentistry"],
-    linkText: 'Everyday care',
-    linkHref: '/services#general',
+    image: "/img/tooth-decay-examination.jpg",
+    alt: "A bright, healthy smile being checked with a dental mirror",
+    title: "Everyday Care",
+    body: "The routine appointments that stop small problems becoming expensive ones.",
+    items: [
+      "Check-ups &amp; examinations",
+      "Scaling &amp; polishing",
+      "Fillings",
+      "Children's dentistry",
+    ],
+    linkText: "Everyday care",
+    linkHref: "/services#general",
   },
   {
-    image: '/img/dental-cleaning-treatment.jpg',
-    alt: 'A dentist repairing a damaged tooth during restorative treatment',
-    title: 'Repair & Restore',
-    body: 'When a tooth is damaged, infected or missing, these are the treatments that fix it.',
-    items: ['Root canal treatment', 'Crowns &amp; bridges', 'Dental implants', 'Extractions'],
-    linkText: 'Repair & restore',
-    linkHref: '/services#restorative',
+    image: "/img/dental-cleaning-treatment.jpg",
+    alt: "A dentist repairing a damaged tooth during restorative treatment",
+    title: "Repair & Restore",
+    body: "When a tooth is damaged, infected or missing, these are the treatments that fix it.",
+    items: [
+      "Root canal treatment",
+      "Crowns &amp; bridges",
+      "Dental implants",
+      "Extractions",
+    ],
+    linkText: "Repair & restore",
+    linkHref: "/services#restorative",
   },
   {
-    image: '/img/patient-smiling-portrait.jpg',
-    alt: 'A patient smiling confidently after cosmetic dental treatment',
-    title: 'Straighten & Whiten',
-    body: 'Cosmetic and orthodontic work, always built on a healthy mouth first.',
-    items: ['Braces &amp; clear aligners', 'Teeth whitening', 'Porcelain veneers', 'Smile makeovers'],
-    linkText: 'Straighten & whiten',
-    linkHref: '/services#cosmetic',
+    image: "/img/patient-smiling-portrait.jpg",
+    alt: "A patient smiling confidently after cosmetic dental treatment",
+    title: "Straighten & Whiten",
+    body: "Cosmetic and orthodontic work, always built on a healthy mouth first.",
+    items: [
+      "Braces &amp; clear aligners",
+      "Teeth whitening",
+      "Porcelain veneers",
+      "Smile makeovers",
+    ],
+    linkText: "Straighten & whiten",
+    linkHref: "/services#cosmetic",
   },
 ];
 
 const TECH_CARDS = [
   {
-    image: '/img/digital-dental-xray.jpg',
-    alt: 'Dentist reviewing digital dental X-ray images',
-    title: 'Digital X-ray',
-    body: 'Up to 80% less radiation than film, and the image is on screen in seconds so we can show you exactly what we are looking at.',
+    image: "/img/digital-dental-xray.jpg",
+    alt: "Dentist reviewing digital dental X-ray images",
+    title: "Digital X-ray",
+    body: "Up to 80% less radiation than film, and the image is on screen in seconds so we can show you exactly what we are looking at.",
   },
   {
-    image: '/img/dentist-screen-explain.jpg',
+    image: "/img/dentist-screen-explain.jpg",
     alt: "A dentist showing a patient their scan on a treatment room screen",
-    title: 'Intraoral Camera',
-    body: 'A pen-sized camera puts your own teeth on the monitor. You see the problem yourself instead of taking our word for it.',
+    title: "Intraoral Camera",
+    body: "A pen-sized camera puts your own teeth on the monitor. You see the problem yourself instead of taking our word for it.",
   },
   {
-    image: '/img/dental-checkup-patient.jpg',
-    alt: 'A dental team carrying out gentle, carefully anaesthetised treatment',
-    title: 'Painless Anaesthetic',
-    body: 'Topical gel before the injection and a slow delivery technique, so the part everybody dreads is barely noticeable.',
+    image: "/img/dental-checkup-patient.jpg",
+    alt: "A dental team carrying out gentle, carefully anaesthetised treatment",
+    title: "Painless Anaesthetic",
+    body: "Topical gel before the injection and a slow delivery technique, so the part everybody dreads is barely noticeable.",
   },
   {
-    image: '/img/sterilised-instruments.jpg',
-    alt: 'A row of sterilised dental instruments ready for use',
-    title: 'Hospital-Grade Sterilisation',
-    body: 'Autoclaved instruments, sealed pouches and single-use items. Infection control is checked and logged on every shift.',
+    image: "/img/sterilised-instruments.jpg",
+    alt: "A row of sterilised dental instruments ready for use",
+    title: "Hospital-Grade Sterilisation",
+    body: "Autoclaved instruments, sealed pouches and single-use items. Infection control is checked and logged on every shift.",
   },
 ];
 
 const FAQS = [
   {
-    q: 'Are you really open 24 hours?',
-    a: 'Yes. Livora is staffed around the clock, seven days a week, including public holidays. There is always a qualified dentist on duty. For non-urgent treatment we will usually book you into a scheduled slot, but if you are in pain you will be seen straight away.',
+    q: "Are you really open 24 hours?",
+    a: "Yes. Livora is staffed around the clock, seven days a week, including public holidays. There is always a qualified dentist on duty. For non-urgent treatment we will usually book you into a scheduled slot, but if you are in pain you will be seen straight away.",
   },
   {
-    q: 'How can I pay?',
-    a: 'We take cash, Visa and Mastercard, and Airtel Money or MTN Mobile Money. Larger treatments can be split into instalments agreed before we begin, and you will always have a written quote first.',
+    q: "How can I pay?",
+    a: "We take cash, Visa and Mastercard, and Airtel Money or MTN Mobile Money. Larger treatments can be split into instalments agreed before we begin, and you will always have a written quote first.",
   },
   {
-    q: 'Do you still accept NHIMA?',
-    a: 'No. Livora no longer accepts NHIMA, including for emergency visits. You are still welcome as a patient: you can pay by cash, card or mobile money, and larger treatments can be split into instalments. You will always get a written quote before any treatment starts.',
+    q: "Do you still accept NHIMA?",
+    a: "No. Livora no longer accepts NHIMA, including for emergency visits. You are still welcome as a patient: you can pay by cash, card or mobile money, and larger treatments can be split into instalments. You will always get a written quote before any treatment starts.",
   },
   {
-    q: 'I am terrified of the dentist. Can you help?',
-    a: 'This is more common than you think, and it is never something we rush. Tell us when you book and we will give you a longer appointment, walk you through every step before it happens, and agree a hand signal so you can stop us at any moment.',
+    q: "I am terrified of the dentist. Can you help?",
+    a: "This is more common than you think, and it is never something we rush. Tell us when you book and we will give you a longer appointment, walk you through every step before it happens, and agree a hand signal so you can stop us at any moment.",
   },
   {
-    q: 'How often should I have a check-up?',
-    a: 'For most adults, every six months. If you smoke, have gum disease, wear braces or have a history of decay, we may suggest every three to four months. Children should be seen from the time their first teeth come through.',
+    q: "How often should I have a check-up?",
+    a: "For most adults, every six months. If you smoke, have gum disease, wear braces or have a history of decay, we may suggest every three to four months. Children should be seen from the time their first teeth come through.",
   },
   {
-    q: 'What should I do about a toothache tonight?',
+    q: "What should I do about a toothache tonight?",
     a: 'Rinse with warm salt water, take the painkiller you would normally use, and hold a cold compress against your cheek. Do not put aspirin directly on the gum — it burns the tissue. Then call us. See our <a href="/emergency" class="underline">emergency dental page</a> for more.',
   },
 ];
@@ -124,14 +149,16 @@ const FAQS = [
 export default function Home() {
   const settings = useSiteSettings();
   const { data: testimonials = [], isLoading: testimonialsLoading } = useQuery({
-    queryKey: ['testimonials'],
+    queryKey: ["testimonials"],
     queryFn: async () => (await api.getTestimonials()).items,
   });
   const { data: priceCategories = [], isLoading: pricesLoading } = useQuery({
-    queryKey: ['prices'],
+    queryKey: ["prices"],
     queryFn: async () => (await api.getPrices()).categories,
   });
-  const popularPrices = priceCategories.flatMap((c) => c.items.filter((i) => i.isPopular));
+  const popularPrices = priceCategories.flatMap((c) =>
+    c.items.filter((i) => i.isPopular),
+  );
 
   return (
     <>
@@ -153,29 +180,34 @@ export default function Home() {
           className="absolute inset-0 z-[1]"
           style={{
             background:
-              'linear-gradient(100deg, rgba(10,42,51,.96) 0%, rgba(10,42,51,.88) 38%, rgba(10,42,51,.45) 66%, rgba(10,42,51,.22) 100%)',
+              "linear-gradient(100deg, rgba(10,42,51,.96) 0%, rgba(10,42,51,.88) 38%, rgba(10,42,51,.45) 66%, rgba(10,42,51,.22) 100%)",
           }}
         />
         <div className="container relative z-[2]">
           <div className="max-w-[660px] pt-[148px] pb-[156px] max-[1024px]:pt-[104px] max-[1024px]:pb-[112px] max-[767px]:pt-[76px] max-[767px]:pb-[84px]">
-            <span className="inline-flex items-center gap-[10px] bg-white/10 border border-white/20 pl-[14px] pr-[18px] py-[9px] rounded-none text-[0.8rem] font-bold uppercase tracking-[0.06em] text-white mb-s3">
+            {/* <span className="inline-flex items-center gap-[10px] bg-white/10 border border-white/20 pl-[14px] pr-[18px] py-[9px] rounded-none text-[0.8rem] font-bold uppercase tracking-[0.06em] text-white mb-s3">
               <span className="pulse-dot" />
               Open 24 hours &mdash; walk in any time
-            </span>
+            </span> */}
             <h1 className="text-white mb-s3">
               The dentist Livingstone
               <br />
               can call at <span className="text-cyan">3am.</span>
             </h1>
             <p className="text-haze-200 text-[1.2rem] max-w-[540px]">
-              Livora is a professional dental clinic built around one idea: nobody should sit through the night with
-              a toothache. Full general, cosmetic and emergency dental care, every day of the year.
+              Livora is a professional dental clinic built around one idea:
+              nobody should sit through the night with a toothache. Full
+              general, cosmetic and emergency dental care, every day of the
+              year.
             </p>
             <div className="flex flex-wrap gap-s2 mt-s4">
               <Link to="/book" className="btn btn--primary btn--lg">
                 Book an Appointment
               </Link>
-              <a href={settings.telHref} className="btn btn--ghost-light btn--lg">
+              <a
+                href={settings.telHref}
+                className="btn btn--ghost-light btn--lg"
+              >
                 <PhoneIcon />
                 Call Now
               </a>
@@ -183,7 +215,9 @@ export default function Home() {
             <div className="flex flex-wrap gap-s4 mt-s5 pt-s4 border-t border-white/[.18]">
               {PROOF.map(([n, l]) => (
                 <div key={l}>
-                  <strong className="block text-[1.55rem] font-extrabold text-white leading-[1.2]">{n}</strong>
+                  <strong className="block text-[1.55rem] font-extrabold text-white leading-[1.2]">
+                    {n}
+                  </strong>
                   <span className="text-[0.84rem] text-haze-600">{l}</span>
                 </div>
               ))}
@@ -197,15 +231,17 @@ export default function Home() {
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-s3">
             {[
-              [IconClock, 'Open 24 hours', 'Including weekends & holidays'],
-              [IconShield, 'Easy payment', 'Cash, card & mobile money'],
-              [IconXray, 'Digital X-ray', 'Lower dose, instant results'],
-              [IconBolt, 'Prices up front', 'Quoted before we begin'],
+              [IconClock, "Open 24 hours", "Including weekends & holidays"],
+              [IconShield, "Easy payment", "Cash, card & mobile money"],
+              [IconXray, "Digital X-ray", "Lower dose, instant results"],
+              [IconBolt, "Prices up front", "Quoted before we begin"],
             ].map(([Icon, t, s]) => (
               <div key={t} className="flex items-center gap-[14px]">
                 <Icon className="w-[26px] h-[26px] text-cyan flex-none" />
                 <div>
-                  <strong className="block text-white text-[0.98rem] font-bold leading-[1.3]">{t}</strong>
+                  <strong className="block text-white text-[0.98rem] font-bold leading-[1.3]">
+                    {t}
+                  </strong>
                   <span className="text-[0.82rem] text-haze-700">{s}</span>
                 </div>
               </div>
@@ -228,7 +264,10 @@ export default function Home() {
                 {w.n}
               </span>
               <h3 className="relative">{w.title}</h3>
-              <p className="text-muted" dangerouslySetInnerHTML={{ __html: w.body }} />
+              <p
+                className="text-muted"
+                dangerouslySetInnerHTML={{ __html: w.body }}
+              />
             </div>
           ))}
         </div>
@@ -257,21 +296,22 @@ export default function Home() {
       <Section size="xs">
         <div
           className="rounded-[28px] p-s6 max-[767px]:p-s4"
-          style={{ background: 'linear-gradient(115deg, #E9897E 0%, #D96A5D 100%)' }}
+          style={{
+            background: "linear-gradient(115deg, #E9897E 0%, #D96A5D 100%)",
+          }}
         >
           <div className="flex flex-wrap items-center gap-s4">
             <div className="flex-1 min-w-[280px]">
-              <span className="eyebrow text-white">
-                Dental emergency
-              </span>
+              <span className="eyebrow text-white">Dental emergency</span>
               <h2 className="text-white mb-s3">
                 In pain right now?
                 <br />
                 Do not wait until morning.
               </h2>
               <p className="text-white/[.93] text-[1.16rem] leading-[1.75]">
-                Severe toothache, a knocked-out tooth, a broken filling, facial swelling or bleeding that will not
-                stop. Call us and we will see you today. There is always a dentist on duty at Livora.
+                Severe toothache, a knocked-out tooth, a broken filling, facial
+                swelling or bleeding that will not stop. Call us and we will see
+                you today. There is always a dentist on duty at Livora.
               </p>
             </div>
             <div className="flex-1 min-w-[260px]">
@@ -301,7 +341,9 @@ export default function Home() {
                 className="rounded-[28px] w-full"
               />
               <div className="absolute right-0 -bottom-[22px] max-[1024px]:static max-[1024px]:mt-s3 bg-white rounded-[18px] shadow-lg px-s4 py-s3 max-w-[220px]">
-                <strong className="block text-[2rem] font-extrabold text-cyan leading-[1.1]">24/7</strong>
+                <strong className="block text-[2rem] font-extrabold text-cyan leading-[1.1]">
+                  24/7
+                </strong>
                 <span className="text-[0.85rem] font-semibold text-muted">
                   A dentist on duty, every hour of every day
                 </span>
@@ -310,16 +352,25 @@ export default function Home() {
           </div>
           <div className="flex-1 min-w-[320px]">
             <span className="eyebrow">About Livora</span>
-            <h2>A clinic that treats you like a person, not an appointment slot</h2>
+            <h2>
+              A clinic that treats you like a person, not an appointment slot
+            </h2>
             <p className="lead text-muted">
-              Livora Dental Clinic exists because too many people in Zambia put off dental treatment until it
-              becomes an emergency. Our answer was simple: stay open, explain everything, and quote the price
-              before we pick up an instrument.
+              Livora Dental Clinic exists because too many people in Zambia put
+              off dental treatment until it becomes an emergency. Our answer was
+              simple: stay open, explain everything, and quote the price before
+              we pick up an instrument.
             </p>
             <ul className="checklist">
-              <li>Qualified, registered dentists and hygienists on every shift</li>
-              <li>Modern equipment including digital X-ray and intraoral scanning</li>
-              <li>Strict sterilisation and single-use instruments where required</li>
+              <li>
+                Qualified, registered dentists and hygienists on every shift
+              </li>
+              <li>
+                Modern equipment including digital X-ray and intraoral scanning
+              </li>
+              <li>
+                Strict sterilisation and single-use instruments where required
+              </li>
               <li>Unhurried appointments — we build in time for questions</li>
               <li>Special care for nervous patients and first-time visitors</li>
             </ul>
@@ -357,7 +408,10 @@ export default function Home() {
           title="What people say after<br>their first visit"
         />
         {testimonialsLoading && (
-          <LoadingRegion label="Loading patient stories" className="grid md:grid-cols-3 gap-s3">
+          <LoadingRegion
+            label="Loading patient stories"
+            className="grid md:grid-cols-3 gap-s3"
+          >
             {[0, 1, 2].map((i) => (
               <TestimonialSkeleton key={i} />
             ))}
@@ -373,16 +427,20 @@ export default function Home() {
                 &ldquo;
               </span>
               <StarRating />
-              <blockquote className="mb-s3 text-[1rem] leading-[1.75] text-ink">{t.quote}</blockquote>
+              <blockquote className="mb-s3 text-[1rem] leading-[1.75] text-ink">
+                {t.quote}
+              </blockquote>
               <div className="flex items-center gap-[13px] mt-auto">
                 <span className="flex items-center justify-center w-[46px] h-[46px] rounded-none bg-sand-deep text-cyan-700 font-extrabold text-base flex-none">
                   {t.name
-                    .split(' ')
+                    .split(" ")
                     .map((w) => w[0])
-                    .join('')}
+                    .join("")}
                 </span>
                 <div>
-                  <strong className="block text-[0.95rem] font-bold">{t.name}</strong>
+                  <strong className="block text-[0.95rem] font-bold">
+                    {t.name}
+                  </strong>
                   <span className="text-[0.84rem] text-muted">{t.role}</span>
                 </div>
               </div>
@@ -405,9 +463,10 @@ export default function Home() {
               before we start
             </h2>
             <p className="lead text-muted">
-              No estimates that quietly double. Every treatment plan is written down and priced in Kwacha before you
-              agree to anything. We accept cash, card and mobile money, and larger
-              treatments can be split into instalments.
+              No estimates that quietly double. Every treatment plan is written
+              down and priced in Kwacha before you agree to anything. We accept
+              cash, card and mobile money, and larger treatments can be split
+              into instalments.
             </p>
             <div className="flex flex-wrap gap-s2 mt-s4">
               <Link to="/pricing" className="btn btn--primary">
@@ -430,8 +489,13 @@ export default function Home() {
                 </LoadingRegion>
               )}
               {popularPrices.map((item) => (
-                <div key={item.id} className="flex items-baseline gap-3 py-[13px] border-b border-dashed border-line last:border-0">
-                  <span className="text-[0.97rem] font-semibold text-ink">{item.name}</span>
+                <div
+                  key={item.id}
+                  className="flex items-baseline gap-3 py-[13px] border-b border-dashed border-line last:border-0"
+                >
+                  <span className="text-[0.97rem] font-semibold text-ink">
+                    {item.name}
+                  </span>
                   <span className="flex-1 border-b border-dotted border-line-deep -translate-y-1" />
                   <span className="text-[0.97rem] font-extrabold text-cyan-700 whitespace-nowrap flex-none">
                     {item.price}
@@ -439,8 +503,8 @@ export default function Home() {
                 </div>
               ))}
               <p className="text-[0.85rem] text-muted mt-s3">
-                Prices shown in Zambian Kwacha. Your exact quote depends on your examination — we confirm it in
-                writing before treatment begins.
+                Prices shown in Zambian Kwacha. Your exact quote depends on your
+                examination — we confirm it in writing before treatment begins.
               </p>
             </div>
           </div>
@@ -454,10 +518,10 @@ export default function Home() {
             <span className="eyebrow">Common questions</span>
             <h2>Before you book</h2>
             <p className="lead mt-s3 text-muted">
-              Anything else on your mind? Call us on{' '}
+              Anything else on your mind? Call us on{" "}
               <a href={settings.telHref} className="underline">
                 {settings.phoneDisplay}
-              </a>{' '}
+              </a>{" "}
               — someone is always there.
             </p>
             <Link to="/contact" className="btn btn--primary mt-s4">
@@ -481,8 +545,8 @@ export default function Home() {
               at Livora today
             </h2>
             <p className="lead mt-s3 text-haze-500">
-              Tell us when suits you and what you need. We will confirm by phone within the hour — or immediately,
-              if it is urgent.
+              Tell us when suits you and what you need. We will confirm by phone
+              within the hour — or immediately, if it is urgent.
             </p>
           </div>
           <div className="flex-1 min-w-[260px]">
