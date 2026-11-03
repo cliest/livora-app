@@ -21,13 +21,6 @@ export default function Privacy() {
 
       <Section>
         <div className="max-w-[780px] mx-auto legal-content">
-          <div className="mb-s4 bg-coral/10 border border-coral/30 rounded-xl px-4 py-3 text-[0.85rem] text-coral-600">
-            <strong>Before this goes live:</strong> this policy accurately describes what the Livora website
-            technically collects and does today. It has not been reviewed by a lawyer and does not reference
-            every obligation the clinic may have under Zambia&rsquo;s Data Protection Act (No. 3 of 2021) as a
-            healthcare provider. Have it checked by qualified counsel before publishing.
-          </div>
-
           <h2>Who we are</h2>
           <p>
             Livora Dental Clinic (&ldquo;Livora&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) operates this website
