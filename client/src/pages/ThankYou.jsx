@@ -63,7 +63,7 @@ export default function ThankYou() {
         <div className="grid md:grid-cols-3 gap-s3">
           {[
             [IconPhone, 'In pain now?', `Do not wait for the callback. Call us on ${settings.phoneDisplay} and come straight in, we are open.`],
-            [IconIdCard, 'Bring with you', 'Your NRC, your NHIMA card if you have one, and a list of any medication you take.'],
+            [IconIdCard, 'Bring with you', 'Your NRC and a list of any medication you take.'],
             [IconClock, 'Need to change it?', 'Call or WhatsApp us any time and we will move your appointment, no charge, no fuss.'],
           ].map(([Icon, title, body]) => (
             <div key={title} className="bg-white border border-line rounded-[18px] p-s4">

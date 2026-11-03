@@ -7,7 +7,6 @@ import {
   zodIssuesToFieldErrors,
   SERVICE_MAP,
   TIME_MAP,
-  NHIMA_MAP,
   PATIENT_MAP,
 } from '../lib/validation.js';
 
@@ -46,7 +45,6 @@ bookingsRouter.post('/', async (req, res) => {
         service: SERVICE_MAP[d.service],
         preferredDate: new Date(d.preferredDate),
         preferredTime: TIME_MAP[d.preferredTime],
-        nhimaMember: NHIMA_MAP[d.nhimaMember],
         message: d.message || null,
         consentGiven: d.consentGiven,
         ipAddress: req.ip,
@@ -67,7 +65,6 @@ bookingsRouter.post('/', async (req, res) => {
         `Service: ${SERVICE_LABEL[SERVICE_MAP[d.service]]}`,
         `Preferred date: ${d.preferredDate}`,
         `Preferred time: ${d.preferredTime}`,
-        `NHIMA member: ${d.nhimaMember}`,
         `Message: ${d.message || '(none)'}`,
       ].join('\n'),
     }).catch(() => {}); // never fail the request over email delivery

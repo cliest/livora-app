@@ -64,7 +64,6 @@ export default function AdminBookings() {
               <th className="px-4 py-3">Phone</th>
               <th className="px-4 py-3">Service</th>
               <th className="px-4 py-3">Preferred</th>
-              <th className="px-4 py-3">NHIMA</th>
               <th className="px-4 py-3">Requested</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3">Notes</th>
@@ -73,12 +72,12 @@ export default function AdminBookings() {
           <tbody>
             {isLoading && (
               <tr>
-                <td className="px-4 py-4 text-muted" colSpan={8}>Loading…</td>
+                <td className="px-4 py-4 text-muted" colSpan={7}>Loading…</td>
               </tr>
             )}
             {!isLoading && data?.items?.length === 0 && (
               <tr>
-                <td className="px-4 py-4 text-muted" colSpan={8}>No bookings found.</td>
+                <td className="px-4 py-4 text-muted" colSpan={7}>No bookings found.</td>
               </tr>
             )}
             {data?.items?.map((b) => (
@@ -94,7 +93,6 @@ export default function AdminBookings() {
                     {new Date(b.preferredDate).toLocaleDateString()}
                     <span className="block text-muted text-[0.8rem]">{humanize(b.preferredTime)}</span>
                   </td>
-                  <td className="px-4 py-3">{humanize(b.nhimaMember)}</td>
                   <td className="px-4 py-3 text-muted">{new Date(b.createdAt).toLocaleDateString()}</td>
                   <td className="px-4 py-3">
                     <div className="flex flex-col gap-1.5 items-start">
@@ -119,7 +117,7 @@ export default function AdminBookings() {
                 </tr>
                 {expandedId === b.id && (
                   <NotesRow
-                    colSpan={8}
+                    colSpan={7}
                     patientMessage={b.message}
                     patientMessageLabel="Anything we should know? (patient's own message)"
                     notes={b.staffNotes}

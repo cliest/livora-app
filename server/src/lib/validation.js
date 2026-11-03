@@ -23,14 +23,12 @@ export const TIME_MAP = {
   night: 'OVERNIGHT',
 };
 
-export const NHIMA_MAP = { yes: 'YES', no: 'NO', unsure: 'UNSURE' };
 export const PATIENT_MAP = { new: 'NEW', returning: 'RETURNING' };
 
 export const SUBJECT_MAP = {
   appointment: 'APPOINTMENT',
   treatment: 'TREATMENT',
   prices: 'PRICES',
-  nhima: 'NHIMA',
   records: 'RECORDS',
   feedback: 'FEEDBACK',
   other: 'OTHER',
@@ -48,7 +46,6 @@ export const bookingSchema = z.object({
     .string()
     .refine((v) => !Number.isNaN(Date.parse(v)), 'Please choose a valid date'),
   preferredTime: z.enum(Object.keys(TIME_MAP)).default('morning'),
-  nhimaMember: z.enum(Object.keys(NHIMA_MAP), { errorMap: () => ({ message: 'Please tell us your NHIMA status' }) }),
   message: z.string().trim().max(2000).optional().or(z.literal('')),
   consentGiven: z.coerce.boolean().refine((v) => v === true, 'Please agree so we can contact you'),
 });

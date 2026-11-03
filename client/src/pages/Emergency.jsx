@@ -43,7 +43,6 @@ const FAQS = [
   { q: 'Are you really open at night and on Sundays?', a: 'Yes, 24 hours a day, 7 days a week, 365 days a year, public holidays included. There is always a qualified dentist on duty, not just a receptionist taking messages.' },
   { q: 'My tooth was knocked out. What do I do?', a: 'Pick it up by the crown, never the root. If it is dirty, rinse it briefly in milk or saline, not tap water, and do not scrub it. If you can, push it gently back into the socket and bite on a clean cloth. If not, keep it in a cup of milk and get to us within the hour.' },
   { q: 'Is after-hours treatment more expensive?', a: 'The emergency examination fee is slightly higher outside normal hours, because of the on-call staffing. The treatment itself is charged at the same rate as it would be at midday. You will always be told the total before we begin.' },
-  { q: 'Can I use NHIMA for an emergency visit?', a: 'Yes. Bring your NHIMA card and NRC. Cover varies depending on the treatment needed, so our front desk will confirm what is covered and what you would pay yourself before treatment starts.' },
   { q: 'My child has a dental emergency. Will you see them?', a: "Absolutely, at any hour. Tell us their age when you call so the right clinician is ready. Knocked-out baby teeth are handled differently from adult teeth, so do not try to reinsert a child's tooth, bring them straight in." },
 ];
 
@@ -149,8 +148,8 @@ export default function Emergency() {
             <span className="eyebrow">Emergency costs</span>
             <h2>What an emergency visit costs</h2>
             <p className="lead text-muted">
-              You get the price before we touch anything, even at 3am. NHIMA is accepted for emergency treatment,
-              and we take cash, card and mobile money.
+              You get the price before we touch anything, even at 3am. We take cash, card and mobile money, at
+              any hour.
             </p>
             <div className="flex flex-wrap gap-s2 mt-s4">
               <Link to="/pricing" className="btn btn--primary">

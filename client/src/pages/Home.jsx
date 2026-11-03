@@ -13,7 +13,7 @@ import { api } from '../lib/api.js';
 
 const PROOF = [
   ['24/7', 'Always open'],
-  ['NHIMA', 'Accepted here'],
+  ['4', 'Ways to pay'],
   ['15+', 'Treatments offered'],
   ['Same day', 'Emergency slots'],
 ];
@@ -32,7 +32,7 @@ const WHY = [
   {
     n: '03',
     title: 'A bill you did not expect',
-    body: 'You get a written quote before any treatment starts. If the plan changes, we stop and talk to you first. NHIMA is accepted and payment plans are available.',
+    body: 'You get a written quote before any treatment starts. If the plan changes, we stop and talk to you first. Pay by cash, card or mobile money, and payment plans are available.',
   },
 ];
 
@@ -99,8 +99,12 @@ const FAQS = [
     a: 'Yes. Livora is staffed around the clock, seven days a week, including public holidays. There is always a qualified dentist on duty. For non-urgent treatment we will usually book you into a scheduled slot, but if you are in pain you will be seen straight away.',
   },
   {
-    q: 'Do you accept NHIMA?',
-    a: 'We do. Bring your NHIMA card and national registration card to your appointment and our front desk will handle the paperwork. Cover varies by treatment, so we will always tell you what is covered and what you would pay yourself before we begin. We also take cash, card and mobile money.',
+    q: 'How can I pay?',
+    a: 'We take cash, Visa and Mastercard, and Airtel Money or MTN Mobile Money. Larger treatments can be split into instalments agreed before we begin, and you will always have a written quote first.',
+  },
+  {
+    q: 'Do you still accept NHIMA?',
+    a: 'No. Livora no longer accepts NHIMA, including for emergency visits. You are still welcome as a patient: you can pay by cash, card or mobile money, and larger treatments can be split into instalments. You will always get a written quote before any treatment starts.',
   },
   {
     q: 'I am terrified of the dentist. Can you help?',
@@ -132,7 +136,7 @@ export default function Home() {
     <>
       <Seo
         title="Dentist in Livingstone | 24/7 Emergency Dental Care | Livora Dental Clinic"
-        description="Livora is a professional dental clinic in Livingstone, Zambia, open 24 hours a day. Check-ups, cleaning, fillings, implants, braces and emergency toothache care. NHIMA accepted."
+        description="Livora is a professional dental clinic in Livingstone, Zambia, open 24 hours a day. Check-ups, cleaning, fillings, implants, braces and emergency toothache care."
         path="/"
       />
 
@@ -193,7 +197,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-s3">
             {[
               [IconClock, 'Open 24 hours', 'Including weekends & holidays'],
-              [IconShield, 'NHIMA accepted', 'Plus cash, card & mobile money'],
+              [IconShield, 'Easy payment', 'Cash, card & mobile money'],
               [IconXray, 'Digital X-ray', 'Lower dose, instant results'],
               [IconBolt, 'Prices up front', 'Quoted before we begin'],
             ].map(([Icon, t, s]) => (
@@ -394,7 +398,7 @@ export default function Home() {
             </h2>
             <p className="lead text-muted">
               No estimates that quietly double. Every treatment plan is written down and priced in Kwacha before you
-              agree to anything. We accept <strong>NHIMA</strong>, cash, card and mobile money, and larger
+              agree to anything. We accept cash, card and mobile money, and larger
               treatments can be split into instalments.
             </p>
             <div className="flex flex-wrap gap-s2 mt-s4">

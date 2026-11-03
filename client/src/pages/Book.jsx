@@ -19,12 +19,6 @@ const TIME_OPTIONS = [
   ['night', 'Overnight (22:00–07:00)'],
 ];
 
-const NHIMA_OPTIONS = [
-  ['yes', 'Yes — I will bring my card'],
-  ['no', 'No — I will pay directly'],
-  ['unsure', 'I am not sure'],
-];
-
 const PATIENT_OPTIONS = [
   ['new', 'This would be my first visit'],
   ['returning', 'I am a returning patient'],
@@ -76,7 +70,7 @@ export default function Book() {
     <>
       <Seo
         title="Book a Dental Appointment in Livingstone | Livora Dental Clinic"
-        description="Book your dental appointment at Livora Dental Clinic in Livingstone. Open 24/7, NHIMA accepted."
+        description="Book your dental appointment at Livora Dental Clinic in Livingstone. Open 24/7."
         path="/book"
       />
 
@@ -134,7 +128,6 @@ export default function Book() {
                 <SelectField label="What do you need?" name="service" register={register} error={errors.service} options={SERVICE_OPTIONS} required full />
 
                 <TextField label="Preferred date" name="preferredDate" register={register} error={errors.preferredDate} required type="date" min={today} />
-                <SelectField label="Are you a NHIMA member?" name="nhimaMember" register={register} error={errors.nhimaMember} options={NHIMA_OPTIONS} required />
 
                 <PillGroup label="Preferred time" name="preferredTime" register={register} options={TIME_OPTIONS} />
 
@@ -198,7 +191,7 @@ export default function Book() {
                 {[
                   ['We call you back', 'Within the hour during the day, and straight away if you have flagged an emergency.'],
                   ['We confirm your slot', 'We agree a time that actually works for you and send a confirmation by SMS or WhatsApp.'],
-                  ['You come in', 'Bring your NRC, and your NHIMA card if you have one. Arrive ten minutes early for a first visit.'],
+                  ['You come in', 'Bring your NRC. Arrive ten minutes early for a first visit.'],
                 ].map(([t, b], i) => (
                   <div key={t} className="flex gap-3">
                     <span className="flex-none w-[42px] h-[42px] rounded-none bg-cyan text-white flex items-center justify-center font-extrabold">

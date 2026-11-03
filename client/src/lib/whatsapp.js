@@ -7,19 +7,12 @@ const TIME_LABELS = {
   night: 'Overnight (22:00–07:00)',
 };
 
-const NHIMA_LABELS = {
-  yes: 'Yes — I will bring my card',
-  no: 'No — I will pay directly',
-  unsure: 'I am not sure',
-};
-
 // Builds the pre-filled message for a booking's "message the clinic on
 // WhatsApp too" flow, shared between the Book form (best-effort auto-open)
 // and the Thank You page (guaranteed one-tap fallback button).
 export function buildBookingWhatsAppMessage(data) {
   const serviceLabel = SERVICE_OPTIONS.find(([value]) => value === data.service)?.[1] || data.service;
   const timeLabel = TIME_LABELS[data.preferredTime] || data.preferredTime;
-  const nhimaLabel = NHIMA_LABELS[data.nhimaMember] || data.nhimaMember;
 
   const lines = [
     'Hi Livora Dental Clinic, I just requested an appointment on your website.',
@@ -29,7 +22,6 @@ export function buildBookingWhatsAppMessage(data) {
     `Treatment: ${serviceLabel}`,
     `Preferred date: ${data.preferredDate}`,
     `Preferred time: ${timeLabel}`,
-    `NHIMA member: ${nhimaLabel}`,
   ];
 
   if (data.message?.trim()) lines.push(`Notes: ${data.message.trim()}`);

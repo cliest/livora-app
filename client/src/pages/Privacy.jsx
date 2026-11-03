@@ -44,7 +44,6 @@ export default function Privacy() {
             <li>Email address (optional)</li>
             <li>Whether you&rsquo;re a new or returning patient</li>
             <li>The treatment you&rsquo;re requesting, and your preferred date and time</li>
-            <li>Whether you&rsquo;re an NHIMA member</li>
             <li>Anything you choose to tell us in the free-text message — this can include symptoms or health
               information you volunteer</li>
           </ul>

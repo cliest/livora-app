@@ -12,7 +12,6 @@ export const bookingFormSchema = z.object({
   service: z.string().min(1, 'Please choose a treatment'),
   preferredDate: z.string().min(1, 'Please choose a date'),
   preferredTime: z.string().min(1),
-  nhimaMember: z.string().min(1, 'Please tell us your NHIMA status'),
   message: z.string().optional(),
   consentGiven: z.boolean().refine((v) => v === true, 'Please tick this box so we can contact you'),
 });
@@ -45,7 +44,6 @@ export const SUBJECT_OPTIONS = [
   ['appointment', 'Booking an appointment'],
   ['treatment', 'A question about treatment'],
   ['prices', 'Prices or payment'],
-  ['nhima', 'NHIMA and insurance'],
   ['records', 'Records or a previous visit'],
   ['feedback', 'Feedback or a complaint'],
   ['other', 'Something else'],
@@ -110,7 +108,7 @@ export const priceItemSchema = z.object({
 });
 
 export const accreditationSchema = z.object({
-  title: z.string().trim().min(1, 'Please enter a title, e.g. "NHIMA Accredited Provider"'),
+  title: z.string().trim().min(1, 'Please enter a title, e.g. "HPCZ Registered Facility"'),
   badgeUrl: z.string().trim().optional().or(z.literal('')),
   published: z.boolean().optional(),
 });

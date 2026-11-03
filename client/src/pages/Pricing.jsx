@@ -13,6 +13,7 @@ const FAQS = [
   { q: 'Why are all the prices “from”?', a: 'Because teeth are not identical. A small filling on a front tooth and a deep one on a back molar take different amounts of time and material. The starting price tells you the realistic floor; your written quote after examination tells you the actual number, and that number does not move.' },
   { q: 'Will you tell me the price before you start?', a: 'Always. Nobody at Livora begins a treatment you have not been quoted for and agreed to. If we discover something mid-treatment that changes the plan, we stop, explain it, and let you decide before continuing.' },
   { q: 'Can I pay in instalments?', a: 'For larger treatments — orthodontics, implants, full-mouth restorative work — yes. We will agree a schedule with you before treatment begins. Ask at reception or mention it when you book.' },
+  { q: 'Do you still accept NHIMA?', a: 'No. Livora no longer accepts NHIMA, including for emergency visits. Every treatment is paid for directly by cash, card or mobile money, and larger treatments can be split into instalments. Your written quote shows the full amount you will pay before anything begins.' },
   { q: 'Do you charge more at night?', a: 'Only the emergency examination fee is higher outside normal hours, to cover on-call staffing. The treatment itself costs the same at 3am as it does at 3pm.' },
   { q: 'Can I pay in US dollars?', a: 'Our prices are set in Kwacha. If you need a USD equivalent for an insurer or employer, ask and we will provide one at the prevailing rate on the day of your quote.' },
 ];
@@ -33,8 +34,8 @@ export default function Pricing() {
   return (
     <>
       <Seo
-        title="Dental Prices in Livingstone | NHIMA Accepted | Livora Dental Clinic"
-        description="Transparent dental prices in Kwacha at Livora Dental Clinic, Livingstone. Check-ups from K350, fillings from K750, crowns from K3,500. NHIMA accepted."
+        title="Dental Prices in Livingstone | Livora Dental Clinic"
+        description="Transparent dental prices in Kwacha at Livora Dental Clinic, Livingstone. Check-ups from K350, fillings from K750, crowns from K3,500. Cash, card, mobile money and payment plans."
         path="/pricing"
       />
 
@@ -60,25 +61,21 @@ export default function Pricing() {
         </p>
       </Section>
 
-      <Section bg="sand" id="nhima">
+      <Section bg="sand" id="payment">
         <div className="flex flex-wrap items-center gap-s5">
           <div className="flex-1 min-w-[320px]">
-            <span className="eyebrow">Insurance</span>
-            <h2>We accept NHIMA</h2>
+            <span className="eyebrow">Payment</span>
+            <h2>Simple ways to pay</h2>
             <p className="lead text-muted">
-              Livora is set up to treat NHIMA members. Bring your NHIMA card and your national registration card to
-              your appointment and our front desk handles the rest.
+              Pay at reception the way that suits you. Your total is agreed in writing before treatment starts, so
+              there is nothing to work out on the day.
             </p>
             <ul className="checklist">
-              <li>Cover is confirmed <strong>before</strong> treatment, not after</li>
-              <li>You are told exactly what NHIMA covers and what you would pay yourself</li>
-              <li>NHIMA applies to emergency visits too, at any hour</li>
-              <li>Bring your card and NRC — without them we cannot claim on your behalf</li>
+              <li>Your quote is confirmed <strong>before</strong> treatment, not after</li>
+              <li>The same payment options apply to emergency visits, at any hour</li>
+              <li>Larger treatments can be split into agreed instalments</li>
+              <li>A receipt is issued for every payment</li>
             </ul>
-            <p className="text-[0.85rem] text-muted mt-s3">
-              Cover levels are set by NHIMA and can change. We will always confirm your current entitlement on the
-              day rather than assume it.
-            </p>
           </div>
           <div className="flex-1 min-w-[320px]">
             <div className="grid grid-cols-2 gap-s2">

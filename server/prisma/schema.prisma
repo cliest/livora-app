@@ -56,7 +56,7 @@ enum ContactSubject {
   APPOINTMENT
   TREATMENT
   PRICES
-  NHIMA
+  NHIMA       // legacy, no longer offered on the contact form
   RECORDS
   FEEDBACK
   OTHER
@@ -75,7 +75,8 @@ model BookingRequest {
   service        ServiceType
   preferredDate  DateTime       @db.Date
   preferredTime  PreferredTime  @default(MORNING)
-  nhimaMember    NhimaStatus
+  // Legacy: the clinic stopped accepting NHIMA, no longer collected.
+  nhimaMember    NhimaStatus?
 
   message        String?
 

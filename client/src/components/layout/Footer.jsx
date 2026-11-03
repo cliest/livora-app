@@ -16,7 +16,7 @@ const CLINIC_LINKS = [
   { label: 'About Livora', to: '/about' },
   { label: 'Our Team', to: '/about#team' },
   { label: 'Technology', to: '/about#technology' },
-  { label: 'Prices & NHIMA', to: '/pricing' },
+  { label: 'Prices & payment', to: '/pricing' },
   { label: '24/7 Emergency', to: '/emergency' },
   { label: 'Book Appointment', to: '/book' },
   { label: 'Contact Us', to: '/contact' },

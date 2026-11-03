@@ -103,7 +103,7 @@ export default function AdminAccreditations() {
                 {uploading && <p className="text-[0.8rem] text-muted mt-1">Uploading…</p>}
               </div>
 
-              <TextField label="Title" name="title" register={register} error={errors.title} required placeholder="e.g. NHIMA Accredited Provider" />
+              <TextField label="Title" name="title" register={register} error={errors.title} required placeholder="e.g. HPCZ Registered Facility" />
 
               <label className="flex items-center gap-2 text-[0.88rem] font-medium text-ink">
                 <input type="checkbox" {...register('published')} className="w-[18px] h-[18px] accent-cyan" />

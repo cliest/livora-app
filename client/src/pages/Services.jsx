@@ -117,7 +117,7 @@ export default function Services() {
     <>
       <Seo
         title="Dental Services in Livingstone | Check-ups, Implants, Braces | Livora"
-        description="Complete dental care in Livingstone: check-ups and cleaning, fillings, root canals, crowns, implants, braces, clear aligners, whitening and children's dentistry. NHIMA accepted, open 24/7."
+        description="Complete dental care in Livingstone: check-ups and cleaning, fillings, root canals, crowns, implants, braces, clear aligners, whitening and children's dentistry. Open 24/7."
         path="/services"
       />
 
