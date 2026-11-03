@@ -1,14 +1,14 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/router.js';
 import { z } from 'zod';
-import { prisma } from '../lib/prisma.js';
+import { prisma, isNotFoundError, isForeignKeyError } from '../lib/prisma.js';
 import { requireAdmin } from '../lib/auth.js';
 
 // Public router: mounted at /api/prices — GET only.
-export const pricesRouter = Router();
+export const pricesRouter = createRouter();
 // Admin CRUD router: mounted at /api/admin/prices — categories + items.
 // There's no draft/published state for prices, so admin reads the same
 // public GET; this router only needs the write endpoints.
-export const pricesAdminRouter = Router();
+export const pricesAdminRouter = createRouter();
 
 const ICONS = ['SHIELD', 'TOOTH', 'SPARKLE', 'BRACES', 'CROWN', 'BOLT'];
 
@@ -56,7 +56,8 @@ pricesAdminRouter.patch('/categories/:id', requireAdmin, async (req, res) => {
   try {
     const category = await prisma.priceCategory.update({ where: { id: req.params.id }, data });
     res.json({ ok: true, category });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Price category not found' });
   }
 });
@@ -65,7 +66,8 @@ pricesAdminRouter.delete('/categories/:id', requireAdmin, async (req, res) => {
   try {
     await prisma.priceCategory.delete({ where: { id: req.params.id } });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Price category not found' });
   }
 });
@@ -76,7 +78,8 @@ pricesAdminRouter.post('/items', requireAdmin, async (req, res) => {
   try {
     const item = await prisma.priceItem.create({ data: parsed.data });
     res.status(201).json({ ok: true, item });
-  } catch {
+  } catch (err) {
+    if (!isForeignKeyError(err)) throw err;
     res.status(422).json({ ok: false, error: 'Invalid category' });
   }
 });
@@ -87,7 +90,8 @@ pricesAdminRouter.patch('/items/:id', requireAdmin, async (req, res) => {
   try {
     const item = await prisma.priceItem.update({ where: { id: req.params.id }, data: parsed.data });
     res.json({ ok: true, item });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Price item not found' });
   }
 });
@@ -96,7 +100,8 @@ pricesAdminRouter.delete('/items/:id', requireAdmin, async (req, res) => {
   try {
     await prisma.priceItem.delete({ where: { id: req.params.id } });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Price item not found' });
   }
 });

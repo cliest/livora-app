@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import Seo from '../../components/Seo.jsx';
 import { api } from '../../lib/api.js';
+import { Skeleton } from '../../components/ui/Skeleton.jsx';
 
 export default function AdminOverview() {
   const { data, isLoading } = useQuery({ queryKey: ['admin-summary'], queryFn: api.adminSummary });
@@ -21,7 +22,7 @@ export default function AdminOverview() {
         {cards.map((c) => (
           <Link key={c.label} to={c.to} className="bg-white border border-line rounded-[18px] p-s4 hover:shadow-card transition-shadow">
             <span className="block text-[2.2rem] font-extrabold text-cyan leading-none">
-              {isLoading ? '—' : c.value}
+              {isLoading ? <Skeleton className="h-[2.2rem] w-14" /> : c.value}
             </span>
             <span className="text-[0.9rem] text-muted">{c.label}</span>
           </Link>

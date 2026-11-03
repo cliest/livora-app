@@ -5,7 +5,9 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField } from '../../components/ui/FormField.jsx';
 import { siteSettingsSchema } from '../../lib/formSchemas.js';
-import { api, ApiError } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../lib/api.js';
+import { FormSkeleton } from '../../components/ui/Skeleton.jsx';
+import { reportServiceError } from '../../lib/serviceErrors.js';
 
 export default function AdminSettings() {
   const queryClient = useQueryClient();
@@ -39,12 +41,14 @@ export default function AdminSettings() {
       setSaveState('saved');
       setTimeout(() => setSaveState(''), 2000);
     } catch (err) {
-      setSaveState('error');
-      setSaveError(err instanceof ApiError ? err.message : 'Something went wrong.');
+      reportServiceError(err);
+      const message = inlineErrorMessage(err, 'Something went wrong.');
+      setSaveState(message ? 'error' : '');
+      setSaveError(message);
     }
   };
 
-  if (!settings) return <p className="text-muted">Loading…</p>;
+  if (!settings) return <FormSkeleton />;
 
   return (
     <div>

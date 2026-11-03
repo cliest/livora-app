@@ -5,7 +5,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField, TextAreaField } from '../../components/ui/FormField.jsx';
 import { teamMemberSchema } from '../../lib/formSchemas.js';
-import { api, ApiError } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../lib/api.js';
+import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
+import { reportServiceError } from '../../lib/serviceErrors.js';
 
 const EMPTY = { name: '', role: '', bio: '', credentials: '', photoUrl: '', published: true };
 
@@ -57,7 +59,7 @@ export default function AdminTeam() {
       }
       startAdd();
     } catch (err) {
-      setFormError(err instanceof ApiError ? err.message : 'Something went wrong.');
+      setFormError(inlineErrorMessage(err, 'Something went wrong.'));
     }
   };
 
@@ -70,7 +72,8 @@ export default function AdminTeam() {
       const res = await api.uploadImage(file);
       setValue('photoUrl', res.url);
     } catch (err) {
-      setFormError(err instanceof ApiError ? err.message : 'Upload failed.');
+      reportServiceError(err);
+      setFormError(inlineErrorMessage(err, 'Upload failed.'));
     } finally {
       setUploading(false);
     }
@@ -135,7 +138,7 @@ export default function AdminTeam() {
         {/* List */}
         <div className="flex-[1.3] min-w-[320px]">
           <div className="flex flex-col gap-s2">
-            {isLoading && <p className="text-muted">Loading…</p>}
+            {isLoading && <CardListSkeleton />}
             {!isLoading && team.length === 0 && <p className="text-muted">No team members yet.</p>}
             {team.map((t) => (
               <div key={t.id} className="bg-white border border-line rounded-[18px] p-s3 flex items-center gap-3">

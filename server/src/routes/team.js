@@ -1,12 +1,12 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/router.js';
 import { z } from 'zod';
-import { prisma } from '../lib/prisma.js';
+import { prisma, isNotFoundError } from '../lib/prisma.js';
 import { requireAdmin } from '../lib/auth.js';
 
 // Public-facing router: mounted at /api/team — published members only.
-export const teamRouter = Router();
+export const teamRouter = createRouter();
 // Admin CRUD router: mounted at /api/admin/team — sees everything.
-export const teamAdminRouter = Router();
+export const teamAdminRouter = createRouter();
 
 const memberSchema = z.object({
   name: z.string().trim().min(1, 'Please enter a name'),
@@ -50,7 +50,8 @@ teamAdminRouter.patch('/:id', requireAdmin, async (req, res) => {
   try {
     const item = await prisma.teamMember.update({ where: { id: req.params.id }, data });
     res.json({ ok: true, item });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Team member not found' });
   }
 });
@@ -59,7 +60,8 @@ teamAdminRouter.delete('/:id', requireAdmin, async (req, res) => {
   try {
     await prisma.teamMember.delete({ where: { id: req.params.id } });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Team member not found' });
   }
 });

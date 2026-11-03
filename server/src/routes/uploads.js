@@ -1,11 +1,11 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/router.js';
 import multer from 'multer';
 import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { requireAdmin } from '../lib/auth.js';
 
-export const uploadsRouter = Router();
+export const uploadsRouter = createRouter();
 
 const UPLOADS_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '../../uploads');
 
@@ -29,12 +29,20 @@ const upload = multer({
 // POST /api/admin/uploads — admin only, used by the dashboard for team
 // member and testimonial photos. Stores to server/uploads and returns the
 // public URL it's served back at (see express.static in src/index.js).
-uploadsRouter.post('/', requireAdmin, (req, res) => {
+// Our own wording for multer's limit errors — its messages are written for
+// developers ("Unexpected field"), not for clinic staff.
+const MULTER_MESSAGES = {
+  LIMIT_FILE_SIZE: 'That image is too large. Please choose one under 5 MB.',
+  LIMIT_FILE_COUNT: 'Please upload one image at a time.',
+  LIMIT_UNEXPECTED_FILE: 'Please upload one image at a time.',
+};
+
+uploadsRouter.post('/', requireAdmin, (req, res, next) => {
   upload.single('file')(req, res, (err) => {
     if (err instanceof multer.MulterError) {
-      return res.status(422).json({ ok: false, error: 'Upload failed: ' + err.message });
+      return res.status(422).json({ ok: false, error: MULTER_MESSAGES[err.code] || 'That file could not be uploaded.' });
     }
-    if (err) return res.status(500).json({ ok: false, error: 'Upload failed.' });
+    if (err) return next(err);
     if (!req.file) return res.status(422).json({ ok: false, error: 'Only JPG, PNG or WebP images are accepted.' });
     res.status(201).json({ ok: true, url: `/uploads/${req.file.filename}` });
   });

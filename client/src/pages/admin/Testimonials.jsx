@@ -5,7 +5,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField, TextAreaField } from '../../components/ui/FormField.jsx';
 import { testimonialSchema } from '../../lib/formSchemas.js';
-import { api, ApiError } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../lib/api.js';
+import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
 
 const EMPTY = { quote: '', name: '', role: '', published: true };
 
@@ -51,7 +52,7 @@ export default function AdminTestimonials() {
       else await createMutation.mutateAsync(data);
       startAdd();
     } catch (err) {
-      setFormError(err instanceof ApiError ? err.message : 'Something went wrong.');
+      setFormError(inlineErrorMessage(err, 'Something went wrong.'));
     }
   };
 
@@ -100,7 +101,7 @@ export default function AdminTestimonials() {
 
         <div className="flex-[1.3] min-w-[320px]">
           <div className="flex flex-col gap-s2">
-            {isLoading && <p className="text-muted">Loading…</p>}
+            {isLoading && <CardListSkeleton />}
             {!isLoading && items.length === 0 && <p className="text-muted">No testimonials yet.</p>}
             {items.map((t) => (
               <div key={t.id} className="bg-white border border-line rounded-[18px] p-s3">

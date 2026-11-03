@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import { prisma } from '../lib/prisma.js';
+import { createRouter } from '../lib/router.js';
+import { prisma, isNotFoundError } from '../lib/prisma.js';
 import { notifyClinic } from '../lib/mailer.js';
 import { requireAdmin } from '../lib/auth.js';
 import { contactSchema, zodIssuesToFieldErrors, SUBJECT_MAP } from '../lib/validation.js';
 
-export const contactRouter = Router();
+export const contactRouter = createRouter();
 
 // POST /api/contact — public, submitted from contact.html's form
 contactRouter.post('/', async (req, res) => {
@@ -92,6 +92,7 @@ contactRouter.patch('/:id', requireAdmin, async (req, res) => {
     });
     res.json({ ok: true, item: updated });
   } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Message not found' });
   }
 });

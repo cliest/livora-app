@@ -5,7 +5,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField } from '../../components/ui/FormField.jsx';
 import { accreditationSchema } from '../../lib/formSchemas.js';
-import { api, ApiError } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../lib/api.js';
+import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
+import { reportServiceError } from '../../lib/serviceErrors.js';
 
 const EMPTY = { title: '', badgeUrl: '', published: true };
 
@@ -56,7 +58,7 @@ export default function AdminAccreditations() {
       else await createMutation.mutateAsync(data);
       startAdd();
     } catch (err) {
-      setFormError(err instanceof ApiError ? err.message : 'Something went wrong.');
+      setFormError(inlineErrorMessage(err, 'Something went wrong.'));
     }
   };
 
@@ -69,7 +71,8 @@ export default function AdminAccreditations() {
       const res = await api.uploadImage(file);
       setValue('badgeUrl', res.url);
     } catch (err) {
-      setFormError(err instanceof ApiError ? err.message : 'Upload failed.');
+      reportServiceError(err);
+      setFormError(inlineErrorMessage(err, 'Upload failed.'));
     } finally {
       setUploading(false);
     }
@@ -132,7 +135,7 @@ export default function AdminAccreditations() {
 
         <div className="flex-[1.3] min-w-[320px]">
           <div className="flex flex-col gap-s2">
-            {isLoading && <p className="text-muted">Loading…</p>}
+            {isLoading && <CardListSkeleton />}
             {!isLoading && items.length === 0 && <p className="text-muted">No accreditations yet.</p>}
             {items.map((item) => (
               <div key={item.id} className="bg-white border border-line rounded-[18px] p-s3 flex items-center gap-3">

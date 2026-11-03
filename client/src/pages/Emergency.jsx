@@ -48,7 +48,7 @@ const FAQS = [
 
 export default function Emergency() {
   const settings = useSiteSettings();
-  const { data: priceCategories = [] } = useQuery({
+  const { data: priceCategories = [], isLoading: pricesLoading } = useQuery({
     queryKey: ['prices'],
     queryFn: async () => (await api.getPrices()).categories,
   });
@@ -165,6 +165,7 @@ export default function Emergency() {
               icon={IconBolt}
               title="Emergency treatment"
               rows={emergencyItems.map((item) => [item.name, item.price])}
+              loading={pricesLoading}
               note="Prices in Zambian Kwacha and indicative only. Your exact quote is confirmed after examination, before any treatment starts."
             />
           </div>

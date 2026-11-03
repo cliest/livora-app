@@ -5,6 +5,7 @@ import SectionHead from '../components/ui/SectionHead.jsx';
 import PageHero from '../components/ui/PageHero.jsx';
 import ImageCard from '../components/ui/ImageCard.jsx';
 import CtaBand from '../components/ui/CtaBand.jsx';
+import { LoadingRegion, TeamMemberSkeleton, BadgeSkeleton } from '../components/ui/Skeleton.jsx';
 import { api } from '../lib/api.js';
 
 const PROMISES = [
@@ -31,8 +32,11 @@ const GALLERY = [
 ];
 
 export default function About() {
-  const { data: team = [] } = useQuery({ queryKey: ['team'], queryFn: async () => (await api.getTeam()).items });
-  const { data: accreditations = [] } = useQuery({
+  const { data: team = [], isLoading: teamLoading } = useQuery({
+    queryKey: ['team'],
+    queryFn: async () => (await api.getTeam()).items,
+  });
+  const { data: accreditations = [], isLoading: accreditationsLoading } = useQuery({
     queryKey: ['accreditations'],
     queryFn: async () => (await api.getAccreditations()).items,
   });
@@ -96,6 +100,13 @@ export default function About() {
           title="The people who will<br>be looking after you"
           lead="Registered, experienced and genuinely good with anxious patients, because most of the people who walk through our door are exactly that."
         />
+        {teamLoading && (
+          <LoadingRegion label="Loading our team" className="grid sm:grid-cols-2 lg:grid-cols-4 gap-s3">
+            {[0, 1, 2, 3].map((i) => (
+              <TeamMemberSkeleton key={i} />
+            ))}
+          </LoadingRegion>
+        )}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-s3">
           {team.map((t) => (
             <article key={t.id}>
@@ -151,7 +162,13 @@ export default function About() {
           title="Registered, inspected, accountable"
           lead="Our clinicians and our premises are registered with the relevant Zambian authorities. Certificates are displayed at reception and available on request."
         />
-        {accreditations.length > 0 ? (
+        {accreditationsLoading ? (
+          <LoadingRegion label="Loading accreditations" className="grid sm:grid-cols-2 lg:grid-cols-4 gap-s3">
+            {[0, 1, 2, 3].map((i) => (
+              <BadgeSkeleton key={i} />
+            ))}
+          </LoadingRegion>
+        ) : accreditations.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-s3">
             {accreditations.map((a) => (
               <div key={a.id} className="flex flex-col items-center justify-center gap-2 min-h-[132px] p-s3 border border-line rounded-xl bg-white text-center">

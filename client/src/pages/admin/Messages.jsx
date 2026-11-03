@@ -9,6 +9,7 @@ import Pagination from '../../components/admin/Pagination.jsx';
 import NotesRow from '../../components/admin/NotesRow.jsx';
 import { useDebouncedValue } from '../../hooks/useDebouncedValue.js';
 import { api } from '../../lib/api.js';
+import { TableRowsSkeleton } from '../../components/ui/Skeleton.jsx';
 
 const humanize = (v) => (v ? v.charAt(0) + v.slice(1).toLowerCase().replace(/_/g, ' ') : '—');
 
@@ -69,11 +70,7 @@ export default function AdminMessages() {
             </tr>
           </thead>
           <tbody>
-            {isLoading && (
-              <tr>
-                <td className="px-4 py-4 text-muted" colSpan={6}>Loading…</td>
-              </tr>
-            )}
+            {isLoading && <TableRowsSkeleton columns={6} />}
             {!isLoading && data?.items?.length === 0 && (
               <tr>
                 <td className="px-4 py-4 text-muted" colSpan={6}>No messages found.</td>

@@ -1,12 +1,12 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/router.js';
 import { z } from 'zod';
-import { prisma } from '../lib/prisma.js';
+import { prisma, isNotFoundError } from '../lib/prisma.js';
 import { requireAdmin } from '../lib/auth.js';
 
 // Public-facing router: mounted at /api/accreditations — published only.
-export const accreditationsRouter = Router();
+export const accreditationsRouter = createRouter();
 // Admin CRUD router: mounted at /api/admin/accreditations — sees everything.
-export const accreditationsAdminRouter = Router();
+export const accreditationsAdminRouter = createRouter();
 
 const accreditationSchema = z.object({
   title: z.string().trim().min(1, 'Please enter a title'),
@@ -45,7 +45,8 @@ accreditationsAdminRouter.patch('/:id', requireAdmin, async (req, res) => {
   try {
     const item = await prisma.accreditation.update({ where: { id: req.params.id }, data });
     res.json({ ok: true, item });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Accreditation not found' });
   }
 });
@@ -54,7 +55,8 @@ accreditationsAdminRouter.delete('/:id', requireAdmin, async (req, res) => {
   try {
     await prisma.accreditation.delete({ where: { id: req.params.id } });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Accreditation not found' });
   }
 });

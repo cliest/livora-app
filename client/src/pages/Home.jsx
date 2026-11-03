@@ -9,6 +9,7 @@ import StarRating from '../components/ui/StarRating.jsx';
 import PhoneIcon from '../components/layout/PhoneIcon.jsx';
 import { IconClock, IconShield, IconXray, IconBolt, IconPriceTag } from '../components/ui/icons.jsx';
 import { useSiteSettings } from '../hooks/useSiteSettings.js';
+import { LoadingRegion, PriceRowsSkeleton, TestimonialSkeleton } from '../components/ui/Skeleton.jsx';
 import { api } from '../lib/api.js';
 
 const PROOF = [
@@ -122,11 +123,11 @@ const FAQS = [
 
 export default function Home() {
   const settings = useSiteSettings();
-  const { data: testimonials = [] } = useQuery({
+  const { data: testimonials = [], isLoading: testimonialsLoading } = useQuery({
     queryKey: ['testimonials'],
     queryFn: async () => (await api.getTestimonials()).items,
   });
-  const { data: priceCategories = [] } = useQuery({
+  const { data: priceCategories = [], isLoading: pricesLoading } = useQuery({
     queryKey: ['prices'],
     queryFn: async () => (await api.getPrices()).categories,
   });
@@ -355,6 +356,13 @@ export default function Home() {
           eyebrow="Patient stories"
           title="What people say after<br>their first visit"
         />
+        {testimonialsLoading && (
+          <LoadingRegion label="Loading patient stories" className="grid md:grid-cols-3 gap-s3">
+            {[0, 1, 2].map((i) => (
+              <TestimonialSkeleton key={i} />
+            ))}
+          </LoadingRegion>
+        )}
         <div className="grid md:grid-cols-3 gap-s3">
           {testimonials.map((t) => (
             <article
@@ -416,6 +424,11 @@ export default function Home() {
                 <IconPriceTag className="w-[22px] h-[22px] text-cyan flex-none" />
                 Popular treatments
               </h3>
+              {pricesLoading && (
+                <LoadingRegion label="Loading prices">
+                  <PriceRowsSkeleton />
+                </LoadingRegion>
+              )}
               {popularPrices.map((item) => (
                 <div key={item.id} className="flex items-baseline gap-3 py-[13px] border-b border-dashed border-line last:border-0">
                   <span className="text-[0.97rem] font-semibold text-ink">{item.name}</span>

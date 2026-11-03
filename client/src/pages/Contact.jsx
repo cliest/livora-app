@@ -7,7 +7,8 @@ import Section from '../components/ui/Section.jsx';
 import PageHero from '../components/ui/PageHero.jsx';
 import { TextField, SelectField, TextAreaField, ConsentCheckbox } from '../components/ui/FormField.jsx';
 import { contactFormSchema, SUBJECT_OPTIONS } from '../lib/formSchemas.js';
-import { api, ApiError } from '../lib/api.js';
+import { api, ApiError, inlineErrorMessage } from '../lib/api.js';
+import { reportServiceError } from '../lib/serviceErrors.js';
 import { IconPhone, IconClock, IconMapPin, IconMail, IconWhatsapp } from '../components/ui/icons.jsx';
 import { useSiteSettings } from '../hooks/useSiteSettings.js';
 
@@ -34,7 +35,8 @@ export default function Contact() {
       if (err instanceof ApiError && err.fieldErrors) {
         Object.entries(err.fieldErrors).forEach(([field, message]) => setError(field, { message }));
       } else {
-        setServerError(err.message || 'Something went wrong. Please email or call us instead.');
+        reportServiceError(err);
+        setServerError(inlineErrorMessage(err, 'Something went wrong. Please email or call us instead.'));
       }
     } finally {
       setSubmitting(false);

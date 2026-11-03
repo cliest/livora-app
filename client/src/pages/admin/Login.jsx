@@ -6,7 +6,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField } from '../../components/ui/FormField.jsx';
 import { adminLoginSchema } from '../../lib/formSchemas.js';
-import { api, ApiError } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../lib/api.js';
+import { reportServiceError } from '../../lib/serviceErrors.js';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -28,7 +29,8 @@ export default function AdminLogin() {
       queryClient.setQueryData(['admin-me'], res);
       navigate('/admin', { replace: true });
     } catch (err) {
-      setServerError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.');
+      reportServiceError(err);
+      setServerError(inlineErrorMessage(err, 'Something went wrong. Please try again.'));
     } finally {
       setSubmitting(false);
     }

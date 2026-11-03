@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/router.js';
 import { z } from 'zod';
-import { prisma } from '../lib/prisma.js';
+import { prisma, isNotFoundError } from '../lib/prisma.js';
 import { requireAdmin } from '../lib/auth.js';
 
-export const testimonialsRouter = Router();
-export const testimonialsAdminRouter = Router();
+export const testimonialsRouter = createRouter();
+export const testimonialsAdminRouter = createRouter();
 
 const testimonialSchema = z.object({
   quote: z.string().trim().min(1, 'Please enter the quote'),
@@ -40,7 +40,8 @@ testimonialsAdminRouter.patch('/:id', requireAdmin, async (req, res) => {
   try {
     const item = await prisma.testimonial.update({ where: { id: req.params.id }, data: parsed.data });
     res.json({ ok: true, item });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Testimonial not found' });
   }
 });
@@ -49,7 +50,8 @@ testimonialsAdminRouter.delete('/:id', requireAdmin, async (req, res) => {
   try {
     await prisma.testimonial.delete({ where: { id: req.params.id } });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Testimonial not found' });
   }
 });

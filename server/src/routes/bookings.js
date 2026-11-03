@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { prisma } from '../lib/prisma.js';
+import { createRouter } from '../lib/router.js';
+import { prisma, isNotFoundError } from '../lib/prisma.js';
 import { notifyClinic } from '../lib/mailer.js';
 import { requireAdmin } from '../lib/auth.js';
 import {
@@ -10,7 +10,7 @@ import {
   PATIENT_MAP,
 } from '../lib/validation.js';
 
-export const bookingsRouter = Router();
+export const bookingsRouter = createRouter();
 
 const SERVICE_LABEL = {
   EMERGENCY: 'Emergency / in pain right now',
@@ -128,6 +128,7 @@ bookingsRouter.patch('/:id', requireAdmin, async (req, res) => {
     });
     res.json({ ok: true, item: updated });
   } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Booking not found' });
   }
 });

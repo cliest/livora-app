@@ -80,9 +80,24 @@ app.use('/api/admin/uploads', uploadsRouter);
 // 404 for unknown API routes
 app.use('/api', (req, res) => res.status(404).json({ ok: false, error: 'Not found' }));
 
-// Centralised error handler — never leak stack traces to the client
+// Centralised error handler — never leak error messages or stack traces to
+// the client. Body-parser's own errors carry a 4xx status, but their
+// messages describe the parser internals, so they get our wording too.
+const BODY_ERRORS = {
+  'entity.parse.failed': [400, 'We could not read that request. Please try again.'],
+  'entity.too.large': [413, 'That request was too large to send.'],
+};
+
 app.use((err, req, res, next) => {
-  console.error('[unhandled]', err);
+  if (res.headersSent) return next(err);
+
+  const bodyError = BODY_ERRORS[err.type];
+  if (bodyError) {
+    const [status, error] = bodyError;
+    return res.status(status).json({ ok: false, error });
+  }
+
+  console.error(`[unhandled] ${req.method} ${req.originalUrl}`, err);
   res.status(500).json({ ok: false, error: 'Something went wrong on our end.' });
 });
 

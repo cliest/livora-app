@@ -5,7 +5,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField } from '../../components/ui/FormField.jsx';
 import { createAdminUserSchema, updateAdminUserSchema } from '../../lib/formSchemas.js';
-import { api, ApiError } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../lib/api.js';
+import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
 
 const EMPTY_CREATE = { name: '', email: '', password: '' };
 
@@ -66,7 +67,7 @@ export default function AdminUsers() {
       }
       startAdd();
     } catch (err) {
-      setFormError(err instanceof ApiError ? err.message : 'Something went wrong.');
+      setFormError(inlineErrorMessage(err, 'Something went wrong.'));
     }
   };
 
@@ -123,7 +124,7 @@ export default function AdminUsers() {
 
         <div className="flex-[1.3] min-w-[320px]">
           <div className="flex flex-col gap-s2">
-            {isLoading && <p className="text-muted">Loading…</p>}
+            {isLoading && <CardListSkeleton />}
             {!isLoading && users.length === 0 && <p className="text-muted">No admin users yet.</p>}
             {users.map((user) => (
               <div key={user.id} className="bg-white border border-line rounded-[18px] p-s3 flex items-center gap-3">

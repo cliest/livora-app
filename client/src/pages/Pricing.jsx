@@ -4,6 +4,7 @@ import Section from '../components/ui/Section.jsx';
 import SectionHead from '../components/ui/SectionHead.jsx';
 import PageHero from '../components/ui/PageHero.jsx';
 import PriceBlock from '../components/ui/PriceBlock.jsx';
+import { LoadingRegion, PriceBlockSkeleton } from '../components/ui/Skeleton.jsx';
 import Accordion from '../components/ui/Accordion.jsx';
 import CtaBand from '../components/ui/CtaBand.jsx';
 import { api } from '../lib/api.js';
@@ -26,7 +27,7 @@ const PAYMENTS = [
 ];
 
 export default function Pricing() {
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [], isLoading } = useQuery({
     queryKey: ['prices'],
     queryFn: async () => (await api.getPrices()).categories,
   });
@@ -43,17 +44,25 @@ export default function Pricing() {
 
       <Section>
         <SectionHead eyebrow="Treatment prices" title="What treatment costs<br>at Livora" />
-        <div className="grid md:grid-cols-2 gap-s3">
-          {categories.map((c) => (
-            <PriceBlock
-              key={c.id}
-              icon={PRICE_ICON_MAP[c.icon]}
-              title={c.title}
-              note={c.note}
-              rows={c.items.map((item) => [item.name, item.price])}
-            />
-          ))}
-        </div>
+        {isLoading ? (
+          <LoadingRegion label="Loading prices" className="grid md:grid-cols-2 gap-s3">
+            {[0, 1, 2, 3].map((i) => (
+              <PriceBlockSkeleton key={i} />
+            ))}
+          </LoadingRegion>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-s3">
+            {categories.map((c) => (
+              <PriceBlock
+                key={c.id}
+                icon={PRICE_ICON_MAP[c.icon]}
+                title={c.title}
+                note={c.note}
+                rows={c.items.map((item) => [item.name, item.price])}
+              />
+            ))}
+          </div>
+        )}
         <p className="text-center text-[0.85rem] text-muted mt-s5 max-w-[780px] mx-auto">
           All prices are in Zambian Kwacha (ZMW) and are starting prices, shown as a guide only. Treatment
           complexity varies, so your final quote is confirmed in writing after examination. Approximate USD

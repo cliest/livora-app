@@ -99,10 +99,17 @@ export default {
           from: { transform: 'scale(1.04) translateX(0)' },
           to: { transform: 'scale(1.14) translateX(-1.4%)' },
         },
+        // Loading placeholders. Not Tailwind's built-in `pulse`, which this
+        // config already repurposes for the green "open now" ring above.
+        skeleton: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '.45' },
+        },
       },
       animation: {
         pulse: 'pulse 2.2s infinite',
         kenburns: 'kenburns 26s ease-in-out infinite alternate',
+        skeleton: 'skeleton 1.6s ease-in-out infinite',
       },
     },
   },

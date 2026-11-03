@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/router.js';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-import { prisma } from '../lib/prisma.js';
+import { prisma, isNotFoundError } from '../lib/prisma.js';
 import { signAdminToken, setAuthCookie, clearAuthCookie, requireAdmin } from '../lib/auth.js';
 
-export const adminRouter = Router();
+export const adminRouter = createRouter();
 
 const loginSchema = z.object({
   email: z.string().trim().email(),
@@ -112,7 +112,8 @@ adminRouter.patch('/users/:id', requireAdmin, async (req, res) => {
   try {
     const user = await prisma.adminUser.update({ where: { id: req.params.id }, data, select: ADMIN_SELECT });
     res.json({ ok: true, user });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Admin user not found' });
   }
 });
@@ -126,7 +127,8 @@ adminRouter.delete('/users/:id', requireAdmin, async (req, res) => {
   try {
     await prisma.adminUser.delete({ where: { id: req.params.id } });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    if (!isNotFoundError(err)) throw err;
     res.status(404).json({ ok: false, error: 'Admin user not found' });
   }
 });

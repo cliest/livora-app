@@ -7,7 +7,8 @@ import Section from '../components/ui/Section.jsx';
 import PhoneIcon from '../components/layout/PhoneIcon.jsx';
 import { TextField, SelectField, TextAreaField, PillGroup, ConsentCheckbox } from '../components/ui/FormField.jsx';
 import { bookingFormSchema, SERVICE_OPTIONS } from '../lib/formSchemas.js';
-import { api, ApiError } from '../lib/api.js';
+import { api, ApiError, inlineErrorMessage } from '../lib/api.js';
+import { reportServiceError } from '../lib/serviceErrors.js';
 import { IconClock } from '../components/ui/icons.jsx';
 import { useSiteSettings } from '../hooks/useSiteSettings.js';
 import { buildBookingWhatsAppMessage, buildWhatsAppUrl } from '../lib/whatsapp.js';
@@ -59,7 +60,8 @@ export default function Book() {
       if (err instanceof ApiError && err.fieldErrors) {
         Object.entries(err.fieldErrors).forEach(([field, message]) => setError(field, { message }));
       } else {
-        setServerError(err.message || 'Something went wrong. Please call us instead.');
+        reportServiceError(err);
+        setServerError(inlineErrorMessage(err, 'Something went wrong. Please call us instead.'));
       }
     } finally {
       setSubmitting(false);

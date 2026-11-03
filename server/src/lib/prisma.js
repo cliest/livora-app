@@ -14,3 +14,9 @@ export const prisma =
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.__livoraPrisma = prisma;
 }
+
+// Narrow catches to the Prisma errors a route actually expects, so a real
+// fault (database down, bad query) still reaches the central error handler
+// as a 500 instead of being reported to the client as "not found".
+export const isNotFoundError = (err) => err?.code === 'P2025';
+export const isForeignKeyError = (err) => err?.code === 'P2003';

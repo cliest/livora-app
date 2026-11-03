@@ -5,7 +5,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField, SelectField, TextAreaField } from '../../components/ui/FormField.jsx';
 import { priceCategorySchema, priceItemSchema, PRICE_ICON_OPTIONS } from '../../lib/formSchemas.js';
-import { api, ApiError } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../lib/api.js';
+import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
 import { PRICE_ICON_MAP } from '../../lib/priceIcons.js';
 
 const EMPTY_CATEGORY = { title: '', icon: 'SHIELD', note: '' };
@@ -128,13 +129,13 @@ export default function AdminPrices() {
               await createCategory.mutateAsync(data);
               setAddingCategory(false);
             } catch (err) {
-              setError(err instanceof ApiError ? err.message : 'Something went wrong.');
+              setError(inlineErrorMessage(err, 'Something went wrong.'));
             }
           }}
         />
       )}
 
-      {isLoading && <p className="text-muted">Loading…</p>}
+      {isLoading && <CardListSkeleton />}
 
       <div className="flex flex-col gap-s3">
         {categories.map((cat) => {
@@ -156,7 +157,7 @@ export default function AdminPrices() {
                       await updateCategory.mutateAsync({ id: cat.id, payload: data });
                       setEditingCategoryId(null);
                     } catch (err) {
-                      setError(err instanceof ApiError ? err.message : 'Something went wrong.');
+                      setError(inlineErrorMessage(err, 'Something went wrong.'));
                     }
                   }}
                 />
@@ -195,7 +196,7 @@ export default function AdminPrices() {
                           await updateItem.mutateAsync({ id: item.id, payload: data });
                           setEditingItemId(null);
                         } catch (err) {
-                          setError(err instanceof ApiError ? err.message : 'Something went wrong.');
+                          setError(inlineErrorMessage(err, 'Something went wrong.'));
                         }
                       }}
                     />
@@ -237,7 +238,7 @@ export default function AdminPrices() {
                         await createItem.mutateAsync({ ...data, categoryId: cat.id });
                         setAddingItemFor(null);
                       } catch (err) {
-                        setError(err instanceof ApiError ? err.message : 'Something went wrong.');
+                        setError(inlineErrorMessage(err, 'Something went wrong.'));
                       }
                     }}
                   />

@@ -1,9 +1,9 @@
-import { Router } from 'express';
+import { createRouter } from '../lib/router.js';
 import { z } from 'zod';
 import { prisma } from '../lib/prisma.js';
 import { requireAdmin } from '../lib/auth.js';
 
-export const settingsRouter = Router();
+export const settingsRouter = createRouter();
 
 const SETTINGS_ID = 'settings';
 
