@@ -5,12 +5,26 @@ import { requireAdmin } from '../lib/auth.js';
 import {
   bookingSchema,
   zodIssuesToFieldErrors,
+  isoDate,
   SERVICE_MAP,
-  TIME_MAP,
   PATIENT_MAP,
 } from '../lib/validation.js';
+import { SLOT_HOURS, ACTIVE_STATUSES, slotLabel, clinicNow, isPastSlot, slotLockKey } from '../lib/slots.js';
 
 export const bookingsRouter = createRouter();
+
+const SLOT_TAKEN_MESSAGE = 'Sorry, someone has just booked that time. Please choose another.';
+
+class SlotTakenError extends Error {}
+
+// Bookings that hold a slot: active, and not an emergency (those never
+// block anyone, see lib/slots.js).
+const slotHoldersWhere = (date) => ({
+  preferredDate: new Date(date),
+  slotHour: { not: null },
+  status: { in: ACTIVE_STATUSES },
+  service: { not: 'EMERGENCY' },
+});
 
 const SERVICE_LABEL = {
   EMERGENCY: 'Emergency / in pain right now',
@@ -27,32 +41,73 @@ const SERVICE_LABEL = {
   OTHER: 'Something else / not sure',
 };
 
-// POST /api/bookings — public, submitted from book.html's form
+// GET /api/bookings/availability?date=YYYY-MM-DD — public. Says only
+// whether each slot is free; never who booked it.
+bookingsRouter.get('/availability', async (req, res) => {
+  const parsed = isoDate.safeParse(req.query.date);
+  if (!parsed.success) return res.status(422).json({ ok: false, error: 'Please choose a valid date.' });
+  const date = parsed.data;
+
+  const holders = await prisma.bookingRequest.findMany({
+    where: slotHoldersWhere(date),
+    select: { slotHour: true },
+  });
+  const taken = new Set(holders.map((b) => b.slotHour));
+  const now = clinicNow();
+
+  res.json({
+    ok: true,
+    date,
+    slots: SLOT_HOURS.map((hour) => {
+      const status = isPastSlot(date, hour, now) ? 'past' : taken.has(hour) ? 'taken' : 'available';
+      return { hour, label: slotLabel(hour), status };
+    }),
+  });
+});
+
+// POST /api/bookings — public, submitted from the Book page's form
 bookingsRouter.post('/', async (req, res) => {
   const parsed = bookingSchema.safeParse(req.body);
   if (!parsed.success) {
     return res.status(422).json({ ok: false, errors: zodIssuesToFieldErrors(parsed.error) });
   }
   const d = parsed.data;
+  const urgent = d.service === 'emergency';
+
+  if (isPastSlot(d.preferredDate, d.slotHour)) {
+    return res.status(422).json({ ok: false, errors: { slotHour: 'That time has already passed. Please choose a later one.' } });
+  }
 
   try {
-    const booking = await prisma.bookingRequest.create({
-      data: {
-        fullName: d.fullName,
-        phone: d.phone,
-        email: d.email || null,
-        patientType: d.patientType ? PATIENT_MAP[d.patientType] : null,
-        service: SERVICE_MAP[d.service],
-        preferredDate: new Date(d.preferredDate),
-        preferredTime: TIME_MAP[d.preferredTime],
-        message: d.message || null,
-        consentGiven: d.consentGiven,
-        ipAddress: req.ip,
-        userAgent: req.get('user-agent') || null,
-      },
+    // The advisory lock serialises concurrent requests for the same date +
+    // slot, so the check-then-insert below can't let two people both take
+    // it. The lock is released when the transaction ends.
+    const booking = await prisma.$transaction(async (tx) => {
+      if (!urgent) {
+        await tx.$executeRaw`SELECT pg_advisory_xact_lock(${slotLockKey(d.preferredDate, d.slotHour)})`;
+        const held = await tx.bookingRequest.count({
+          where: { ...slotHoldersWhere(d.preferredDate), slotHour: d.slotHour },
+        });
+        if (held > 0) throw new SlotTakenError();
+      }
+
+      return tx.bookingRequest.create({
+        data: {
+          fullName: d.fullName,
+          phone: d.phone,
+          email: d.email || null,
+          patientType: d.patientType ? PATIENT_MAP[d.patientType] : null,
+          service: SERVICE_MAP[d.service],
+          preferredDate: new Date(d.preferredDate),
+          slotHour: d.slotHour,
+          message: d.message || null,
+          consentGiven: d.consentGiven,
+          ipAddress: req.ip,
+          userAgent: req.get('user-agent') || null,
+        },
+      });
     });
 
-    const urgent = d.service === 'emergency';
     notifyClinic({
       subject: `${urgent ? '🚨 EMERGENCY ' : ''}New booking request — ${d.fullName}`,
       replyTo: d.email || undefined,
@@ -64,13 +119,16 @@ bookingsRouter.post('/', async (req, res) => {
         `Email: ${d.email || '(not given)'}`,
         `Service: ${SERVICE_LABEL[SERVICE_MAP[d.service]]}`,
         `Preferred date: ${d.preferredDate}`,
-        `Preferred time: ${d.preferredTime}`,
+        `Preferred time: ${slotLabel(d.slotHour)}`,
         `Message: ${d.message || '(none)'}`,
       ].join('\n'),
     }).catch(() => {}); // never fail the request over email delivery
 
     return res.status(201).json({ ok: true, id: booking.id });
   } catch (err) {
+    if (err instanceof SlotTakenError) {
+      return res.status(409).json({ ok: false, errors: { slotHour: SLOT_TAKEN_MESSAGE } });
+    }
     console.error('[bookings] create failed:', err);
     return res.status(500).json({ ok: false, error: 'Something went wrong. Please call us instead.' });
   }

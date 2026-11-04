@@ -11,7 +11,7 @@ export const bookingFormSchema = z.object({
   patientType: z.string().optional(),
   service: z.string().min(1, 'Please choose a treatment'),
   preferredDate: z.string().min(1, 'Please choose a date'),
-  preferredTime: z.string().min(1),
+  slotHour: z.string({ invalid_type_error: 'Please choose a time' }).min(1, 'Please choose a time'),
   message: z.string().optional(),
   consentGiven: z.boolean().refine((v) => v === true, 'Please tick this box so we can contact you'),
 });

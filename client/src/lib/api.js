@@ -69,6 +69,7 @@ function request(path, options = {}) {
 
 export const api = {
   submitBooking: (payload) => request('/api/bookings', { method: 'POST', body: JSON.stringify(payload) }),
+  getAvailability: (date) => request(`/api/bookings/availability?${new URLSearchParams({ date })}`),
   submitContact: (payload) => request('/api/contact', { method: 'POST', body: JSON.stringify(payload) }),
 
   adminLogin: (payload) => request('/api/admin/login', { method: 'POST', body: JSON.stringify(payload) }),

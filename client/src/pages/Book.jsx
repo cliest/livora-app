@@ -1,24 +1,19 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Seo from '../components/Seo.jsx';
 import Section from '../components/ui/Section.jsx';
 import PhoneIcon from '../components/layout/PhoneIcon.jsx';
-import { TextField, SelectField, TextAreaField, PillGroup, ConsentCheckbox } from '../components/ui/FormField.jsx';
+import SlotPicker from '../components/ui/SlotPicker.jsx';
+import { TextField, SelectField, TextAreaField, ConsentCheckbox } from '../components/ui/FormField.jsx';
 import { bookingFormSchema, SERVICE_OPTIONS } from '../lib/formSchemas.js';
 import { api, ApiError, inlineErrorMessage } from '../lib/api.js';
 import { reportServiceError } from '../lib/serviceErrors.js';
 import { IconClock } from '../components/ui/icons.jsx';
 import { useSiteSettings } from '../hooks/useSiteSettings.js';
 import { buildBookingWhatsAppMessage, buildWhatsAppUrl } from '../lib/whatsapp.js';
-
-const TIME_OPTIONS = [
-  ['morning', 'Morning (07:00–12:00)'],
-  ['afternoon', 'Afternoon (12:00–17:00)'],
-  ['evening', 'Evening (17:00–22:00)'],
-  ['night', 'Overnight (22:00–07:00)'],
-];
 
 const PATIENT_OPTIONS = [
   ['new', 'This would be my first visit'],
@@ -31,17 +26,50 @@ export default function Book() {
   const [serverError, setServerError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const {
     register,
     handleSubmit,
     setError,
+    setValue,
+    getValues,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(bookingFormSchema),
-    defaultValues: { preferredTime: 'morning' },
   });
 
-  const today = new Date().toISOString().slice(0, 10);
+  // The visitor's local date (en-CA formats as YYYY-MM-DD); the server
+  // re-checks against clinic time anyway.
+  const today = new Date().toLocaleDateString('en-CA');
+  const date = watch('preferredDate');
+  const isEmergency = watch('service') === 'emergency';
+
+  // Refreshed every minute while the page is open, so a slot someone else
+  // books shows as taken without a reload.
+  const { data: availability, isLoading: slotsLoading } = useQuery({
+    queryKey: ['availability', date],
+    queryFn: () => api.getAvailability(date),
+    enabled: Boolean(date),
+    refetchInterval: 60000,
+    refetchOnWindowFocus: true,
+  });
+  const slots = availability?.slots;
+
+  // A slot picked for one date means nothing on another.
+  useEffect(() => {
+    setValue('slotHour', null);
+  }, [date, setValue]);
+
+  // Clear the choice if it stops being selectable (booked meanwhile, passed,
+  // or the treatment changed from emergency to something else).
+  useEffect(() => {
+    const picked = slots?.find((s) => String(s.hour) === getValues('slotHour'));
+    if (picked && picked.status !== 'available' && !(isEmergency && picked.status === 'taken')) {
+      setValue('slotHour', null);
+    }
+  }, [slots, isEmergency, getValues, setValue]);
 
   const onSubmit = async (data) => {
     setServerError('');
@@ -59,6 +87,8 @@ export default function Book() {
       if (waWindow) waWindow.close();
       if (err instanceof ApiError && err.fieldErrors) {
         Object.entries(err.fieldErrors).forEach(([field, message]) => setError(field, { message }));
+        // Taken by someone else since the list loaded: show the fresh state.
+        if (err.status === 409) queryClient.invalidateQueries({ queryKey: ['availability', data.preferredDate] });
       } else {
         reportServiceError(err);
         setServerError(inlineErrorMessage(err, 'Something went wrong. Please call us instead.'));
@@ -131,7 +161,15 @@ export default function Book() {
 
                 <TextField label="Preferred date" name="preferredDate" register={register} error={errors.preferredDate} required type="date" min={today} />
 
-                <PillGroup label="Preferred time" name="preferredTime" register={register} options={TIME_OPTIONS} />
+                <SlotPicker
+                  name="slotHour"
+                  register={register}
+                  error={errors.slotHour}
+                  date={date}
+                  slots={slots}
+                  loading={slotsLoading}
+                  allowTaken={isEmergency}
+                />
 
                 <TextAreaField
                   label="Anything we should know?"

@@ -1,18 +1,12 @@
 import { SERVICE_OPTIONS } from './formSchemas.js';
-
-const TIME_LABELS = {
-  morning: 'Morning (07:00–12:00)',
-  afternoon: 'Afternoon (12:00–17:00)',
-  evening: 'Evening (17:00–22:00)',
-  night: 'Overnight (22:00–07:00)',
-};
+import { slotLabel } from './slots.js';
 
 // Builds the pre-filled message for a booking's "message the clinic on
 // WhatsApp too" flow, shared between the Book form (best-effort auto-open)
 // and the Thank You page (guaranteed one-tap fallback button).
 export function buildBookingWhatsAppMessage(data) {
   const serviceLabel = SERVICE_OPTIONS.find(([value]) => value === data.service)?.[1] || data.service;
-  const timeLabel = TIME_LABELS[data.preferredTime] || data.preferredTime;
+  const timeLabel = slotLabel(data.slotHour);
 
   const lines = [
     'Hi Livora Dental Clinic, I just requested an appointment on your website.',

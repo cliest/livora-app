@@ -74,7 +74,10 @@ model BookingRequest {
   patientType    PatientType?
   service        ServiceType
   preferredDate  DateTime       @db.Date
-  preferredTime  PreferredTime  @default(MORNING)
+  // Start hour of the 3-hour slot (0, 3, … 21) — see src/lib/slots.js.
+  slotHour       Int?
+  // Legacy: the time band bookings used before slots; old rows only.
+  preferredTime  PreferredTime?
   // Legacy: the clinic stopped accepting NHIMA, no longer collected.
   nhimaMember    NhimaStatus?
 
@@ -90,6 +93,7 @@ model BookingRequest {
   userAgent      String?
 
   @@index([status, preferredDate])
+  @@index([preferredDate, slotHour])
   @@index([createdAt])
   @@map("booking_requests")
 }

@@ -9,6 +9,7 @@ import Pagination from '../../components/admin/Pagination.jsx';
 import NotesRow from '../../components/admin/NotesRow.jsx';
 import { useDebouncedValue } from '../../hooks/useDebouncedValue.js';
 import { api } from '../../lib/api.js';
+import { slotLabel } from '../../lib/slots.js';
 import { TableRowsSkeleton } from '../../components/ui/Skeleton.jsx';
 
 const humanize = (v) => (v ? v.charAt(0) + v.slice(1).toLowerCase().replace(/_/g, ' ') : '—');
@@ -88,7 +89,9 @@ export default function AdminBookings() {
                   <td className="px-4 py-3">{humanize(b.service)}</td>
                   <td className="px-4 py-3">
                     {new Date(b.preferredDate).toLocaleDateString()}
-                    <span className="block text-muted text-[0.8rem]">{humanize(b.preferredTime)}</span>
+                    <span className="block text-muted text-[0.8rem]">
+                      {b.slotHour != null ? slotLabel(b.slotHour) : humanize(b.preferredTime)}
+                    </span>
                   </td>
                   <td className="px-4 py-3 text-muted">{new Date(b.createdAt).toLocaleDateString()}</td>
                   <td className="px-4 py-3">
