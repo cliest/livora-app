@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField, SelectField, TextAreaField } from '../../components/ui/FormField.jsx';
 import { priceCategorySchema, priceItemSchema, PRICE_ICON_OPTIONS } from '../../lib/formSchemas.js';
-import { api, inlineErrorMessage } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../admin/api.js';
 import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
 import { PRICE_ICON_MAP } from '../../lib/priceIcons.js';
 
@@ -104,7 +104,7 @@ export default function AdminPrices() {
 
   return (
     <div>
-      <Seo title="Prices | Livora Admin" description="Manage the treatment price list." path="/admin/prices" noindex />
+      <Seo title="Prices | Livora Admin" description="Manage the treatment price list." path="/prices" noindex />
       <div className="flex items-center justify-between mb-s3">
         <h1 className="text-[1.6rem]">Prices</h1>
         {!addingCategory && (

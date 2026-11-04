@@ -8,7 +8,7 @@ import SearchInput from '../../components/admin/SearchInput.jsx';
 import Pagination from '../../components/admin/Pagination.jsx';
 import NotesRow from '../../components/admin/NotesRow.jsx';
 import { useDebouncedValue } from '../../hooks/useDebouncedValue.js';
-import { api } from '../../lib/api.js';
+import { api } from '../../admin/api.js';
 import { slotLabel } from '../../lib/slots.js';
 import { TableRowsSkeleton } from '../../components/ui/Skeleton.jsx';
 
@@ -39,7 +39,7 @@ export default function AdminBookings() {
 
   return (
     <div>
-      <Seo title="Bookings | Livora Admin" description="Manage booking requests." path="/admin/bookings" noindex />
+      <Seo title="Bookings | Livora Admin" description="Manage booking requests." path="/bookings" noindex />
       <h1 className="text-[1.6rem] mb-s3">Bookings</h1>
 
       <SearchInput

@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField } from '../../components/ui/FormField.jsx';
 import { accreditationSchema } from '../../lib/formSchemas.js';
-import { api, inlineErrorMessage } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../admin/api.js';
 import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
 import { reportServiceError } from '../../lib/serviceErrors.js';
 
@@ -84,7 +84,7 @@ export default function AdminAccreditations() {
 
   return (
     <div>
-      <Seo title="Accreditations | Livora Admin" description="Manage the About page's accreditation badges." path="/admin/accreditations" noindex />
+      <Seo title="Accreditations | Livora Admin" description="Manage the About page's accreditation badges." path="/accreditations" noindex />
       <h1 className="text-[1.6rem] mb-4">Accreditations</h1>
       <p className="text-muted mb-s4 max-w-[560px]">
         These show in the &ldquo;Registered, inspected, accountable&rdquo; section of the About page.

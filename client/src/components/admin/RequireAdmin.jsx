@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Navigate, Outlet } from 'react-router-dom';
-import { api } from '../../lib/api.js';
+import { api } from '../../admin/api.js';
 import AdminLayout from './AdminLayout.jsx';
 
 // Gates every /admin/* route (except /admin/login) behind the existing
@@ -22,7 +22,7 @@ export default function RequireAdmin() {
   }
 
   if (isError || !data?.admin) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return (

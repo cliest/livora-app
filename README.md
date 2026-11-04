@@ -46,7 +46,11 @@ node prisma/seed.js
 
 
 
-Sign in at `/admin` with that login to reach the dashboard. The same seed
+Sign in at `http://localhost:5173/admin` with that login to reach the
+dashboard; the first sign-in asks you to set up an authenticator app
+(two-step sign-in is required for every staff account). In production the
+dashboard is not at `/admin` but at a private address configured only in
+Nginx — see `deploy/SETUP.md`. The same seed
 run also backfills site settings, the team, testimonials and the price list
 from today's real content — but only if those tables are still empty, so
 re-running the seed later never overwrites edits made from the dashboard.
@@ -69,7 +73,12 @@ only ever talks to `localhost:5173`.
 - **Booking form** (`/book`) → `POST /api/bookings` → saved to Postgres,
   clinic notified by email (once SMTP is configured in `server/.env`).
 - **Contact form** (`/contact`) → `POST /api/contact` → same pattern.
-- **Admin dashboard** (`/admin`, behind the existing login) —
+- **Admin dashboard** — a separate app (`client/admin.html`, `src/admin/`)
+  so none of it is in the public site's JavaScript. Served at a private
+  address behind an Nginx password, then a sign-in with password +
+  authenticator code; 5 failed attempts lock an account for 15 minutes and
+  email the clinic. If nobody can sign in to reset a lost phone, run
+  `node scripts/reset-2fa.js <email>` in `server/`.
   - **Bookings** / **Messages**: filter by status, update status inline.
   - **Site settings**: phone, email, address and socials — one editable
     record the whole public site reads from (header, footer, contact page,

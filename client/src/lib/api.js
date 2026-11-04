@@ -17,11 +17,13 @@ const SERVICE_MESSAGES = {
 };
 
 class ApiError extends Error {
-  constructor(message, status, fieldErrors, kind = 'request') {
+  constructor(message, status, fieldErrors, kind = 'request', restart = false) {
     super(message);
     this.status = status;
     this.fieldErrors = fieldErrors;
     this.kind = kind;
+    // Set by the staff sign-in when its two-step session has expired.
+    this.restart = restart;
   }
 }
 
@@ -55,7 +57,7 @@ async function send(path, init) {
     throw new ApiError(SERVICE_MESSAGES.server, res.status, undefined, 'server');
   }
   if (!res.ok) {
-    throw new ApiError(data.error || 'Something went wrong.', res.status, data.errors);
+    throw new ApiError(data.error || 'Something went wrong.', res.status, data.errors, 'request', data.restart === true);
   }
   return data;
 }
@@ -67,68 +69,19 @@ function request(path, options = {}) {
   });
 }
 
+// Public-site endpoints only. The staff dashboard has its own module
+// (src/admin/api.js) so that none of its routes end up in the JavaScript every
+// visitor downloads.
 export const api = {
   submitBooking: (payload) => request('/api/bookings', { method: 'POST', body: JSON.stringify(payload) }),
   getAvailability: (date) => request(`/api/bookings/availability?${new URLSearchParams({ date })}`),
   submitContact: (payload) => request('/api/contact', { method: 'POST', body: JSON.stringify(payload) }),
 
-  adminLogin: (payload) => request('/api/admin/login', { method: 'POST', body: JSON.stringify(payload) }),
-  adminLogout: () => request('/api/admin/logout', { method: 'POST' }),
-  adminMe: () => request('/api/admin/me'),
-  adminSummary: () => request('/api/admin/summary'),
-
-  adminListUsers: () => request('/api/admin/users'),
-  createAdminUser: (payload) => request('/api/admin/users', { method: 'POST', body: JSON.stringify(payload) }),
-  updateAdminUser: (id, payload) => request(`/api/admin/users/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
-  deleteAdminUser: (id) => request(`/api/admin/users/${id}`, { method: 'DELETE' }),
-
-  listBookings: (params = {}) => request(`/api/bookings?${new URLSearchParams(params)}`),
-  updateBooking: (id, payload) => request(`/api/bookings/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
-
-  listMessages: (params = {}) => request(`/api/contact?${new URLSearchParams(params)}`),
-  updateMessage: (id, payload) => request(`/api/contact/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
-
   getSettings: () => request('/api/settings'),
-  updateSettings: (payload) => request('/api/settings', { method: 'PATCH', body: JSON.stringify(payload) }),
-
   getTeam: () => request('/api/team'),
-  adminListTeam: () => request('/api/admin/team'),
-  createTeamMember: (payload) => request('/api/admin/team', { method: 'POST', body: JSON.stringify(payload) }),
-  updateTeamMember: (id, payload) => request(`/api/admin/team/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
-  deleteTeamMember: (id) => request(`/api/admin/team/${id}`, { method: 'DELETE' }),
-
   getTestimonials: () => request('/api/testimonials'),
-  adminListTestimonials: () => request('/api/admin/testimonials'),
-  createTestimonial: (payload) => request('/api/admin/testimonials', { method: 'POST', body: JSON.stringify(payload) }),
-  updateTestimonial: (id, payload) =>
-    request(`/api/admin/testimonials/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
-  deleteTestimonial: (id) => request(`/api/admin/testimonials/${id}`, { method: 'DELETE' }),
-
   getPrices: () => request('/api/prices'),
-  createPriceCategory: (payload) =>
-    request('/api/admin/prices/categories', { method: 'POST', body: JSON.stringify(payload) }),
-  updatePriceCategory: (id, payload) =>
-    request(`/api/admin/prices/categories/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
-  deletePriceCategory: (id) => request(`/api/admin/prices/categories/${id}`, { method: 'DELETE' }),
-  createPriceItem: (payload) => request('/api/admin/prices/items', { method: 'POST', body: JSON.stringify(payload) }),
-  updatePriceItem: (id, payload) =>
-    request(`/api/admin/prices/items/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
-  deletePriceItem: (id) => request(`/api/admin/prices/items/${id}`, { method: 'DELETE' }),
-
   getAccreditations: () => request('/api/accreditations'),
-  adminListAccreditations: () => request('/api/admin/accreditations'),
-  createAccreditation: (payload) => request('/api/admin/accreditations', { method: 'POST', body: JSON.stringify(payload) }),
-  updateAccreditation: (id, payload) =>
-    request(`/api/admin/accreditations/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
-  deleteAccreditation: (id) => request(`/api/admin/accreditations/${id}`, { method: 'DELETE' }),
-
-  // Multipart upload — bypasses request() since that always sets a JSON
-  // Content-Type; the browser needs to set its own multipart boundary here.
-  uploadImage: (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    return send('/api/admin/uploads', { method: 'POST', body: formData });
-  },
 };
 
-export { ApiError };
+export { ApiError, request, send };

@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField, TextAreaField } from '../../components/ui/FormField.jsx';
 import { testimonialSchema } from '../../lib/formSchemas.js';
-import { api, inlineErrorMessage } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../admin/api.js';
 import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
 
 const EMPTY = { quote: '', name: '', role: '', published: true };
@@ -62,7 +62,7 @@ export default function AdminTestimonials() {
 
   return (
     <div>
-      <Seo title="Testimonials | Livora Admin" description="Manage homepage testimonials." path="/admin/testimonials" noindex />
+      <Seo title="Testimonials | Livora Admin" description="Manage homepage testimonials." path="/testimonials" noindex />
       <h1 className="text-[1.6rem] mb-s4">Testimonials</h1>
 
       <div className="flex flex-wrap gap-s4">

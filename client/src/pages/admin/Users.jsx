@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField } from '../../components/ui/FormField.jsx';
 import { createAdminUserSchema, updateAdminUserSchema } from '../../lib/formSchemas.js';
-import { api, inlineErrorMessage } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../admin/api.js';
 import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
 
 const EMPTY_CREATE = { name: '', email: '', password: '' };
@@ -43,6 +43,18 @@ export default function AdminUsers() {
   const createMutation = useMutation({ mutationFn: api.createAdminUser, onSuccess: invalidate });
   const updateMutation = useMutation({ mutationFn: ({ id, payload }) => api.updateAdminUser(id, payload), onSuccess: invalidate });
   const deleteMutation = useMutation({ mutationFn: api.deleteAdminUser, onSuccess: invalidate });
+  const resetTwoFactorMutation = useMutation({ mutationFn: api.resetAdminTwoFactor, onSuccess: invalidate });
+
+  const handleResetTwoFactor = (user) => {
+    const who = user.id === myId ? 'your own' : `${user.name || user.email}'s`;
+    if (
+      confirm(
+        `Reset ${who} two-step sign-in? Use this if a phone was lost or replaced. They will set up an authenticator app again the next time they sign in.`
+      )
+    ) {
+      resetTwoFactorMutation.mutate(user.id);
+    }
+  };
 
   const startEdit = (user) => {
     setEditingId(user.id);
@@ -77,10 +89,11 @@ export default function AdminUsers() {
 
   return (
     <div>
-      <Seo title="Admin Users | Livora Admin" description="Manage who can sign in to the dashboard." path="/admin/users" noindex />
+      <Seo title="Admin Users | Livora Admin" description="Manage who can sign in to the dashboard." path="/users" noindex />
       <h1 className="text-[1.6rem] mb-4">Admin users</h1>
       <p className="text-muted mb-s4 max-w-[560px]">
-        Anyone listed here can sign in to this dashboard with their own email and password.
+        Anyone listed here can sign in to this dashboard with their own email, password and a code from an
+        authenticator app on their phone. New accounts set the app up on their first sign-in.
       </p>
 
       <div className="flex flex-wrap gap-s4">
@@ -137,11 +150,28 @@ export default function AdminUsers() {
                   <p className="text-[0.78rem] text-muted mt-0.5">
                     {user.lastLoginAt ? `Last signed in ${new Date(user.lastLoginAt).toLocaleString()}` : 'Never signed in'}
                   </p>
+                  <p className="text-[0.78rem] mt-0.5">
+                    {user.totpEnabledAt ? (
+                      <span className="font-semibold text-success">Two-step sign-in on</span>
+                    ) : (
+                      <span className="font-semibold text-coral-600">Two-step sign-in not set up yet</span>
+                    )}
+                    {user.lockedUntil && new Date(user.lockedUntil) > new Date() && (
+                      <span className="font-semibold text-coral-600">
+                        {' · '}Locked until {new Date(user.lockedUntil).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
+                  </p>
                 </div>
-                <div className="flex gap-2 flex-none">
+                <div className="flex flex-wrap justify-end gap-2 flex-none">
                   <button type="button" onClick={() => startEdit(user)} className="btn btn--outline btn--sm">
                     Edit
                   </button>
+                  {user.totpEnabledAt && (
+                    <button type="button" onClick={() => handleResetTwoFactor(user)} className="btn btn--outline btn--sm">
+                      Reset 2-step
+                    </button>
+                  )}
                   {user.id !== myId && (
                     <button type="button" onClick={() => handleDelete(user)} className="btn btn--outline btn--sm text-coral-600">
                       Remove

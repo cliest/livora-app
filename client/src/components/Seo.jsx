@@ -19,7 +19,9 @@ export default function Seo({ title, description, path = '/', image = DEFAULT_IM
     <>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
+      {/* No canonical for noindex pages: there's nothing to point crawlers at,
+          and for the staff dashboard it would put a URL into the page. */}
+      {!noindex && <link rel="canonical" href={url} />}
       <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
 
       <meta property="og:type" content="website" />

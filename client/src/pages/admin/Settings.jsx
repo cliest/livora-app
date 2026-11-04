@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField } from '../../components/ui/FormField.jsx';
 import { siteSettingsSchema } from '../../lib/formSchemas.js';
-import { api, inlineErrorMessage } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../admin/api.js';
 import { FormSkeleton } from '../../components/ui/Skeleton.jsx';
 import { reportServiceError } from '../../lib/serviceErrors.js';
 
@@ -52,7 +52,7 @@ export default function AdminSettings() {
 
   return (
     <div>
-      <Seo title="Site Settings | Livora Admin" description="Manage contact details." path="/admin/settings" noindex />
+      <Seo title="Site Settings | Livora Admin" description="Manage contact details." path="/settings" noindex />
       <h1 className="text-[1.6rem] mb-s3">Site settings</h1>
       <p className="text-muted mb-s4 max-w-[560px]">
         These details appear across the whole public site — header, footer, contact page and every call-to-action.

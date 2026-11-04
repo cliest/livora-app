@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Seo from '../../components/Seo.jsx';
 import { TextField, TextAreaField } from '../../components/ui/FormField.jsx';
 import { teamMemberSchema } from '../../lib/formSchemas.js';
-import { api, inlineErrorMessage } from '../../lib/api.js';
+import { api, inlineErrorMessage } from '../../admin/api.js';
 import { CardListSkeleton } from '../../components/ui/Skeleton.jsx';
 import { reportServiceError } from '../../lib/serviceErrors.js';
 
@@ -85,7 +85,7 @@ export default function AdminTeam() {
 
   return (
     <div>
-      <Seo title="Team | Livora Admin" description="Manage the team page." path="/admin/team" noindex />
+      <Seo title="Team | Livora Admin" description="Manage the team page." path="/team" noindex />
       <h1 className="text-[1.6rem] mb-s4">Team members</h1>
 
       <div className="flex flex-wrap gap-s4">

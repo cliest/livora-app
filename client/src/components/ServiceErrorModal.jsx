@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import PhoneIcon from './layout/PhoneIcon.jsx';
 import { onServiceError } from '../lib/serviceErrors.js';
@@ -20,11 +19,11 @@ const COPY = {
 // <dialog> so focus trapping, Esc-to-close and the inert background come
 // from the browser. While it's open, further failures are ignored, so a
 // page whose three queries all fail shows one modal, not three.
-export default function ServiceErrorModal() {
+// `staff` (the dashboard) drops the "call the clinic" prompt.
+export default function ServiceErrorModal({ staff = false }) {
   const [error, setError] = useState(null);
   const dialogRef = useRef(null);
   const queryClient = useQueryClient();
-  const { pathname } = useLocation();
   const settings = useSiteSettings();
 
   useEffect(() => onServiceError((err) => setError((current) => current ?? err)), []);
@@ -41,7 +40,7 @@ export default function ServiceErrorModal() {
   };
 
   const copy = COPY[error?.kind] || COPY.server;
-  const isAdmin = pathname.startsWith('/admin');
+  const isAdmin = staff;
 
   return (
     <dialog

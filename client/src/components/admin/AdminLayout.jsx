@@ -1,17 +1,17 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { api } from '../../lib/api.js';
+import { api } from '../../admin/api.js';
 
 const NAV_ITEMS = [
-  { to: '/admin', label: 'Overview', end: true },
-  { to: '/admin/bookings', label: 'Bookings' },
-  { to: '/admin/messages', label: 'Messages' },
-  { to: '/admin/settings', label: 'Site settings' },
-  { to: '/admin/team', label: 'Team' },
-  { to: '/admin/testimonials', label: 'Testimonials' },
-  { to: '/admin/prices', label: 'Prices' },
-  { to: '/admin/accreditations', label: 'Accreditations' },
-  { to: '/admin/users', label: 'Admin users' },
+  { to: '/', label: 'Overview', end: true },
+  { to: '/bookings', label: 'Bookings' },
+  { to: '/messages', label: 'Messages' },
+  { to: '/settings', label: 'Site settings' },
+  { to: '/team', label: 'Team' },
+  { to: '/testimonials', label: 'Testimonials' },
+  { to: '/prices', label: 'Prices' },
+  { to: '/accreditations', label: 'Accreditations' },
+  { to: '/users', label: 'Admin users' },
 ];
 
 const navLinkClass = ({ isActive }) =>
@@ -26,7 +26,7 @@ export default function AdminLayout({ admin, children }) {
   const handleLogout = async () => {
     await api.adminLogout();
     queryClient.setQueryData(['admin-me'], null);
-    navigate('/admin/login', { replace: true });
+    navigate('/login', { replace: true });
   };
 
   return (

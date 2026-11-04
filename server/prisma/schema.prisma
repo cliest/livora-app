@@ -132,6 +132,17 @@ model AdminUser {
   createdAt    DateTime @default(now())
   lastLoginAt  DateTime?
 
+  // Two-factor sign-in (see src/lib/totp.js). Every account must set it up
+  // on its first sign-in; the secret is stored encrypted.
+  totpSecret       String?
+  totpEnabledAt    DateTime?
+  // Last 30-second step a code was accepted for — stops a code being reused.
+  totpLastStep     Int?
+
+  // Per-account lockout: 5 wrong passwords or codes lock it for 15 minutes.
+  failedLoginCount Int       @default(0)
+  lockedUntil      DateTime?
+
   @@map("admin_users")
 }
 
