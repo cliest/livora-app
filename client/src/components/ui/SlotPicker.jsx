@@ -19,16 +19,16 @@ export default function SlotPicker({ name, register, error, date, slots, loading
       {!date && <p className="text-[0.9rem] text-muted">Choose a date first to see which times are still free.</p>}
 
       {date && loading && (
-        <div role="status" aria-busy="true" className="grid grid-cols-4 max-[640px]:grid-cols-2 gap-[10px]">
+        <div role="status" aria-busy="true" className="grid grid-cols-3 max-[640px]:grid-cols-2 gap-[10px]">
           <span className="sr-only">Checking which times are free…</span>
-          {Array.from({ length: 8 }, (_, i) => (
+          {Array.from({ length: 9 }, (_, i) => (
             <Skeleton key={i} className="h-[62px]" />
           ))}
         </div>
       )}
 
       {date && slots && (
-        <div className="grid grid-cols-4 max-[640px]:grid-cols-2 gap-[10px]">
+        <div className="grid grid-cols-3 max-[640px]:grid-cols-2 gap-[10px]">
           {slots.map((slot) => {
             const disabled = !isSelectable(slot);
             return (
@@ -59,8 +59,8 @@ export default function SlotPicker({ name, register, error, date, slots, loading
       {date && slots && (
         <p className="text-[0.8rem] text-muted mt-[10px]">
           {allowTaken
-            ? 'Emergencies are seen at any hour, so any time can be chosen. If you are in pain now, call us and come straight in.'
-            : 'Times are in Zambian time. Each slot is a 3-hour window; we will call to confirm your exact appointment time.'}
+            ? 'Emergencies can choose any time, even one already booked. Outside 08:00–17:00, or if you are in pain now, call us and come straight in.'
+            : 'Appointments are booked from 08:00 to 17:00, Zambian time. Each slot is a one-hour window; we will call to confirm your exact time. Outside those hours, call us for emergencies.'}
         </p>
       )}
     </fieldset>

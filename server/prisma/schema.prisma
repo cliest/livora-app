@@ -74,7 +74,8 @@ model BookingRequest {
   patientType    PatientType?
   service        ServiceType
   preferredDate  DateTime       @db.Date
-  // Start hour of the 3-hour slot (0, 3, … 21) — see src/lib/slots.js.
+  // Start hour of the slot (8, 9, … 16 since November 2026; older rows may hold
+  // the earlier 3-hour slots 0, 3, … 21) — see src/lib/slots.js.
   slotHour       Int?
   // Legacy: the time band bookings used before slots; old rows only.
   preferredTime  PreferredTime?
@@ -88,6 +89,11 @@ model BookingRequest {
   status         RequestStatus  @default(PENDING)
   staffNotes     String?
 
+  // Collected by the clinic's Livora system (src/routes/livora.js): when, and
+  // the appointment it became there. Null until then.
+  sentToLivoraAt DateTime?
+  livoraRef      String?
+
   // basic anti-spam / audit trail, never shown to the clinic
   ipAddress      String?
   userAgent      String?
@@ -95,6 +101,7 @@ model BookingRequest {
   @@index([status, preferredDate])
   @@index([preferredDate, slotHour])
   @@index([createdAt])
+  @@index([sentToLivoraAt])
   @@map("booking_requests")
 }
 

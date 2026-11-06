@@ -15,6 +15,7 @@ import { testimonialsRouter, testimonialsAdminRouter } from './routes/testimonia
 import { pricesRouter, pricesAdminRouter } from './routes/prices.js';
 import { accreditationsRouter, accreditationsAdminRouter } from './routes/accreditations.js';
 import { uploadsRouter } from './routes/uploads.js';
+import { livoraRouter } from './routes/livora.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -76,6 +77,8 @@ app.use('/api/admin/prices', pricesAdminRouter);
 app.use('/api/accreditations', accreditationsRouter);
 app.use('/api/admin/accreditations', accreditationsAdminRouter);
 app.use('/api/admin/uploads', uploadsRouter);
+// The clinic's Livora system collects bookings here (private key; off unless LIVORA_SYNC_KEY is set).
+app.use('/api/integrations/livora', livoraRouter);
 
 // 404 for unknown API routes
 app.use('/api', (req, res) => res.status(404).json({ ok: false, error: 'Not found' }));

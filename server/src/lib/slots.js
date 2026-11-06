@@ -1,10 +1,11 @@
-// Bookable appointment windows. The clinic is open 24/7, so the day is cut
-// into eight 3-hour slots, each identified by its start hour (0, 3, … 21).
-// One booking per slot; a slot counts as taken while a booking in it is
-// PENDING or CONFIRMED (cancelling frees it again). Emergency requests never
-// take a slot and are never turned away for one.
-export const SLOT_LENGTH_HOURS = 3;
-export const SLOT_HOURS = [0, 3, 6, 9, 12, 15, 18, 21];
+// Bookable appointment windows. Appointments are booked from 08:00 to 17:00, in
+// one-hour slots identified by their start hour (8, 9, … 16); emergencies and
+// calls are taken at any time, outside those hours too. One booking per slot;
+// a slot counts as taken while a booking in it is PENDING or CONFIRMED
+// (cancelling frees it again). Emergency requests never take a slot and are
+// never turned away for one.
+export const SLOT_LENGTH_HOURS = 1;
+export const SLOT_HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16];
 export const ACTIVE_STATUSES = ['PENDING', 'CONFIRMED'];
 
 // Always judge "today" and "already passed" in clinic time, never the
